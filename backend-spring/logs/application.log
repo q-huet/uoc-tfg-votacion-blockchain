@@ -1,0 +1,31 @@
+2025-11-09 17:00:44.832 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 617639 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-09 17:00:44.834 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-09 17:00:44.834 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
+2025-11-09 17:00:45.847 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-09 17:00:45.863 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-09 17:00:45.863 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-09 17:00:45.912 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-11-09 17:00:45.913 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1035 ms
+2025-11-09 17:00:46.337 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 2b96d7e3-55e6-4152-adae-651246f16b5b
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-09 17:00:46.345 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-09 17:00:46.466 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
+2025-11-09 17:00:46.475 [main] INFO  es.tfg.votacion.Application - Started Application in 2.287 seconds (process running for 2.612)
+2025-11-09 17:00:52.779 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-09 17:00:52.802 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-09 17:34:12.733 [main] INFO  es.tfg.votacion.ApplicationTests - Starting ApplicationTests using Java 21.0.8 with PID 633692 (started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-09 17:34:12.735 [main] DEBUG es.tfg.votacion.ApplicationTests - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-09 17:34:12.736 [main] INFO  es.tfg.votacion.ApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2025-11-09 17:34:14.043 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-09 17:34:14.545 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: e3c166fe-b112-4afb-9a90-61f2b7b53fae
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-09 17:34:14.556 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-09 17:34:14.816 [main] INFO  es.tfg.votacion.ApplicationTests - Started ApplicationTests in 2.567 seconds (process running for 3.947)
