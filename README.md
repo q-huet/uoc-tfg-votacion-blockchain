@@ -801,9 +801,9 @@ Este proyecto es un Trabajo Fin de Grado (TFG) desarrollado por Enrique Huet Adr
 ## 📞 Contacto
 
 **Autor**: Enrique Huet Adrover  
-**Universidad**: [Tu Universidad]  
-**Email**: [tu-email@universidad.edu]  
-**LinkedIn**: [Tu perfil LinkedIn]
+**Universidad**: UOC -  Universitat Oberta de Catalunya  
+**Email**: ehuet@uoc.edu
+
 
 ---
 
