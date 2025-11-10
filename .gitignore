@@ -1,5 +1,6 @@
 HELP.md
 prompt-context.md
+PLAN_TRABAJO.md
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

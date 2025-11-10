@@ -1,31 +1,222 @@
-2025-11-09 17:00:44.832 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 617639 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
-2025-11-09 17:00:44.834 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
-2025-11-09 17:00:44.834 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
-2025-11-09 17:00:45.847 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-11-09 17:00:45.863 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-11-09 17:00:45.863 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
-2025-11-09 17:00:45.912 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
-2025-11-09 17:00:45.913 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1035 ms
-2025-11-09 17:00:46.337 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+2025-11-10 07:51:50.549 [main] INFO  e.t.v.c.ConfigurationPropertiesTest - Starting ConfigurationPropertiesTest using Java 21.0.8 with PID 1011308 (started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-10 07:51:50.568 [main] DEBUG e.t.v.c.ConfigurationPropertiesTest - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-10 07:51:50.569 [main] INFO  e.t.v.c.ConfigurationPropertiesTest - No active profile set, falling back to 1 default profile: "default"
+2025-11-10 07:51:52.189 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-10 07:51:52.755 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
 
-Using generated security password: 2b96d7e3-55e6-4152-adae-651246f16b5b
+Using generated security password: 0ac26661-9640-40a7-b073-36b9dcb81bf4
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-11-09 17:00:46.345 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-11-09 17:00:46.466 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
-2025-11-09 17:00:46.475 [main] INFO  es.tfg.votacion.Application - Started Application in 2.287 seconds (process running for 2.612)
-2025-11-09 17:00:52.779 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-09 17:00:52.802 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
-2025-11-09 17:34:12.733 [main] INFO  es.tfg.votacion.ApplicationTests - Starting ApplicationTests using Java 21.0.8 with PID 633692 (started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
-2025-11-09 17:34:12.735 [main] DEBUG es.tfg.votacion.ApplicationTests - Running with Spring Boot v3.5.7, Spring v6.2.12
-2025-11-09 17:34:12.736 [main] INFO  es.tfg.votacion.ApplicationTests - No active profile set, falling back to 1 default profile: "default"
-2025-11-09 17:34:14.043 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
-2025-11-09 17:34:14.545 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+2025-11-10 07:51:52.771 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-10 07:51:53.018 [main] INFO  e.t.v.c.ConfigurationPropertiesTest - Started ConfigurationPropertiesTest in 2.982 seconds (process running for 4.35)
+2025-11-10 18:40:02.292 [main] INFO  e.t.v.service.FabricServiceTest - Starting FabricServiceTest using Java 21.0.8 with PID 1291852 (started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-10 18:40:02.303 [main] DEBUG e.t.v.service.FabricServiceTest - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-10 18:40:02.306 [main] INFO  e.t.v.service.FabricServiceTest - No active profile set, falling back to 1 default profile: "default"
+2025-11-10 18:40:04.364 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-10 18:40:04.365 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-10 18:40:04.368 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /tmp/mock-connection.json
+2025-11-10 18:40:04.371 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /tmp/mock-wallet
+2025-11-10 18:40:04.372 [main] DEBUG e.tfg.votacion.service.FabricService - User: mockUser
+2025-11-10 18:40:04.372 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: mockchannel
+2025-11-10 18:40:04.372 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: mockcc
+2025-11-10 18:40:04.372 [main] WARN  e.tfg.votacion.service.FabricService - Using MOCK Fabric connection for PoC development
+2025-11-10 18:40:04.372 [main] WARN  e.tfg.votacion.service.FabricService - To use real Fabric connection, implement proper Gateway initialization
+2025-11-10 18:40:04.373 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-10 18:40:04.723 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-10 18:40:05.522 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
 
-Using generated security password: e3c166fe-b112-4afb-9a90-61f2b7b53fae
+Using generated security password: 25f415ed-ddfb-45f1-a227-df4607eb2a99
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-11-09 17:34:14.556 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-11-09 17:34:14.816 [main] INFO  es.tfg.votacion.ApplicationTests - Started ApplicationTests in 2.567 seconds (process running for 3.947)
+2025-11-10 18:40:05.533 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-10 18:40:05.865 [main] INFO  e.t.v.service.FabricServiceTest - Started FabricServiceTest in 4.282 seconds (process running for 5.705)
+2025-11-10 18:40:06.879 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: MOCK-TX-12345
+2025-11-10 18:40:06.879 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, cannot verify transaction
+2025-11-10 18:40:06.880 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: TX-election-001-67890
+2025-11-10 18:40:06.880 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, cannot verify transaction
+2025-11-10 18:40:06.894 [main] INFO  e.tfg.votacion.service.FabricService - Emitting vote commitment to blockchain - Election: integration-test-election, Commitment: integration-test-commitment
+2025-11-10 18:40:06.894 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock transaction ID
+2025-11-10 18:40:06.895 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: MOCK-TX-1762796406894
+2025-11-10 18:40:06.895 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, cannot verify transaction
+2025-11-10 18:40:06.895 [main] DEBUG e.tfg.votacion.service.FabricService - Querying election status: integration-test-election
+2025-11-10 18:40:06.895 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning default status
+2025-11-10 18:40:06.907 [main] INFO  e.tfg.votacion.service.FabricService - Counting votes from blockchain for election: test-election-003
+2025-11-10 18:40:06.908 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock results
+2025-11-10 18:40:06.927 [main] INFO  e.tfg.votacion.service.FabricService - Closing election on blockchain: test-election-002
+2025-11-10 18:40:06.928 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock result
+2025-11-10 18:40:06.964 [main] DEBUG e.tfg.votacion.service.FabricService - Querying election status: test-election-004
+2025-11-10 18:40:06.965 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning default status
+2025-11-10 18:40:07.007 [main] INFO  e.tfg.votacion.service.FabricService - Emitting vote commitment to blockchain - Election: test-election-001, Commitment: abc123def456
+2025-11-10 18:40:07.007 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock transaction ID
+2025-11-10 18:41:35.072 [main] INFO  e.t.v.service.FabricServiceTest - Starting FabricServiceTest using Java 21.0.8 with PID 1292824 (started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-10 18:41:35.074 [main] DEBUG e.t.v.service.FabricServiceTest - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-10 18:41:35.075 [main] INFO  e.t.v.service.FabricServiceTest - No active profile set, falling back to 1 default profile: "default"
+2025-11-10 18:41:35.261 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-10 18:41:35.262 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-10 18:41:35.262 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /tmp/mock-connection.json
+2025-11-10 18:41:35.264 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /tmp/mock-wallet
+2025-11-10 18:41:35.264 [main] DEBUG e.tfg.votacion.service.FabricService - User: mockUser
+2025-11-10 18:41:35.265 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: mockchannel
+2025-11-10 18:41:35.265 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: mockcc
+2025-11-10 18:41:35.265 [main] WARN  e.tfg.votacion.service.FabricService - Using MOCK Fabric connection for PoC development
+2025-11-10 18:41:35.265 [main] WARN  e.tfg.votacion.service.FabricService - To use real Fabric connection, implement proper Gateway initialization
+2025-11-10 18:41:35.265 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-10 18:41:35.503 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-10 18:41:35.934 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 320283a2-0def-466e-934a-f23ced432e10
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-10 18:41:35.942 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-10 18:41:36.136 [main] INFO  e.t.v.service.FabricServiceTest - Started FabricServiceTest in 1.614 seconds (process running for 4.348)
+2025-11-10 18:41:36.972 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: MOCK-TX-12345
+2025-11-10 18:41:36.972 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, cannot verify transaction
+2025-11-10 18:41:36.973 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: TX-election-001-67890
+2025-11-10 18:41:36.973 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, cannot verify transaction
+2025-11-10 18:41:37.000 [main] INFO  e.tfg.votacion.service.FabricService - Emitting vote commitment to blockchain - Election: integration-test-election, Commitment: integration-test-commitment
+2025-11-10 18:41:37.001 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock transaction ID
+2025-11-10 18:41:37.003 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: MOCK-TX-integration-test-election-1762796497001
+2025-11-10 18:41:37.004 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, cannot verify transaction
+2025-11-10 18:41:37.007 [main] DEBUG e.tfg.votacion.service.FabricService - Querying election status: integration-test-election
+2025-11-10 18:41:37.008 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning default status
+2025-11-10 18:41:37.016 [main] INFO  e.tfg.votacion.service.FabricService - Counting votes from blockchain for election: integration-test-election
+2025-11-10 18:41:37.017 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock results
+2025-11-10 18:41:37.037 [main] INFO  e.tfg.votacion.service.FabricService - Counting votes from blockchain for election: test-election-003
+2025-11-10 18:41:37.037 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock results
+2025-11-10 18:41:37.056 [main] INFO  e.tfg.votacion.service.FabricService - Closing election on blockchain: test-election-002
+2025-11-10 18:41:37.056 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock result
+2025-11-10 18:41:37.094 [main] DEBUG e.tfg.votacion.service.FabricService - Querying election status: test-election-004
+2025-11-10 18:41:37.095 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning default status
+2025-11-10 18:41:37.142 [main] INFO  e.tfg.votacion.service.FabricService - Emitting vote commitment to blockchain - Election: test-election-001, Commitment: abc123def456
+2025-11-10 18:41:37.142 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock transaction ID
+2025-11-10 18:42:14.460 [main] INFO  e.t.v.service.FabricServiceTest - Starting FabricServiceTest using Java 21.0.8 with PID 1293411 (started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-10 18:42:14.462 [main] DEBUG e.t.v.service.FabricServiceTest - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-10 18:42:14.464 [main] INFO  e.t.v.service.FabricServiceTest - No active profile set, falling back to 1 default profile: "default"
+2025-11-10 18:42:15.577 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-10 18:42:15.578 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-10 18:42:15.578 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /tmp/mock-connection.json
+2025-11-10 18:42:15.579 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /tmp/mock-wallet
+2025-11-10 18:42:15.579 [main] DEBUG e.tfg.votacion.service.FabricService - User: mockUser
+2025-11-10 18:42:15.579 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: mockchannel
+2025-11-10 18:42:15.580 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: mockcc
+2025-11-10 18:42:15.580 [main] WARN  e.tfg.votacion.service.FabricService - Using MOCK Fabric connection for PoC development
+2025-11-10 18:42:15.580 [main] WARN  e.tfg.votacion.service.FabricService - To use real Fabric connection, implement proper Gateway initialization
+2025-11-10 18:42:15.580 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-10 18:42:15.821 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-10 18:42:16.273 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 7be80b1e-9c2e-420e-98fd-20cd69af8690
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-10 18:42:16.284 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-10 18:42:16.466 [main] INFO  e.t.v.service.FabricServiceTest - Started FabricServiceTest in 2.551 seconds (process running for 3.925)
+2025-11-10 18:42:17.387 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: MOCK-TX-12345
+2025-11-10 18:42:17.387 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:17.388 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction MOCK-TX-12345 verification result: true
+2025-11-10 18:42:17.388 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: TX-election-001-67890
+2025-11-10 18:42:17.389 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:17.389 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction TX-election-001-67890 verification result: true
+2025-11-10 18:42:17.389 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: INVALID-ID
+2025-11-10 18:42:17.390 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:17.390 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction INVALID-ID verification result: false
+2025-11-10 18:42:17.390 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: null
+2025-11-10 18:42:17.390 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:17.391 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction null verification result: false
+2025-11-10 18:42:17.398 [main] INFO  e.tfg.votacion.service.FabricService - Emitting vote commitment to blockchain - Election: integration-test-election, Commitment: integration-test-commitment
+2025-11-10 18:42:17.400 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock transaction ID
+2025-11-10 18:42:17.404 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: MOCK-TX-integration-test-election-1762796537401
+2025-11-10 18:42:17.404 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:17.405 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction MOCK-TX-integration-test-election-1762796537401 verification result: true
+2025-11-10 18:42:17.405 [main] DEBUG e.tfg.votacion.service.FabricService - Querying election status: integration-test-election
+2025-11-10 18:42:17.405 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning default status
+2025-11-10 18:42:17.407 [main] INFO  e.tfg.votacion.service.FabricService - Counting votes from blockchain for election: integration-test-election
+2025-11-10 18:42:17.407 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock results
+2025-11-10 18:42:17.422 [main] INFO  e.tfg.votacion.service.FabricService - Counting votes from blockchain for election: test-election-003
+2025-11-10 18:42:17.422 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock results
+2025-11-10 18:42:17.428 [main] INFO  e.tfg.votacion.service.FabricService - Closing election on blockchain: test-election-002
+2025-11-10 18:42:17.429 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock result
+2025-11-10 18:42:17.494 [main] DEBUG e.tfg.votacion.service.FabricService - Querying election status: test-election-004
+2025-11-10 18:42:17.494 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning default status
+2025-11-10 18:42:17.526 [main] INFO  e.tfg.votacion.service.FabricService - Emitting vote commitment to blockchain - Election: test-election-001, Commitment: abc123def456
+2025-11-10 18:42:17.526 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock transaction ID
+2025-11-10 18:42:47.203 [main] INFO  e.t.v.c.ConfigurationPropertiesTest - Starting ConfigurationPropertiesTest using Java 21.0.8 with PID 1293907 (started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-10 18:42:47.204 [main] DEBUG e.t.v.c.ConfigurationPropertiesTest - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-10 18:42:47.206 [main] INFO  e.t.v.c.ConfigurationPropertiesTest - No active profile set, falling back to 1 default profile: "default"
+2025-11-10 18:42:48.535 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-10 18:42:48.536 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-10 18:42:48.536 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+2025-11-10 18:42:48.538 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
+2025-11-10 18:42:48.538 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
+2025-11-10 18:42:48.539 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
+2025-11-10 18:42:48.539 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
+2025-11-10 18:42:48.539 [main] WARN  e.tfg.votacion.service.FabricService - Using MOCK Fabric connection for PoC development
+2025-11-10 18:42:48.539 [main] WARN  e.tfg.votacion.service.FabricService - To use real Fabric connection, implement proper Gateway initialization
+2025-11-10 18:42:48.539 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-10 18:42:48.791 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-10 18:42:49.244 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: afae167b-d657-4ecf-8ea3-072a28e73a1b
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-10 18:42:49.253 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-10 18:42:49.434 [main] INFO  e.t.v.c.ConfigurationPropertiesTest - Started ConfigurationPropertiesTest in 2.737 seconds (process running for 4.051)
+2025-11-10 18:42:50.542 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [es.tfg.votacion.service.FabricServiceTest]: FabricServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-11-10 18:42:50.560 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration es.tfg.votacion.Application for test class es.tfg.votacion.service.FabricServiceTest
+2025-11-10 18:42:50.632 [main] INFO  e.t.v.service.FabricServiceTest - Starting FabricServiceTest using Java 21.0.8 with PID 1293907 (started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-10 18:42:50.637 [main] DEBUG e.t.v.service.FabricServiceTest - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-10 18:42:50.638 [main] INFO  e.t.v.service.FabricServiceTest - No active profile set, falling back to 1 default profile: "default"
+2025-11-10 18:42:51.003 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-10 18:42:51.004 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-10 18:42:51.004 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /tmp/mock-connection.json
+2025-11-10 18:42:51.004 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /tmp/mock-wallet
+2025-11-10 18:42:51.004 [main] DEBUG e.tfg.votacion.service.FabricService - User: mockUser
+2025-11-10 18:42:51.005 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: mockchannel
+2025-11-10 18:42:51.005 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: mockcc
+2025-11-10 18:42:51.005 [main] WARN  e.tfg.votacion.service.FabricService - Using MOCK Fabric connection for PoC development
+2025-11-10 18:42:51.005 [main] WARN  e.tfg.votacion.service.FabricService - To use real Fabric connection, implement proper Gateway initialization
+2025-11-10 18:42:51.005 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-10 18:42:51.118 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-10 18:42:51.266 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 3135a1b2-c474-4923-a5f3-8f5cdf96e88a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-10 18:42:51.267 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-10 18:42:51.305 [main] INFO  e.t.v.service.FabricServiceTest - Started FabricServiceTest in 0.73 seconds (process running for 5.922)
+2025-11-10 18:42:51.321 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: MOCK-TX-12345
+2025-11-10 18:42:51.322 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:51.322 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction MOCK-TX-12345 verification result: true
+2025-11-10 18:42:51.322 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: TX-election-001-67890
+2025-11-10 18:42:51.323 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:51.323 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction TX-election-001-67890 verification result: true
+2025-11-10 18:42:51.323 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: INVALID-ID
+2025-11-10 18:42:51.323 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:51.323 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction INVALID-ID verification result: false
+2025-11-10 18:42:51.324 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: null
+2025-11-10 18:42:51.324 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:51.324 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction null verification result: false
+2025-11-10 18:42:51.334 [main] INFO  e.tfg.votacion.service.FabricService - Emitting vote commitment to blockchain - Election: integration-test-election, Commitment: integration-test-commitment
+2025-11-10 18:42:51.334 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock transaction ID
+2025-11-10 18:42:51.348 [main] DEBUG e.tfg.votacion.service.FabricService - Verifying vote transaction: MOCK-TX-integration-test-election-1762796571334
+2025-11-10 18:42:51.349 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, using mock verification
+2025-11-10 18:42:51.349 [main] DEBUG e.tfg.votacion.service.FabricService - MOCK: Transaction MOCK-TX-integration-test-election-1762796571334 verification result: true
+2025-11-10 18:42:51.350 [main] DEBUG e.tfg.votacion.service.FabricService - Querying election status: integration-test-election
+2025-11-10 18:42:51.350 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning default status
+2025-11-10 18:42:51.351 [main] INFO  e.tfg.votacion.service.FabricService - Counting votes from blockchain for election: integration-test-election
+2025-11-10 18:42:51.351 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock results
+2025-11-10 18:42:51.371 [main] INFO  e.tfg.votacion.service.FabricService - Counting votes from blockchain for election: test-election-003
+2025-11-10 18:42:51.371 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock results
+2025-11-10 18:42:51.379 [main] INFO  e.tfg.votacion.service.FabricService - Closing election on blockchain: test-election-002
+2025-11-10 18:42:51.380 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock result
+2025-11-10 18:42:51.409 [main] DEBUG e.tfg.votacion.service.FabricService - Querying election status: test-election-004
+2025-11-10 18:42:51.410 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning default status
+2025-11-10 18:42:51.450 [main] INFO  e.tfg.votacion.service.FabricService - Emitting vote commitment to blockchain - Election: test-election-001, Commitment: abc123def456
+2025-11-10 18:42:51.451 [main] WARN  e.tfg.votacion.service.FabricService - No blockchain connection available, returning mock transaction ID
+2025-11-10 18:42:51.470 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [es.tfg.votacion.ApplicationTests]: ApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-11-10 18:42:51.489 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration es.tfg.votacion.Application for test class es.tfg.votacion.ApplicationTests

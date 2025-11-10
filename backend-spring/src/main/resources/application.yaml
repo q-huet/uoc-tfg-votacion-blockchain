@@ -43,10 +43,10 @@ spring:
 # Configuración de Hyperledger Fabric
 fabric:
   # Ruta al perfil de conexión de la organización
-  connection_profile: "/home/ehuetadr/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
+  connection-profile: "/home/ehuetadr/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
 
   # Ruta del wallet donde se almacenan las identidades
-  wallet_path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/wallet"
+  wallet-path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/wallet"
 
   # Usuario de aplicación para conectar con Fabric
   user: "appUser"
@@ -65,33 +65,33 @@ fabric:
 
   # Configuración de retry para operaciones blockchain
   retry:
-    max_attempts: 3
-    backoff_delay_ms: 1000
+    max-attempts: 3
+    backoff-delay-ms: 1000
 
 # Configuración de almacenamiento cifrado off-chain
 storage:
   # Directorio base para almacenar blobs cifrados
-  base_path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage"
+  base-path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage"
 
   # Ruta al keystore con las claves de cifrado
-  keystore_path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json"
+  keystore-path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json"
 
   # Configuración de cifrado AES-GCM
   encryption:
     algorithm: "AES/GCM/NoPadding"
-    key_length: 256
-    iv_length: 12
-    tag_length: 128
+    key-length: 256
+    iv-length: 12
+    tag-length: 128
 
   # Configuración de limpieza automática
   cleanup:
     enabled: true
-    retention_days: 30
+    retention-days: 30
 
 # Configuración de autenticación mock (simula Azure EntraID)
 auth:
   # Ruta al archivo con usuarios mock
-  users_file: "/home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json"
+  users-file: "/home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json"
 
   # Configuración JWT simulada
   jwt:
@@ -109,25 +109,25 @@ auth:
 # Configuración específica de elecciones
 elections:
   # Configuración por defecto para nuevas elecciones
-  default:
-    voting_duration_hours: 24
-    max_votes_per_user: 1
-    allow_vote_modification: false
-    require_audit_trail: true
+  default-config:
+    voting-duration-hours: 24
+    max-votes-per-user: 1
+    allow-vote-modification: false
+    require-audit-trail: true
 
   # Configuración de validación
   validation:
-    min_title_length: 5
-    max_title_length: 100
-    min_description_length: 10
-    max_description_length: 500
-    min_options: 2
-    max_options: 10
+    min-title-length: 5
+    max-title-length: 100
+    min-description-length: 10
+    max-description-length: 500
+    min-options: 2
+    max-options: 10
 
   # Configuración de notificaciones (mock)
   notifications:
-    email_enabled: false
-    sms_enabled: false
+    email-enabled: false
+    sms-enabled: false
 
 # Configuración de logging
 logging:
