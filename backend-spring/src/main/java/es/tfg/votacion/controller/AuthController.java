@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * @since Java 21
  */
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/auth")
 @CrossOrigin(origins = { "http://localhost:4200", "http://127.0.0.1:4200" })
 public class AuthController {
 

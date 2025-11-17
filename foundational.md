@@ -37,7 +37,7 @@ El sistema se compone de varios módulos:
 
 - Hyperledger Fabric 2.5 (network local con test-network extendida)
 - Chaincode en Node.js (fabric-contract-api)
-- Algoritmo de consenso: PBFT / PoA simulado (entorno local)
+- Algoritmo de consenso: CFT Crash Fault-Tolerant (Raft protocol) 
 
 **Otros**
 
@@ -66,5 +66,5 @@ El prototipo no busca ser una plataforma de producción, sino una **demostració
 **Entorno:** Windows 10 + WSL2 (Ubuntu)  
 **IDE:** VSCode (Remote WSL2)  
 **Versión Java:** 21  
-**Framework principal:** Spring Boot 3.x  
+**Framework principal:** Spring Boot 3.5.7  
 **Fecha:** 2025

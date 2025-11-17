@@ -83,33 +83,34 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Endpoints públicos (sin autenticación)
                         .requestMatchers(
-                                "/api/v1/auth/login",
+                                "/auth/login",
+                                "/error",
                                 "/actuator/health",
                                 "/actuator/info"
                         ).permitAll()
 
                         // Endpoints que permiten autenticación opcional
-                        .requestMatchers(HttpMethod.GET, "/api/v1/elections").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/elections").permitAll()
 
                         // Endpoints que requieren autenticación (cualquier rol)
                         .requestMatchers(
-                                "/api/v1/auth/validate",
-                                "/api/v1/auth/user",
-                                "/api/v1/auth/logout"
+                                "/auth/validate",
+                                "/auth/user",
+                                "/auth/logout"
                         ).authenticated()
 
-                        .requestMatchers(HttpMethod.GET, "/api/v1/elections/*").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/elections/*").authenticated()
 
                         // Endpoints para VOTER
-                        .requestMatchers(HttpMethod.POST, "/api/v1/elections/*/vote")
+                        .requestMatchers(HttpMethod.POST, "/elections/*/vote")
                         .hasRole("VOTER")
 
                         // Endpoints para ADMIN
-                        .requestMatchers(HttpMethod.POST, "/api/v1/elections/*/close")
+                        .requestMatchers(HttpMethod.POST, "/elections/*/close")
                         .hasRole("ADMIN")
 
                         // Endpoints para ADMIN y AUDITOR
-                        .requestMatchers(HttpMethod.GET, "/api/v1/elections/*/results")
+                        .requestMatchers(HttpMethod.GET, "/elections/*/results")
                         .hasAnyRole("ADMIN", "AUDITOR")
 
                         // Todos los demás endpoints requieren autenticación
@@ -144,7 +145,7 @@ public class SecurityConfig {
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/v1/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
