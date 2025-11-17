@@ -1,0 +1,11 @@
+<header id="app-header">
+  <a [href]="skipToMain" class="skip-link">Skip to Content</a>
+  <app-nav></app-nav>
+</header>
+<main id="app-content">
+  <p-toast position="top-center" styleClass="toast-msg"></p-toast>
+  <router-outlet></router-outlet>
+</main>
+<footer id="footer">
+  <app-footer></app-footer>
+</footer>

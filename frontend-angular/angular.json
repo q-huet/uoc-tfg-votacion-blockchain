@@ -1,0 +1,186 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "votacionbc": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:application",
+          "options": {
+            "outputPath": {
+              "base": "dist",
+              "browser": ""
+            },
+            "index": "src/index.html",
+            "polyfills": [
+              "zone.js",
+              "@angular/localize/init"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "serviceWorker": "./ngsw-config.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "node_modules/@wame/blue-oval-theme/assets/image",
+                "output": "/assets/image"
+              },
+              {
+                "glob": "manifest.webmanifest",
+                "input": "src",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/pwa-images",
+                "output": "/assets/pwa-screenshots"
+              },
+              {
+                "glob": "**/*",
+                "input": "documentation",
+                "output": "/documentation"
+              }
+            ],
+            "styles": [
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeflex/primeflex.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/@wame/blue-oval-theme/themes/blue-oval-theme/theme.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/solid.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/@wame/blue-oval-theme/themes/blue-oval-theme/"
+              ]
+            },
+            "allowedCommonJsDependencies": [
+              "core-js",
+              "hammerjs",
+              "jspdf-autotable",
+              "raf"
+            ],
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true,
+            "browser": "src/main.ts"
+          },
+          "configurations": {
+            "prod": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "dev": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "local": {
+              "aot": false
+            }
+          },
+          "defaultConfiguration": ""
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "votacionbc:build",
+            "port": 9500
+          },
+          "configurations": {
+            "local": {
+              "buildTarget": "votacionbc:build:local"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "karmaConfig": "karma.conf.js",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "scripts": [],
+            "styles": [
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeflex/primeflex.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/@wame/blue-oval-theme/themes/blue-oval-theme/theme.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/solid.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
+              "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/@wame/blue-oval-theme/themes/blue-oval-theme/"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "node_modules/@wame/blue-oval-theme/assets/image",
+                "output": "/assets/image"
+              },
+              {
+                "glob": "manifest.webmanifest",
+                "input": "src",
+                "output": "/"
+              }
+            ]
+          },
+          "configurations": {
+            "coverage": {
+              "progress": false,
+              "codeCoverage": true,
+              "watch": false,
+              "sourceMap": true,
+              "codeCoverageExclude": [
+                "src/testing/**/*"
+              ]
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

@@ -1,0 +1,20 @@
+extends: default
+
+ignore:
+  - node_modules/
+
+
+rules:
+  comments:
+    level: error
+  comments-indentation:
+    level: error
+  document-start: disable
+  empty-values:
+    level: error
+    forbid-in-block-mappings: true
+    forbid-in-flow-mappings: true
+    forbid-in-block-sequences: true
+  line-length:
+    level: error
+    max: 160
