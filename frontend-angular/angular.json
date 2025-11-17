@@ -3,184 +3,103 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "votacionbc": {
-      "root": "",
-      "sourceRoot": "src",
+    "frontend-angular": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "dist",
-              "browser": ""
-            },
+            "outputPath": "dist/frontend-angular",
             "index": "src/index.html",
+            "browser": "src/main.ts",
             "polyfills": [
-              "zone.js",
-              "@angular/localize/init"
+              "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "serviceWorker": "./ngsw-config.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "node_modules/@wame/blue-oval-theme/assets/image",
-                "output": "/assets/image"
-              },
-              {
-                "glob": "manifest.webmanifest",
-                "input": "src",
-                "output": "/"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/pwa-images",
-                "output": "/assets/pwa-screenshots"
-              },
-              {
-                "glob": "**/*",
-                "input": "documentation",
-                "output": "/documentation"
-              }
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeflex/primeflex.scss",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/@wame/blue-oval-theme/themes/blue-oval-theme/theme.scss",
-              "node_modules/@fortawesome/fontawesome-free/scss/solid.scss",
-              "node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
-              "node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
-              "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss"
+              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeflex/primeflex.css",
+              "src/styles.scss"
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/@wame/blue-oval-theme/themes/blue-oval-theme/"
-              ]
-            },
-            "allowedCommonJsDependencies": [
-              "core-js",
-              "hammerjs",
-              "jspdf-autotable",
-              "raf"
-            ],
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true,
-            "browser": "src/main.ts"
+            "scripts": []
           },
           "configurations": {
-            "prod": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "fileReplacements": [
+            "production": {
+              "budgets": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
-            },
-            "dev": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "fileReplacements": [
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
-              ]
+              ],
+              "outputHashing": "all"
             },
-            "local": {
-              "aot": false
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "votacionbc:build",
-            "port": 9500
-          },
           "configurations": {
-            "local": {
-              "buildTarget": "votacionbc:build:local"
+            "production": {
+              "buildTarget": "frontend-angular:build:production"
+            },
+            "development": {
+              "buildTarget": "frontend-angular:build:development"
             }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "frontend-angular:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "karmaConfig": "karma.conf.js",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
-            "scripts": [],
-            "styles": [
-              "node_modules/primeng/resources/primeng.min.css",
-              "node_modules/primeflex/primeflex.scss",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/@wame/blue-oval-theme/themes/blue-oval-theme/theme.scss",
-              "node_modules/@fortawesome/fontawesome-free/scss/solid.scss",
-              "node_modules/@fortawesome/fontawesome-free/scss/regular.scss",
-              "node_modules/@fortawesome/fontawesome-free/scss/brands.scss",
-              "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/@wame/blue-oval-theme/themes/blue-oval-theme/"
-              ]
-            },
+            "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "node_modules/@wame/blue-oval-theme/assets/image",
-                "output": "/assets/image"
-              },
-              {
-                "glob": "manifest.webmanifest",
-                "input": "src",
-                "output": "/"
-              }
-            ]
-          },
-          "configurations": {
-            "coverage": {
-              "progress": false,
-              "codeCoverage": true,
-              "watch": false,
-              "sourceMap": true,
-              "codeCoverageExclude": [
-                "src/testing/**/*"
-              ]
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": []
           }
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }

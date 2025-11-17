@@ -1,7 +1,0 @@
-# FRF Tekton Pipeline: v18.0.1
-apiVersion: pipelinesascode.tekton.dev/v1alpha1
-kind: Repository
-metadata:
-  name: "[YOUR-PROJECT-NAME]"
-spec:
-  url: "[YOUR-PROJECT-GITHUB-REPO-URL]"
