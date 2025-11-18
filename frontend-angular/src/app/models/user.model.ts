@@ -1,5 +1,8 @@
 import { UserRole } from './user-role.enum';
 
+// Re-export UserRole for convenience
+export { UserRole };
+
 /**
  * Modelo de Usuario
  * Coincide con User.java (record) del backend

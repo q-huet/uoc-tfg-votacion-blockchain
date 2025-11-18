@@ -1,0 +1,251 @@
+<div class="election-detail-container">
+  <!-- Toast para notificaciones -->
+  <p-toast></p-toast>
+
+  <!-- Confirm Dialog -->
+  <p-confirmDialog></p-confirmDialog>
+
+  <!-- Loading Skeleton -->
+  <div *ngIf="loading">
+    <p-card>
+      <p-skeleton height="200px" class="mb-3"></p-skeleton>
+      <p-skeleton height="100px" class="mb-3"></p-skeleton>
+      <p-skeleton height="300px"></p-skeleton>
+    </p-card>
+  </div>
+
+  <!-- Error Message -->
+  <p-message
+    *ngIf="errorMessage && !loading"
+    severity="error"
+    [text]="errorMessage"
+    styleClass="w-full mb-3"
+  ></p-message>
+
+  <!-- Election Detail -->
+  <div *ngIf="election && !loading" class="election-content">
+    <!-- Header -->
+    <div class="election-header-section">
+      <button
+        pButton
+        icon="pi pi-arrow-left"
+        label="Volver"
+        class="p-button-text p-button-secondary mb-3"
+        (click)="goBack()"
+      ></button>
+
+      <p-card styleClass="header-card">
+        <div class="header-content">
+          <div class="header-info">
+            <div class="status-badges">
+              <span class="status-badge" [ngClass]="getStatusClass()">
+                {{ getStatusLabel() }}
+              </span>
+              <span class="voted-badge" *ngIf="hasVoted">
+                <i class="pi pi-check-circle"></i> Ya has votado
+              </span>
+              <span class="urgent-badge" *ngIf="isClosingSoon()">
+                <i class="pi pi-exclamation-triangle"></i> Cierra pronto
+              </span>
+            </div>
+
+            <h1>{{ election.title }}</h1>
+            <p class="election-description">{{ election.description }}</p>
+
+            <div class="election-meta">
+              <div class="meta-item">
+                <i class="pi pi-calendar"></i>
+                <span><strong>Inicio:</strong> {{ election.startTime | date: 'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="pi pi-calendar"></i>
+                <span><strong>Fin:</strong> {{ election.endTime | date: 'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+              <div class="meta-item" *ngIf="isActiveForVoting()">
+                <i class="pi pi-clock"></i>
+                <span><strong>Días restantes:</strong> {{ getDaysRemaining() }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="pi pi-users"></i>
+                <span><strong>Total de votos:</strong> {{ election.totalVotes }}</span>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="time-progress" *ngIf="election.status === 'ACTIVE'">
+              <p-progressBar [value]="getTimeProgress()"></p-progressBar>
+              <small class="text-600">Progreso de la votación</small>
+            </div>
+          </div>
+        </div>
+      </p-card>
+    </div>
+
+    <p-divider></p-divider>
+
+    <!-- Warning Messages -->
+    <p-message
+      *ngIf="!canVote() && !hasVoted && isActiveForVoting()"
+      severity="warn"
+      text="Debes iniciar sesión para poder votar"
+      styleClass="w-full mb-3"
+    ></p-message>
+
+    <p-message
+      *ngIf="hasVoted"
+      severity="info"
+      styleClass="w-full mb-3"
+    >
+      <ng-template pTemplate>
+        <div class="flex align-items-center">
+          <i class="pi pi-check-circle mr-2"></i>
+          <span>Ya has emitido tu voto en esta elección. Puedes ver tu recibo a continuación.</span>
+        </div>
+      </ng-template>
+    </p-message>
+
+    <p-message
+      *ngIf="!isActiveForVoting() && election.status !== 'ACTIVE'"
+      severity="warn"
+      [text]="'Esta elección no está activa para votación (Estado: ' + getStatusLabel() + ')'"
+      styleClass="w-full mb-3"
+    ></p-message>
+
+    <!-- Voting Section -->
+    <p-card styleClass="voting-card">
+      <ng-template pTemplate="header">
+        <div class="voting-header">
+          <h2>
+            <i class="pi pi-send mr-2"></i>
+            {{ hasVoted ? 'Opciones de la Elección' : 'Selecciona tu Opción' }}
+          </h2>
+          <p class="text-600" *ngIf="canVote()">
+            Selecciona una opción y confirma tu voto. Esta acción es irreversible.
+          </p>
+        </div>
+      </ng-template>
+
+      <div class="options-container">
+        <div
+          *ngFor="let option of election.options"
+          class="option-card"
+          [class.selected]="selectedOptionId === option.optionId"
+          [class.disabled]="!canVote()"
+          (click)="selectOption(option.optionId)"
+        >
+          <div class="option-content">
+            <div class="option-radio">
+              <p-radioButton
+                [name]="'election-option'"
+                [value]="option.optionId"
+                [(ngModel)]="selectedOptionId"
+                [disabled]="!canVote()"
+              ></p-radioButton>
+            </div>
+            <div class="option-info">
+              <h3>{{ option.title }}</h3>
+              <p *ngIf="option.description" class="text-600">
+                {{ option.description }}
+              </p>
+            </div>
+            <div class="option-check" *ngIf="selectedOptionId === option.optionId">
+              <i class="pi pi-check-circle"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="voting-actions">
+          <button
+            pButton
+            label="Confirmar Voto"
+            icon="pi pi-send"
+            class="p-button-success"
+            (click)="confirmVote()"
+            [disabled]="!selectedOptionId || !canVote() || submitting"
+            [loading]="submitting"
+          ></button>
+          <button
+            pButton
+            label="Ver Recibo"
+            icon="pi pi-file"
+            class="p-button-outlined p-button-info"
+            (click)="viewReceipt()"
+            *ngIf="hasVoted"
+          ></button>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <!-- Additional Information -->
+    <p-card styleClass="info-card mt-3">
+      <ng-template pTemplate="header">
+        <div class="info-header">
+          <h3>
+            <i class="pi pi-info-circle mr-2"></i>
+            Información Adicional
+          </h3>
+        </div>
+      </ng-template>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Creada por:</span>
+          <span class="info-value">{{ election.createdBy }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Fecha de creación:</span>
+          <span class="info-value">{{ election.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Votos máximos por usuario:</span>
+          <span class="info-value">{{ election.maxVotesPerUser }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Modificación de voto:</span>
+          <span class="info-value">
+            {{ election.allowVoteModification ? 'Permitida' : 'No permitida' }}
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Auditoría requerida:</span>
+          <span class="info-value">
+            {{ election.requireAuditTrail ? 'Sí' : 'No' }}
+          </span>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- Blockchain Information -->
+    <p-card styleClass="blockchain-card mt-3">
+      <ng-template pTemplate="header">
+        <div class="blockchain-header">
+          <h3>
+            <i class="pi pi-shield mr-2"></i>
+            Seguridad y Blockchain
+          </h3>
+        </div>
+      </ng-template>
+
+      <div class="blockchain-info">
+        <p>
+          <i class="pi pi-check mr-2" style="color: #10b981;"></i>
+          <strong>Voto Cifrado:</strong> Tu voto se almacena de forma cifrada y segura
+        </p>
+        <p>
+          <i class="pi pi-check mr-2" style="color: #10b981;"></i>
+          <strong>Registro Inmutable:</strong> El voto se registra en blockchain, garantizando inmutabilidad
+        </p>
+        <p>
+          <i class="pi pi-check mr-2" style="color: #10b981;"></i>
+          <strong>Anonimato:</strong> El sistema garantiza el anonimato de tu voto
+        </p>
+        <p>
+          <i class="pi pi-check mr-2" style="color: #10b981;"></i>
+          <strong>Verificación:</strong> Recibirás un comprobante para verificar tu voto
+        </p>
+      </div>
+    </p-card>
+  </div>
+</div>

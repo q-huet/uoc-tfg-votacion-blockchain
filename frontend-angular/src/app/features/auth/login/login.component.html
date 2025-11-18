@@ -11,38 +11,45 @@
       <div class="flex flex-column gap-3">
         <div class="field">
           <label for="username">Usuario</label>
-          <input 
-            pInputText 
-            id="username" 
-            formControlName="username" 
+          <input
+            pInputText
+            id="username"
+            formControlName="username"
             placeholder="Ingresa tu usuario"
             class="w-full"
+            [class.ng-invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
           />
+          <small class="p-error" *ngIf="getErrorMessage('username')">
+            {{ getErrorMessage('username') }}
+          </small>
         </div>
 
         <div class="field">
           <label for="password">Contraseña</label>
-          <p-password 
-            id="password" 
-            formControlName="password" 
+          <p-password
+            id="password"
+            formControlName="password"
             placeholder="Ingresa tu contraseña"
             [toggleMask]="true"
             [feedback]="false"
             styleClass="w-full"
             [inputStyle]="{'width': '100%'}"
           ></p-password>
+          <small class="p-error" *ngIf="getErrorMessage('password')">
+            {{ getErrorMessage('password') }}
+          </small>
         </div>
 
-        <p-message 
-          *ngIf="errorMessage" 
-          severity="error" 
+        <p-message
+          *ngIf="errorMessage"
+          severity="error"
           [text]="errorMessage"
         ></p-message>
 
-        <button 
-          pButton 
-          type="submit" 
-          label="Iniciar Sesión" 
+        <button
+          pButton
+          type="submit"
+          label="Iniciar Sesión"
           [loading]="loading"
           [disabled]="loginForm.invalid"
           class="w-full"

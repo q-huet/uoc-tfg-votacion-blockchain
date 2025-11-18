@@ -1,0 +1,212 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <div>
+        <h1>Bienvenido, {{ currentUser?.fullName || 'Usuario' }}</h1>
+        <p class="text-600">{{ currentUser?.username }} - {{ currentUser?.role }}</p>
+      </div>
+      <div class="header-actions">
+        <button
+          pButton
+          icon="pi pi-refresh"
+          label="Actualizar"
+          class="p-button-outlined"
+          (click)="refresh()"
+          [loading]="loading"
+        ></button>
+        <button
+          pButton
+          icon="pi pi-sign-out"
+          label="Cerrar Sesión"
+          class="p-button-outlined p-button-danger"
+          (click)="logout()"
+        ></button>
+      </div>
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+
+  <!-- Error Message -->
+  <p-message
+    *ngIf="errorMessage"
+    severity="error"
+    [text]="errorMessage"
+    styleClass="w-full mb-4"
+  ></p-message>
+
+  <!-- Estadísticas -->
+  <div class="stats-grid" *ngIf="!loading">
+    <p-card>
+      <div class="stat-card">
+        <i class="pi pi-calendar stat-icon"></i>
+        <div class="stat-content">
+          <h3>{{ stats.totalActive }}</h3>
+          <p>Elecciones Activas</p>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card>
+      <div class="stat-card">
+        <i class="pi pi-check-circle stat-icon success"></i>
+        <div class="stat-content">
+          <h3>{{ stats.voted }}</h3>
+          <p>Votos Emitidos</p>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card>
+      <div class="stat-card">
+        <i class="pi pi-clock stat-icon warning"></i>
+        <div class="stat-content">
+          <h3>{{ stats.pending }}</h3>
+          <p>Pendientes de Votar</p>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card>
+      <div class="stat-card">
+        <i class="pi pi-file stat-icon info"></i>
+        <div class="stat-content">
+          <h3>{{ stats.receipts }}</h3>
+          <p>Recibos Guardados</p>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Loading Skeleton -->
+  <div class="stats-grid" *ngIf="loading">
+    <p-card *ngFor="let i of [1,2,3,4]">
+      <p-skeleton height="80px"></p-skeleton>
+    </p-card>
+  </div>
+
+  <p-divider></p-divider>
+
+  <!-- Acciones Rápidas -->
+  <div class="quick-actions">
+    <h2>Acciones Rápidas</h2>
+    <div class="actions-grid">
+      <!-- Ver Elecciones -->
+      <p-card>
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <i class="pi pi-list"></i>
+          </div>
+        </ng-template>
+        <h3>Ver Elecciones</h3>
+        <p class="text-600">Consulta las elecciones disponibles y emite tu voto</p>
+        <ng-template pTemplate="footer">
+          <button
+            pButton
+            label="Ir a Elecciones"
+            icon="pi pi-arrow-right"
+            class="w-full"
+            (click)="goToElections()"
+          ></button>
+        </ng-template>
+      </p-card>
+
+      <!-- Mis Recibos -->
+      <p-card>
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <i class="pi pi-file"></i>
+          </div>
+        </ng-template>
+        <h3>Mis Recibos</h3>
+        <p class="text-600">Revisa los recibos de tus votos emitidos</p>
+        <ng-template pTemplate="footer">
+          <button
+            pButton
+            label="Ver Recibos"
+            icon="pi pi-arrow-right"
+            class="w-full p-button-outlined"
+            (click)="viewReceipts()"
+          ></button>
+        </ng-template>
+      </p-card>
+
+      <!-- Panel Admin (solo ADMIN) -->
+      <p-card *ngIf="isAdmin()">
+        <ng-template pTemplate="header">
+          <div class="card-header admin">
+            <i class="pi pi-cog"></i>
+          </div>
+        </ng-template>
+        <h3>Panel de Administración</h3>
+        <p class="text-600">Gestiona elecciones y visualiza resultados</p>
+        <ng-template pTemplate="footer">
+          <button
+            pButton
+            label="Ir a Admin"
+            icon="pi pi-arrow-right"
+            class="w-full p-button-warning"
+            (click)="goToAdmin()"
+          ></button>
+        </ng-template>
+      </p-card>
+
+      <!-- Panel Auditor (solo AUDITOR) -->
+      <p-card *ngIf="isAuditor()">
+        <ng-template pTemplate="header">
+          <div class="card-header audit">
+            <i class="pi pi-eye"></i>
+          </div>
+        </ng-template>
+        <h3>Vista de Auditoría</h3>
+        <p class="text-600">Revisa registros y verifica blockchain</p>
+        <ng-template pTemplate="footer">
+          <button
+            pButton
+            label="Ir a Auditoría"
+            icon="pi pi-arrow-right"
+            class="w-full p-button-info"
+            (click)="goToAudit()"
+          ></button>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Elecciones Recientes -->
+  <div class="recent-elections" *ngIf="activeElections.length > 0 && !loading">
+    <h2>Elecciones Recientes</h2>
+    <div class="elections-list">
+      <p-card *ngFor="let election of activeElections.slice(0, 3)">
+        <div class="election-item">
+          <div class="election-info">
+            <h3>{{ election.title }}</h3>
+            <p class="text-600">{{ election.description }}</p>
+            <div class="election-meta">
+              <span class="badge" [ngClass]="{
+                'badge-success': election.status === 'ACTIVE',
+                'badge-warning': election.status === 'DRAFT',
+                'badge-secondary': election.status === 'CLOSED'
+              }">
+                {{ election.status }}
+              </span>
+              <span *ngIf="election.hasVoted" class="voted-badge">
+                <i class="pi pi-check-circle"></i> Ya votaste
+              </span>
+            </div>
+          </div>
+          <div class="election-actions">
+            <button
+              pButton
+              [label]="election.hasVoted ? 'Ver Detalles' : 'Votar Ahora'"
+              [icon]="election.hasVoted ? 'pi pi-eye' : 'pi pi-send'"
+              (click)="router.navigate(['/elections', election.electionId])"
+              [disabled]="!election.canVote && !election.hasVoted"
+            ></button>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,266 @@
+<div class="vote-confirmation-container">
+  <!-- Toast para notificaciones -->
+  <p-toast></p-toast>
+
+  <!-- Success Header -->
+  <div class="success-header">
+    <div class="success-icon">
+      <i class="pi pi-check-circle"></i>
+    </div>
+    <h1>¡Voto Registrado Exitosamente!</h1>
+    <p class="text-600">Tu voto ha sido registrado de forma segura en la blockchain</p>
+  </div>
+
+  <!-- Error Message -->
+  <p-message
+    *ngIf="errorMessage"
+    severity="error"
+    [text]="errorMessage"
+    styleClass="w-full mb-3"
+  ></p-message>
+
+  <!-- Receipt Card -->
+  <p-card *ngIf="receipt && !loading" styleClass="receipt-card">
+    <ng-template pTemplate="header">
+      <div class="receipt-header">
+        <h2>
+          <i class="pi pi-file mr-2"></i>
+          Recibo de Voto
+        </h2>
+        <p class="text-600">Guarda este recibo para verificar tu voto posteriormente</p>
+      </div>
+    </ng-template>
+
+    <div class="receipt-content">
+      <!-- Election Info -->
+      <div class="receipt-section">
+        <h3>Información de la Elección</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Elección:</span>
+            <span class="info-value">{{ receipt.electionTitle }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">ID de Elección:</span>
+            <span class="info-value">{{ receipt.electionId }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Fecha y Hora:</span>
+            <span class="info-value">{{ receipt.timestamp | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Receipt Details -->
+      <div class="receipt-section">
+        <h3>Detalles del Recibo</h3>
+        <div class="detail-item">
+          <div class="detail-header">
+            <span class="detail-label">
+              <i class="pi pi-id-card mr-2"></i>
+              ID de Recibo
+            </span>
+            <button
+              pButton
+              icon="pi pi-copy"
+              class="p-button-text p-button-sm"
+              (click)="copyToClipboard(receipt.receiptId, 'ID de Recibo')"
+              pTooltip="Copiar"
+            ></button>
+          </div>
+          <div class="detail-value code">{{ receipt.receiptId }}</div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-header">
+            <span class="detail-label">
+              <i class="pi pi-link mr-2"></i>
+              Transaction ID (Blockchain)
+            </span>
+            <button
+              pButton
+              icon="pi pi-copy"
+              class="p-button-text p-button-sm"
+              (click)="copyToClipboard(receipt.blockchainTxId, 'Transaction ID')"
+              pTooltip="Copiar"
+            ></button>
+          </div>
+          <div class="detail-value code">{{ receipt.blockchainTxId }}</div>
+          <small class="text-600">Este ID identifica tu voto en la blockchain</small>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-header">
+            <span class="detail-label">
+              <i class="pi pi-shield mr-2"></i>
+              Hash de Verificación
+            </span>
+            <button
+              pButton
+              icon="pi pi-copy"
+              class="p-button-text p-button-sm"
+              (click)="copyToClipboard(receipt.verificationHash, 'Hash de Verificación')"
+              pTooltip="Copiar"
+            ></button>
+          </div>
+          <div class="detail-value code">{{ receipt.verificationHash }}</div>
+          <small class="text-600">Hash criptográfico único de tu voto</small>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-header">
+            <span class="detail-label">
+              <i class="pi pi-database mr-2"></i>
+              Referencia de Almacenamiento
+            </span>
+            <button
+              pButton
+              icon="pi pi-copy"
+              class="p-button-text p-button-sm"
+              (click)="copyToClipboard(receipt.storageReference, 'Referencia')"
+              pTooltip="Copiar"
+            ></button>
+          </div>
+          <div class="detail-value code">{{ receipt.storageReference }}</div>
+          <small class="text-600">Ubicación del voto cifrado en el almacenamiento seguro</small>
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Instructions -->
+      <div class="receipt-section">
+        <h3>Instrucciones Importantes</h3>
+        <div class="instructions">
+          <p-message severity="info" styleClass="w-full mb-3">
+            <ng-template pTemplate>
+              <div class="instruction-content">
+                <i class="pi pi-info-circle mr-2"></i>
+                <span>{{ receipt.instructions }}</span>
+              </div>
+            </ng-template>
+          </p-message>
+
+          <div class="instruction-list">
+            <div class="instruction-item">
+              <i class="pi pi-check text-success"></i>
+              <span>Guarda este recibo en un lugar seguro</span>
+            </div>
+            <div class="instruction-item">
+              <i class="pi pi-check text-success"></i>
+              <span>No compartas tu recibo con terceros</span>
+            </div>
+            <div class="instruction-item">
+              <i class="pi pi-check text-success"></i>
+              <span>Puedes verificar tu voto usando el Transaction ID</span>
+            </div>
+            <div class="instruction-item">
+              <i class="pi pi-check text-success"></i>
+              <span>Tu voto está cifrado y es anónimo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="receipt-actions">
+        <button
+          pButton
+          label="Descargar Recibo"
+          icon="pi pi-download"
+          class="p-button-success"
+          (click)="downloadReceipt()"
+        ></button>
+        <button
+          pButton
+          label="Imprimir"
+          icon="pi pi-print"
+          class="p-button-outlined"
+          (click)="printReceipt()"
+        ></button>
+        <button
+          pButton
+          label="Verificar en Blockchain"
+          icon="pi pi-shield"
+          class="p-button-outlined p-button-info"
+          (click)="verifyReceipt()"
+        ></button>
+      </div>
+    </ng-template>
+  </p-card>
+
+  <!-- Security Information -->
+  <p-card *ngIf="receipt && !loading" styleClass="security-card">
+    <ng-template pTemplate="header">
+      <div class="security-header">
+        <h3>
+          <i class="pi pi-lock mr-2"></i>
+          Seguridad y Privacidad
+        </h3>
+      </div>
+    </ng-template>
+
+    <div class="security-info">
+      <div class="security-item">
+        <div class="security-icon">
+          <i class="pi pi-shield"></i>
+        </div>
+        <div class="security-content">
+          <h4>Cifrado de Extremo a Extremo</h4>
+          <p>Tu voto está cifrado con algoritmos de seguridad de última generación antes de ser almacenado.</p>
+        </div>
+      </div>
+
+      <div class="security-item">
+        <div class="security-icon">
+          <i class="pi pi-lock"></i>
+        </div>
+        <div class="security-content">
+          <h4>Registro Inmutable</h4>
+          <p>Una vez registrado en blockchain, tu voto no puede ser modificado ni eliminado por nadie.</p>
+        </div>
+      </div>
+
+      <div class="security-item">
+        <div class="security-icon">
+          <i class="pi pi-eye-slash"></i>
+        </div>
+        <div class="security-content">
+          <h4>Anonimato Garantizado</h4>
+          <p>El sistema desvincula tu identidad del contenido del voto, garantizando total anonimato.</p>
+        </div>
+      </div>
+
+      <div class="security-item">
+        <div class="security-icon">
+          <i class="pi pi-verified"></i>
+        </div>
+        <div class="security-content">
+          <h4>Verificación Independiente</h4>
+          <p>Puedes verificar que tu voto fue registrado correctamente usando tu recibo, sin revelar tu elección.</p>
+        </div>
+      </div>
+    </div>
+  </p-card>
+
+  <!-- Navigation Actions -->
+  <div class="navigation-actions" *ngIf="!loading">
+    <button
+      pButton
+      label="Ir al Dashboard"
+      icon="pi pi-home"
+      class="p-button-lg"
+      (click)="goToDashboard()"
+    ></button>
+    <button
+      pButton
+      label="Ver Otras Elecciones"
+      icon="pi pi-list"
+      class="p-button-outlined p-button-lg"
+      (click)="goToElections()"
+    ></button>
+  </div>
+</div>

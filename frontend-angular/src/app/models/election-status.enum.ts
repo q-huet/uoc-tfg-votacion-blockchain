@@ -6,7 +6,8 @@ export enum ElectionStatus {
   DRAFT = 'DRAFT',
   ACTIVE = 'ACTIVE',
   CLOSED = 'CLOSED',
-  COMPLETED = 'COMPLETED'
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED'
 }
 
 /**
@@ -17,7 +18,8 @@ export function getStatusName(status: ElectionStatus): string {
     [ElectionStatus.DRAFT]: 'Borrador',
     [ElectionStatus.ACTIVE]: 'Activa',
     [ElectionStatus.CLOSED]: 'Cerrada',
-    [ElectionStatus.COMPLETED]: 'Completada'
+    [ElectionStatus.COMPLETED]: 'Completada',
+    [ElectionStatus.CANCELLED]: 'Cancelada'
   };
   return statusNames[status];
 }
@@ -30,7 +32,8 @@ export function getStatusColor(status: ElectionStatus): string {
     [ElectionStatus.DRAFT]: 'gray',
     [ElectionStatus.ACTIVE]: 'green',
     [ElectionStatus.CLOSED]: 'orange',
-    [ElectionStatus.COMPLETED]: 'blue'
+    [ElectionStatus.COMPLETED]: 'blue',
+    [ElectionStatus.CANCELLED]: 'red'
   };
   return statusColors[status];
 }

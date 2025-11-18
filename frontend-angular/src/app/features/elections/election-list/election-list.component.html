@@ -1,0 +1,181 @@
+<div class="election-list-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1>Elecciones</h1>
+      <p class="text-600">Consulta las elecciones disponibles y emite tu voto</p>
+    </div>
+    <button
+      pButton
+      icon="pi pi-refresh"
+      label="Actualizar"
+      class="p-button-outlined"
+      (click)="refresh()"
+      [loading]="loading"
+    ></button>
+  </div>
+
+  <p-divider></p-divider>
+
+  <!-- Filtros -->
+  <p-card styleClass="filter-card">
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="search">Buscar</label>
+        <span class="p-input-icon-left w-full">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            id="search"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="applyFilters()"
+            placeholder="Buscar por título o descripción"
+            class="w-full"
+          />
+        </span>
+      </div>
+
+      <div class="filter-group">
+        <label for="status">Estado</label>
+        <p-dropdown
+          id="status"
+          [(ngModel)]="selectedStatus"
+          [options]="statusOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Seleccionar estado"
+          (onChange)="applyFilters()"
+          styleClass="w-full"
+        ></p-dropdown>
+      </div>
+
+      <div class="filter-actions">
+        <button
+          pButton
+          icon="pi pi-filter-slash"
+          label="Limpiar"
+          class="p-button-outlined p-button-secondary"
+          (click)="clearFilters()"
+          [disabled]="!searchTerm && !selectedStatus"
+        ></button>
+      </div>
+    </div>
+  </p-card>
+
+  <!-- Error Message -->
+  <p-message
+    *ngIf="errorMessage"
+    severity="error"
+    [text]="errorMessage"
+    styleClass="w-full mt-3"
+  ></p-message>
+
+  <!-- Resultados -->
+  <div class="results-header" *ngIf="!loading">
+    <p class="text-600">
+      Mostrando {{ filteredElections.length }} de {{ elections.length }} elecciones
+    </p>
+  </div>
+
+  <!-- Lista de Elecciones -->
+  <div class="elections-grid" *ngIf="!loading">
+    <p-card *ngFor="let election of filteredElections" styleClass="election-card">
+      <ng-template pTemplate="header">
+        <div class="election-header">
+          <div class="election-badges">
+            <span class="status-badge" [ngClass]="getStatusClass(election.status)">
+              {{ getStatusLabel(election.status) }}
+            </span>
+            <span class="voted-badge" *ngIf="election.hasVoted">
+              <i class="pi pi-check-circle"></i> Ya votaste
+            </span>
+            <span class="urgent-badge" *ngIf="isClosingSoon(election)">
+              <i class="pi pi-exclamation-triangle"></i> Cierra pronto
+            </span>
+          </div>
+        </div>
+      </ng-template>
+
+      <div class="election-content">
+        <h2>{{ election.title }}</h2>
+        <p class="election-description">{{ election.description }}</p>
+
+        <div class="election-details">
+          <div class="detail-item">
+            <i class="pi pi-calendar"></i>
+            <span>
+              <strong>Inicio:</strong>
+              {{ election.startTime | date: 'dd/MM/yyyy HH:mm' }}
+            </span>
+          </div>
+          <div class="detail-item">
+            <i class="pi pi-calendar"></i>
+            <span>
+              <strong>Fin:</strong>
+              {{ election.endTime | date: 'dd/MM/yyyy HH:mm' }}
+            </span>
+          </div>
+          <div class="detail-item" *ngIf="election.status === 'ACTIVE'">
+            <i class="pi pi-clock"></i>
+            <span>
+              <strong>Días restantes:</strong>
+              {{ getDaysRemaining(election) }}
+            </span>
+          </div>
+          <div class="detail-item">
+            <i class="pi pi-users"></i>
+            <span>
+              <strong>Votos emitidos:</strong>
+              {{ election.totalVotes }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <ng-template pTemplate="footer">
+        <div class="election-actions">
+          <button
+            pButton
+            [label]="election.hasVoted ? 'Ver Detalles' : 'Votar Ahora'"
+            [icon]="election.hasVoted ? 'pi pi-eye' : 'pi pi-send'"
+            (click)="viewElection(election.electionId)"
+            [disabled]="!canVote(election) && !election.hasVoted"
+            [class]="election.hasVoted ? 'p-button-outlined' : ''"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-info-circle"
+            label="Detalles"
+            class="p-button-outlined p-button-secondary"
+            (click)="viewElection(election.electionId)"
+          ></button>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+
+  <!-- Loading Skeleton -->
+  <div class="elections-grid" *ngIf="loading">
+    <p-card *ngFor="let i of [1,2,3,4,5,6]">
+      <p-skeleton height="250px"></p-skeleton>
+    </p-card>
+  </div>
+
+  <!-- Sin resultados -->
+  <div class="no-results" *ngIf="!loading && filteredElections.length === 0">
+    <p-card>
+      <div class="no-results-content">
+        <i class="pi pi-inbox"></i>
+        <h3>No se encontraron elecciones</h3>
+        <p>No hay elecciones que coincidan con los filtros aplicados</p>
+        <button
+          pButton
+          label="Limpiar Filtros"
+          icon="pi pi-filter-slash"
+          (click)="clearFilters()"
+          *ngIf="searchTerm || selectedStatus"
+        ></button>
+      </div>
+    </p-card>
+  </div>
+</div>

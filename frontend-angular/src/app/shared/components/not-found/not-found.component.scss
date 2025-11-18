@@ -1,0 +1,73 @@
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.error-card {
+  max-width: 500px;
+  width: 100%;
+}
+
+.error-content {
+  text-align: center;
+  padding: 2rem;
+
+  .error-icon {
+    margin-bottom: 2rem;
+
+    i {
+      font-size: 5rem;
+      color: #ef4444;
+    }
+  }
+
+  h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2rem;
+    color: #1f2937;
+  }
+
+  .error-message {
+    margin: 0 0 2rem 0;
+    font-size: 1.125rem;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    button {
+      min-width: 150px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .error-content {
+    padding: 1rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .error-message {
+      font-size: 1rem;
+    }
+
+    .error-actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

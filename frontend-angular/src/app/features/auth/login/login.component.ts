@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 // PrimeNG imports
@@ -26,24 +26,38 @@ import { MessageModule } from 'primeng/message';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   errorMessage = '';
+  returnUrl = '/dashboard';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(4)]]
     });
+  }
+
+  ngOnInit(): void {
+    // Si ya está autenticado, redirigir al dashboard
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/dashboard']);
+      return;
+    }
+
+    // Obtener URL de retorno de los query params
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
+      this.markFormGroupTouched(this.loginForm);
       return;
     }
 
@@ -53,13 +67,45 @@ export class LoginComponent {
     const { username, password } = this.loginForm.value;
 
     this.authService.login(username, password).subscribe({
-      next: () => {
-        this.router.navigate(['/elections']);
+      next: (response) => {
+        console.log('Login successful:', response.user.username);
+        this.router.navigate([this.returnUrl]);
       },
       error: (error) => {
-        this.errorMessage = 'Usuario o contraseña incorrectos';
+        console.error('Login error:', error);
+        this.errorMessage = error.message || 'Usuario o contraseña incorrectos';
         this.loading = false;
+        this.loginForm.patchValue({ password: '' });
       }
+    });
+  }
+
+  /**
+   * Obtener mensaje de error de un control
+   */
+  getErrorMessage(fieldName: string): string {
+    const control = this.loginForm.get(fieldName);
+    if (!control || !control.errors || !control.touched) {
+      return '';
+    }
+
+    if (control.errors['required']) {
+      return 'Este campo es requerido';
+    }
+    if (control.errors['minlength']) {
+      const minLength = control.errors['minlength'].requiredLength;
+      return `Mínimo ${minLength} caracteres`;
+    }
+    return '';
+  }
+
+  /**
+   * Marcar todos los controles como touched para mostrar errores
+   */
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
     });
   }
 }
