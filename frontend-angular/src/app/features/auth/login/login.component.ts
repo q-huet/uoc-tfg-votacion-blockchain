@@ -50,7 +50,9 @@ export class LoginComponent {
     this.loading = true;
     this.errorMessage = '';
 
-    this.authService.login(this.loginForm.value).subscribe({
+    const { username, password } = this.loginForm.value;
+
+    this.authService.login(username, password).subscribe({
       next: () => {
         this.router.navigate(['/elections']);
       },
