@@ -5,24 +5,67 @@
 }
 
 .dashboard-header {
+  background: linear-gradient(135deg, #003478 0%, #002654 100%);
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 0.75rem;
   margin-bottom: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 52, 120, 0.15);
 
   .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.5rem;
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+
+      .app-logo {
+        height: 60px;
+        width: auto;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+    }
 
     h1 {
       margin: 0;
       font-size: 2rem;
-      color: #333;
+      color: white;
+      font-weight: 600;
+    }
+
+    .text-600 {
+      color: rgba(255, 255, 255, 0.8) !important;
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
     }
 
     .header-actions {
       display: flex;
       gap: 0.5rem;
+
+      button {
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        color: white !important;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1) !important;
+          border-color: rgba(255, 255, 255, 0.5) !important;
+        }
+      }
+
+      .p-button-danger {
+        border-color: rgba(239, 68, 68, 0.5) !important;
+        
+        &:hover {
+          background-color: rgba(239, 68, 68, 0.1) !important;
+          border-color: #ef4444 !important;
+        }
+      }
     }
   }
 }
@@ -40,7 +83,7 @@
 
     .stat-icon {
       font-size: 3rem;
-      color: #667eea;
+      color: #003478;
 
       &.success {
         color: #10b981;
@@ -51,7 +94,7 @@
       }
 
       &.info {
-        color: #3b82f6;
+        color: #003478;
       }
     }
 
@@ -102,7 +145,7 @@
       justify-content: center;
       align-items: center;
       padding: 2rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #003478 0%, #002654 100%);
       color: white;
 
       &.admin {
@@ -110,7 +153,7 @@
       }
 
       &.audit {
-        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        background: linear-gradient(135deg, #003478 0%, #0047a0 100%);
       }
 
       i {

@@ -3,8 +3,15 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #003478 0%, #002654 100%);
   padding: 1rem;
+}
+
+.login-logo {
+  height: 80px;
+  width: auto;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 :host ::ng-deep {
@@ -13,8 +20,13 @@
   }
 
   .p-card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #003478 0%, #002654 100%);
     color: white;
+
+    h2 {
+      color: white;
+      margin: 0.5rem 0;
+    }
   }
 
   .field {
@@ -25,5 +37,6 @@
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
+    color: #374151;
   }
 }

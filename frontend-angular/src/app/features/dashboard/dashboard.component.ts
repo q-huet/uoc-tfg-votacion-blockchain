@@ -142,8 +142,17 @@ export class DashboardComponent implements OnInit {
    * Cerrar sesión
    */
   logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/auth/login']);
+    this.authService.logout().subscribe({
+      next: () => {
+        console.log('Sesión cerrada correctamente');
+        this.router.navigate(['/auth/login']);
+      },
+      error: (error) => {
+        console.error('Error al cerrar sesión:', error);
+        // Redirigir al login incluso si hay error (los datos locales ya se limpiaron)
+        this.router.navigate(['/auth/login']);
+      }
+    });
   }
 
   /**

@@ -2,9 +2,12 @@
   <!-- Header -->
   <div class="dashboard-header">
     <div class="header-content">
-      <div>
-        <h1>Bienvenido, {{ currentUser?.fullName || 'Usuario' }}</h1>
-        <p class="text-600">{{ currentUser?.username }} - {{ currentUser?.role }}</p>
+      <div class="header-left">
+        <img src="assets/logo-ford.svg" alt="Ford Logo" class="app-logo" />
+        <div>
+          <h1>Bienvenido, {{ currentUser?.fullName || 'Usuario' }}</h1>
+          <p class="text-600">{{ currentUser?.username }} - {{ currentUser?.role }}</p>
+        </div>
       </div>
       <div class="header-actions">
         <button
