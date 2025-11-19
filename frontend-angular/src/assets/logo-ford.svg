@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200" width="500" height="200">
+  <!-- Fondo ovalado azul Ford -->
+  <ellipse cx="250" cy="100" rx="240" ry="95" fill="#003478"/>
+  
+  <!-- Letras FORD en blanco -->
+  <g fill="#FFFFFF" font-family="Arial, sans-serif" font-weight="bold">
+    <!-- F -->
+    <text x="80" y="130" font-size="90">F</text>
+    
+    <!-- O -->
+    <ellipse cx="200" cy="95" rx="35" ry="45" fill="none" stroke="#FFFFFF" stroke-width="12"/>
+    
+    <!-- R -->
+    <text x="260" y="130" font-size="90">R</text>
+    
+    <!-- D -->
+    <text x="360" y="130" font-size="90">D</text>
+  </g>
+  
+  <!-- Firma cursiva característica -->
+  <path d="M 80 150 Q 250 140, 420 150" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>
