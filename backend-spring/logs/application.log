@@ -81,3 +81,7 @@ This generated password is for development use only. Your security configuration
 2025-11-20 16:15:15.715 [tomcat-handler-6] DEBUG es.tfg.votacion.service.AuthService - JWT token validated successfully for user: juan.perez
 2025-11-20 16:15:15.716 [tomcat-handler-6] DEBUG e.t.v.config.JwtAuthenticationFilter - User 'juan.perez' authenticated successfully with role 'Votante (voter)'
 2025-11-20 16:15:15.744 [tomcat-handler-6] INFO  e.t.v.controller.AuthController - User logged out: juan.perez from IP: 0:0:0:0:0:0:0:1
+2025-11-20 16:22:42.182 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-20 16:22:42.195 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-20 16:22:42.198 [SpringApplicationShutdownHook] INFO  e.t.votacion.service.StorageService - Shutting down Storage Service
+2025-11-20 16:22:42.198 [SpringApplicationShutdownHook] DEBUG e.t.votacion.service.StorageService - Master key cleared from memory
