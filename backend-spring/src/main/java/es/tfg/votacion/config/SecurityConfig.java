@@ -86,7 +86,11 @@ public class SecurityConfig {
                                 "/auth/login",
                                 "/error",
                                 "/actuator/health",
-                                "/actuator/info"
+                                "/actuator/info",
+                                // Swagger/OpenAPI endpoints
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
                         ).permitAll()
 
                         // Endpoints que permiten autenticación opcional
