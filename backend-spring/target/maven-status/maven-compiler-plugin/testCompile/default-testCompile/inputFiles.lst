@@ -1,0 +1,7 @@
+/home/ehuetadr/TFG/VotacionBC/backend-spring/src/test/java/es/tfg/votacion/ApplicationTests.java
+/home/ehuetadr/TFG/VotacionBC/backend-spring/src/test/java/es/tfg/votacion/config/ConfigurationPropertiesTest.java
+/home/ehuetadr/TFG/VotacionBC/backend-spring/src/test/java/es/tfg/votacion/controller/AuthControllerTest.java
+/home/ehuetadr/TFG/VotacionBC/backend-spring/src/test/java/es/tfg/votacion/controller/ElectionControllerTest.java
+/home/ehuetadr/TFG/VotacionBC/backend-spring/src/test/java/es/tfg/votacion/service/AuthServiceTest.java
+/home/ehuetadr/TFG/VotacionBC/backend-spring/src/test/java/es/tfg/votacion/service/FabricServiceTest.java
+/home/ehuetadr/TFG/VotacionBC/backend-spring/src/test/java/es/tfg/votacion/service/StorageServiceTest.java

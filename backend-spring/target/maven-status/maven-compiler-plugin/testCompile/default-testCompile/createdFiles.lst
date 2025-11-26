@@ -1,0 +1,7 @@
+es/tfg/votacion/service/AuthServiceTest.class
+es/tfg/votacion/ApplicationTests.class
+es/tfg/votacion/controller/ElectionControllerTest.class
+es/tfg/votacion/service/FabricServiceTest.class
+es/tfg/votacion/controller/AuthControllerTest.class
+es/tfg/votacion/config/ConfigurationPropertiesTest.class
+es/tfg/votacion/service/StorageServiceTest.class

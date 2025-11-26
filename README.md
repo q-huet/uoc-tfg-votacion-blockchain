@@ -447,7 +447,7 @@ VotacionBC/
 ├── chaincode/                                    # 🚧 Smart contracts (vacío)
 │   └── (estructura pendiente)
 │
-├── fabric-samples/                               # Red Hyperledger Fabric
+├── fabric/                               # Red Hyperledger Fabric (anteriormente fabric-samples)
 │   └── test-network/                             # Red de prueba
 │
 ├── scripts/                                      # Scripts de utilidad

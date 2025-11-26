@@ -1,154 +1,601 @@
-2025-11-20 16:11:32.443 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.5 with PID 4787 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
-2025-11-20 16:11:32.449 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
-2025-11-20 16:11:32.450 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
-2025-11-20 16:11:33.398 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-11-20 16:11:33.409 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-11-20 16:11:33.409 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
-2025-11-20 16:11:33.446 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
-2025-11-20 16:11:33.447 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 953 ms
-2025-11-20 16:11:33.484 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
-2025-11-20 16:11:33.484 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
-2025-11-20 16:11:33.496 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
-2025-11-20 16:11:33.496 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
-2025-11-20 16:11:33.496 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
-2025-11-20 16:11:33.496 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
-2025-11-20 16:11:33.497 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
-2025-11-20 16:11:33.497 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
-2025-11-20 16:11:33.497 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
-2025-11-20 16:11:33.497 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
-2025-11-20 16:11:33.498 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
-2025-11-20 16:11:33.498 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
-2025-11-20 16:11:33.502 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
-2025-11-20 16:11:33.502 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
-2025-11-20 16:11:33.502 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
-2025-11-20 16:11:33.502 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
-2025-11-20 16:11:33.502 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
-2025-11-20 16:11:33.502 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
-2025-11-20 16:11:33.502 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
-2025-11-20 16:11:33.528 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
-2025-11-20 16:11:33.550 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
-2025-11-20 16:11:33.551 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
-2025-11-20 16:11:33.564 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
-2025-11-20 16:11:33.564 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
-2025-11-20 16:11:33.564 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
-2025-11-20 16:11:33.564 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
-2025-11-20 16:11:33.564 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
-2025-11-20 16:11:33.564 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
-2025-11-20 16:11:33.564 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
-2025-11-20 16:11:33.565 [main] WARN  e.tfg.votacion.service.FabricService - Using MOCK Fabric connection for PoC development
-2025-11-20 16:11:33.565 [main] WARN  e.tfg.votacion.service.FabricService - To use real Fabric connection, implement proper Gateway initialization
-2025-11-20 16:11:33.565 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
-2025-11-20 16:11:33.572 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
-2025-11-20 16:11:33.573 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
-2025-11-20 16:11:33.577 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
-2025-11-20 16:11:33.577 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
-2025-11-20 16:11:33.577 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
-2025-11-20 16:11:33.578 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
-2025-11-20 16:11:33.578 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
-2025-11-20 16:11:33.578 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
-2025-11-20 16:11:33.578 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
-2025-11-20 16:11:33.578 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
-2025-11-20 16:11:33.578 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
-2025-11-20 16:11:33.764 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+2025-11-26 00:12:50.430 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 117757 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-26 00:12:50.438 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-26 00:12:50.440 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
+2025-11-26 00:12:51.731 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-26 00:12:51.747 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-26 00:12:51.748 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-26 00:12:51.819 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-11-26 00:12:51.819 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1335 ms
+2025-11-26 00:12:51.874 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
+2025-11-26 00:12:51.874 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:12:51.892 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
+2025-11-26 00:12:51.892 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
+2025-11-26 00:12:51.893 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
+2025-11-26 00:12:51.893 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
+2025-11-26 00:12:51.893 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
+2025-11-26 00:12:51.894 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
+2025-11-26 00:12:51.894 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
+2025-11-26 00:12:51.894 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
+2025-11-26 00:12:51.894 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
+2025-11-26 00:12:51.894 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:12:51.897 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
+2025-11-26 00:12:51.898 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
+2025-11-26 00:12:51.898 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
+2025-11-26 00:12:51.898 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
+2025-11-26 00:12:51.898 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
+2025-11-26 00:12:51.898 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
+2025-11-26 00:12:51.898 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
+2025-11-26 00:12:51.945 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-26 00:12:51.993 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
+2025-11-26 00:12:51.994 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
+2025-11-26 00:12:52.011 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-26 00:12:52.011 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-26 00:12:52.011 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/TFG/VotacionBC/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+2025-11-26 00:12:52.011 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
+2025-11-26 00:12:52.012 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
+2025-11-26 00:12:52.012 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
+2025-11-26 00:12:52.012 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
+2025-11-26 00:12:52.434 [main] WARN  io.grpc.NameResolverRegistry - No NameResolverProviders found via ServiceLoader, including for DNS. This is probably due to a broken build. If using ProGuard, check your configuration
+2025-11-26 00:12:52.443 [main] ERROR e.tfg.votacion.service.FabricService - Failed to initialize Fabric gateway: No functional channel service provider found. Try adding a dependency on the grpc-okhttp, grpc-netty, or grpc-netty-shaded artifact
+2025-11-26 00:12:52.444 [main] ERROR e.tfg.votacion.service.FabricService - Failed to initialize Fabric connection: Failed to connect to Fabric network
+java.lang.RuntimeException: Failed to connect to Fabric network
+	at es.tfg.votacion.service.FabricService.initGateway(FabricService.java:145)
+	at es.tfg.votacion.service.FabricService.initializeConnection(FabricService.java:63)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMethod.invoke(InitDestroyAnnotationBeanPostProcessor.java:457)
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor$LifecycleMetadata.invokeInitMethods(InitDestroyAnnotationBeanPostProcessor.java:401)
+	at org.springframework.beans.factory.annotation.InitDestroyAnnotationBeanPostProcessor.postProcessBeforeInitialization(InitDestroyAnnotationBeanPostProcessor.java:219)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization(AbstractAutowireCapableBeanFactory.java:429)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1818)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1708)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1653)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1228)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1130)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:990)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at es.tfg.votacion.Application.main(Application.java:10)
+Caused by: io.grpc.ManagedChannelRegistry$ProviderNotFoundException: No functional channel service provider found. Try adding a dependency on the grpc-okhttp, grpc-netty, or grpc-netty-shaded artifact
+	at io.grpc.ManagedChannelRegistry.newChannelBuilder(ManagedChannelRegistry.java:179)
+	at io.grpc.ManagedChannelRegistry.newChannelBuilder(ManagedChannelRegistry.java:155)
+	at io.grpc.Grpc.newChannelBuilder(Grpc.java:101)
+	at es.tfg.votacion.service.FabricService.initGateway(FabricService.java:119)
+	... 39 common frames omitted
+2025-11-26 00:12:52.460 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
+2025-11-26 00:12:52.460 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
+2025-11-26 00:12:52.464 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
+2025-11-26 00:12:52.465 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
+2025-11-26 00:12:52.465 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
+2025-11-26 00:12:52.465 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
+2025-11-26 00:12:52.465 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
+2025-11-26 00:12:52.465 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
+2025-11-26 00:12:52.465 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
+2025-11-26 00:12:52.465 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
+2025-11-26 00:12:52.465 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
+2025-11-26 00:12:52.926 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
 
-Using generated security password: 04604e77-1863-4263-bfbf-b72ac0776aba
-
-This generated password is for development use only. Your security configuration must be updated before running your application in production.
-
-2025-11-20 16:11:33.768 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-11-20 16:11:33.807 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
-2025-11-20 16:11:33.808 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
-2025-11-20 16:11:33.825 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
-2025-11-20 16:11:34.011 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
-2025-11-20 16:11:34.016 [main] INFO  es.tfg.votacion.Application - Started Application in 1.968 seconds (process running for 2.23)
-2025-11-20 16:12:51.948 [tomcat-handler-0] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-20 16:12:51.950 [tomcat-handler-0] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-11-20 16:12:51.951 [tomcat-handler-0] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2025-11-20 16:12:52.305 [tomcat-handler-1] INFO  e.t.v.controller.AuthController - Login attempt for user: juan.perez from IP: 0:0:0:0:0:0:0:1
-2025-11-20 16:12:52.305 [tomcat-handler-1] DEBUG es.tfg.votacion.service.AuthService - Attempting to authenticate user: juan.perez
-2025-11-20 16:12:52.408 [tomcat-handler-1] INFO  es.tfg.votacion.service.AuthService - User authenticated successfully: juan.perez (role: Votante (voter))
-2025-11-20 16:12:52.409 [tomcat-handler-1] DEBUG es.tfg.votacion.service.AuthService - Generating JWT token for user: juan.perez
-2025-11-20 16:12:52.574 [tomcat-handler-1] INFO  es.tfg.votacion.service.AuthService - JWT token generated for user: juan.perez (expires: Thu Nov 20 17:12:52 CET 2025)
-2025-11-20 16:12:52.576 [tomcat-handler-1] INFO  e.t.v.controller.AuthController - User authenticated successfully: juan.perez (role: Votante)
-2025-11-20 16:12:52.679 [tomcat-handler-3] DEBUG es.tfg.votacion.service.AuthService - Validating JWT token
-2025-11-20 16:12:52.764 [tomcat-handler-3] DEBUG es.tfg.votacion.service.AuthService - JWT token validated successfully for user: juan.perez
-2025-11-20 16:12:52.767 [tomcat-handler-3] DEBUG e.t.v.config.JwtAuthenticationFilter - User 'juan.perez' authenticated successfully with role 'Votante (voter)'
-2025-11-20 16:12:52.770 [tomcat-handler-3] INFO  e.t.v.controller.ElectionController - Fetching active elections from IP: 0:0:0:0:0:0:0:1
-2025-11-20 16:12:52.770 [tomcat-handler-3] DEBUG es.tfg.votacion.service.AuthService - Validating JWT token
-2025-11-20 16:12:52.772 [tomcat-handler-3] DEBUG es.tfg.votacion.service.AuthService - JWT token validated successfully for user: juan.perez
-2025-11-20 16:12:52.776 [tomcat-handler-3] INFO  e.t.v.controller.ElectionController - Returning 1 active elections
-2025-11-20 16:15:15.678 [tomcat-handler-6] DEBUG es.tfg.votacion.service.AuthService - Validating JWT token
-2025-11-20 16:15:15.715 [tomcat-handler-6] DEBUG es.tfg.votacion.service.AuthService - JWT token validated successfully for user: juan.perez
-2025-11-20 16:15:15.716 [tomcat-handler-6] DEBUG e.t.v.config.JwtAuthenticationFilter - User 'juan.perez' authenticated successfully with role 'Votante (voter)'
-2025-11-20 16:15:15.744 [tomcat-handler-6] INFO  e.t.v.controller.AuthController - User logged out: juan.perez from IP: 0:0:0:0:0:0:0:1
-2025-11-20 16:22:42.182 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2025-11-20 16:22:42.195 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
-2025-11-20 16:22:42.198 [SpringApplicationShutdownHook] INFO  e.t.votacion.service.StorageService - Shutting down Storage Service
-2025-11-20 16:22:42.198 [SpringApplicationShutdownHook] DEBUG e.t.votacion.service.StorageService - Master key cleared from memory
-2025-11-20 16:33:47.380 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.5 with PID 11508 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
-2025-11-20 16:33:47.381 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
-2025-11-20 16:33:47.382 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
-2025-11-20 16:33:48.368 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-11-20 16:33:48.382 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-11-20 16:33:48.382 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
-2025-11-20 16:33:48.427 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
-2025-11-20 16:33:48.428 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1007 ms
-2025-11-20 16:33:48.459 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
-2025-11-20 16:33:48.460 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
-2025-11-20 16:33:48.478 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
-2025-11-20 16:33:48.478 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
-2025-11-20 16:33:48.478 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
-2025-11-20 16:33:48.478 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
-2025-11-20 16:33:48.478 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
-2025-11-20 16:33:48.479 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
-2025-11-20 16:33:48.479 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
-2025-11-20 16:33:48.479 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
-2025-11-20 16:33:48.479 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
-2025-11-20 16:33:48.479 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
-2025-11-20 16:33:48.481 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
-2025-11-20 16:33:48.482 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
-2025-11-20 16:33:48.482 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
-2025-11-20 16:33:48.482 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
-2025-11-20 16:33:48.482 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
-2025-11-20 16:33:48.483 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
-2025-11-20 16:33:48.483 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
-2025-11-20 16:33:48.529 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
-2025-11-20 16:33:48.565 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
-2025-11-20 16:33:48.566 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
-2025-11-20 16:33:48.580 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
-2025-11-20 16:33:48.581 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
-2025-11-20 16:33:48.581 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
-2025-11-20 16:33:48.581 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
-2025-11-20 16:33:48.581 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
-2025-11-20 16:33:48.581 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
-2025-11-20 16:33:48.581 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
-2025-11-20 16:33:48.581 [main] WARN  e.tfg.votacion.service.FabricService - Using MOCK Fabric connection for PoC development
-2025-11-20 16:33:48.581 [main] WARN  e.tfg.votacion.service.FabricService - To use real Fabric connection, implement proper Gateway initialization
-2025-11-20 16:33:48.581 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
-2025-11-20 16:33:48.593 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
-2025-11-20 16:33:48.593 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
-2025-11-20 16:33:48.597 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
-2025-11-20 16:33:48.597 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
-2025-11-20 16:33:48.597 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
-2025-11-20 16:33:48.597 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
-2025-11-20 16:33:48.597 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
-2025-11-20 16:33:48.597 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
-2025-11-20 16:33:48.597 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
-2025-11-20 16:33:48.597 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
-2025-11-20 16:33:48.597 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
-2025-11-20 16:33:48.948 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
-
-Using generated security password: 1519c6eb-b161-4d80-84a7-97fe820ad1d0
+Using generated security password: ee888285-205e-46c3-8d0b-a641423e0fb9
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-2025-11-20 16:33:48.952 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
-2025-11-20 16:33:48.982 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
-2025-11-20 16:33:48.983 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
-2025-11-20 16:33:49.001 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
-2025-11-20 16:33:49.237 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
-2025-11-20 16:33:49.243 [main] INFO  es.tfg.votacion.Application - Started Application in 2.263 seconds (process running for 2.516)
-2025-11-20 16:34:55.890 [tomcat-handler-0] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-11-20 16:34:55.891 [tomcat-handler-0] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-11-20 16:34:55.894 [tomcat-handler-0] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2025-11-20 16:34:56.452 [tomcat-handler-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 242 ms
+2025-11-26 00:12:52.934 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-26 00:12:52.988 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
+2025-11-26 00:12:52.989 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-26 00:12:53.028 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
+2025-11-26 00:12:53.461 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
+2025-11-26 00:12:53.469 [main] INFO  es.tfg.votacion.Application - Started Application in 3.669 seconds (process running for 4.16)
+2025-11-26 00:13:18.966 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-26 00:13:18.994 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-26 00:13:19.003 [SpringApplicationShutdownHook] INFO  e.t.votacion.service.StorageService - Shutting down Storage Service
+2025-11-26 00:13:19.004 [SpringApplicationShutdownHook] DEBUG e.t.votacion.service.StorageService - Master key cleared from memory
+2025-11-26 00:13:28.965 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 118430 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-26 00:13:28.967 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-26 00:13:28.968 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
+2025-11-26 00:13:30.181 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-26 00:13:30.193 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-26 00:13:30.193 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-26 00:13:30.244 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-11-26 00:13:30.245 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1228 ms
+2025-11-26 00:13:30.296 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
+2025-11-26 00:13:30.296 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:13:30.311 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
+2025-11-26 00:13:30.311 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
+2025-11-26 00:13:30.311 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
+2025-11-26 00:13:30.312 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
+2025-11-26 00:13:30.312 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
+2025-11-26 00:13:30.312 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
+2025-11-26 00:13:30.313 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
+2025-11-26 00:13:30.313 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
+2025-11-26 00:13:30.313 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
+2025-11-26 00:13:30.313 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:13:30.316 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
+2025-11-26 00:13:30.316 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
+2025-11-26 00:13:30.316 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
+2025-11-26 00:13:30.316 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
+2025-11-26 00:13:30.316 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
+2025-11-26 00:13:30.316 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
+2025-11-26 00:13:30.317 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
+2025-11-26 00:13:30.352 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-26 00:13:30.386 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
+2025-11-26 00:13:30.387 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
+2025-11-26 00:13:30.403 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-26 00:13:30.404 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-26 00:13:30.404 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/TFG/VotacionBC/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+2025-11-26 00:13:30.404 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
+2025-11-26 00:13:30.404 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
+2025-11-26 00:13:30.404 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
+2025-11-26 00:13:30.404 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
+2025-11-26 00:13:31.137 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Fabric network
+2025-11-26 00:13:31.138 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-26 00:13:31.161 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
+2025-11-26 00:13:31.161 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
+2025-11-26 00:13:31.167 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
+2025-11-26 00:13:31.168 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
+2025-11-26 00:13:31.168 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
+2025-11-26 00:13:31.168 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
+2025-11-26 00:13:31.168 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
+2025-11-26 00:13:31.169 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
+2025-11-26 00:13:31.169 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
+2025-11-26 00:13:31.169 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
+2025-11-26 00:13:31.169 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
+2025-11-26 00:13:31.974 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: f7707486-69f1-4121-9352-475fd30d1020
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-26 00:13:31.989 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-26 00:13:32.085 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
+2025-11-26 00:13:32.088 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-26 00:13:32.135 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
+2025-11-26 00:13:32.663 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
+2025-11-26 00:13:32.673 [main] INFO  es.tfg.votacion.Application - Started Application in 4.266 seconds (process running for 4.582)
+2025-11-26 00:13:35.918 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 118715 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-26 00:13:35.920 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-26 00:13:35.920 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
+2025-11-26 00:13:37.109 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-26 00:13:37.122 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-26 00:13:37.122 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-26 00:13:37.175 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-11-26 00:13:37.175 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1216 ms
+2025-11-26 00:13:37.233 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
+2025-11-26 00:13:37.233 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:13:37.253 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
+2025-11-26 00:13:37.253 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
+2025-11-26 00:13:37.254 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
+2025-11-26 00:13:37.254 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
+2025-11-26 00:13:37.254 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
+2025-11-26 00:13:37.254 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
+2025-11-26 00:13:37.255 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
+2025-11-26 00:13:37.255 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
+2025-11-26 00:13:37.255 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
+2025-11-26 00:13:37.255 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:13:37.258 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
+2025-11-26 00:13:37.258 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
+2025-11-26 00:13:37.258 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
+2025-11-26 00:13:37.258 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
+2025-11-26 00:13:37.258 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
+2025-11-26 00:13:37.258 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
+2025-11-26 00:13:37.259 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
+2025-11-26 00:13:37.301 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-26 00:13:37.345 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
+2025-11-26 00:13:37.348 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
+2025-11-26 00:13:37.368 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-26 00:13:37.368 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-26 00:13:37.368 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/TFG/VotacionBC/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+2025-11-26 00:13:37.368 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
+2025-11-26 00:13:37.368 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
+2025-11-26 00:13:37.368 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
+2025-11-26 00:13:37.369 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
+2025-11-26 00:13:38.113 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Fabric network
+2025-11-26 00:13:38.114 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-26 00:13:38.128 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
+2025-11-26 00:13:38.129 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
+2025-11-26 00:13:38.134 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
+2025-11-26 00:13:38.135 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
+2025-11-26 00:13:38.135 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
+2025-11-26 00:13:38.135 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
+2025-11-26 00:13:38.136 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
+2025-11-26 00:13:38.136 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
+2025-11-26 00:13:38.136 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
+2025-11-26 00:13:38.136 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
+2025-11-26 00:13:38.136 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
+2025-11-26 00:13:38.571 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: e0bd555c-3eac-4a98-baca-bc6ed7df5708
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-26 00:13:38.577 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-26 00:13:38.615 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
+2025-11-26 00:13:38.617 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-26 00:13:38.651 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
+2025-11-26 00:13:39.027 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-11-26 00:13:39.028 [main] INFO  e.t.votacion.service.StorageService - Shutting down Storage Service
+2025-11-26 00:13:39.029 [main] DEBUG e.t.votacion.service.StorageService - Master key cleared from memory
+2025-11-26 00:13:39.029 [main] INFO  e.tfg.votacion.service.FabricService - Closing Fabric Gateway connection
+2025-11-26 00:13:39.047 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-11-26 00:13:39.067 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-11-26 00:14:19.086 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 119451 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-26 00:14:19.088 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-26 00:14:19.088 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
+2025-11-26 00:14:20.136 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-26 00:14:20.147 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-26 00:14:20.148 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-26 00:14:20.194 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-11-26 00:14:20.195 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1069 ms
+2025-11-26 00:14:20.248 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
+2025-11-26 00:14:20.249 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:14:20.266 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
+2025-11-26 00:14:20.267 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
+2025-11-26 00:14:20.267 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
+2025-11-26 00:14:20.267 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
+2025-11-26 00:14:20.268 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
+2025-11-26 00:14:20.268 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
+2025-11-26 00:14:20.268 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
+2025-11-26 00:14:20.268 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
+2025-11-26 00:14:20.268 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
+2025-11-26 00:14:20.269 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:14:20.271 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
+2025-11-26 00:14:20.272 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
+2025-11-26 00:14:20.272 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
+2025-11-26 00:14:20.272 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
+2025-11-26 00:14:20.272 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
+2025-11-26 00:14:20.273 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
+2025-11-26 00:14:20.273 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
+2025-11-26 00:14:20.312 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-26 00:14:20.354 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
+2025-11-26 00:14:20.356 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
+2025-11-26 00:14:20.373 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-26 00:14:20.374 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-26 00:14:20.374 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/TFG/VotacionBC/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+2025-11-26 00:14:20.374 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
+2025-11-26 00:14:20.374 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
+2025-11-26 00:14:20.374 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
+2025-11-26 00:14:20.374 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
+2025-11-26 00:14:21.066 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Fabric network
+2025-11-26 00:14:21.066 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-26 00:14:21.080 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
+2025-11-26 00:14:21.081 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
+2025-11-26 00:14:21.085 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
+2025-11-26 00:14:21.085 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
+2025-11-26 00:14:21.085 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
+2025-11-26 00:14:21.086 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
+2025-11-26 00:14:21.086 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
+2025-11-26 00:14:21.086 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
+2025-11-26 00:14:21.086 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
+2025-11-26 00:14:21.086 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
+2025-11-26 00:14:21.086 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
+2025-11-26 00:14:21.516 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 9e8a2d13-3f06-455e-a2eb-9b387d2d1ff5
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-26 00:14:21.523 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-26 00:14:21.566 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
+2025-11-26 00:14:21.567 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-26 00:14:21.597 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
+2025-11-26 00:14:21.921 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
+2025-11-26 00:14:21.929 [main] INFO  es.tfg.votacion.Application - Started Application in 3.412 seconds (process running for 3.736)
+2025-11-26 00:14:27.798 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 119714 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-26 00:14:27.801 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-26 00:14:27.802 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
+2025-11-26 00:14:29.038 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-26 00:14:29.053 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-26 00:14:29.054 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-26 00:14:29.120 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-11-26 00:14:29.121 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1278 ms
+2025-11-26 00:14:29.176 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
+2025-11-26 00:14:29.176 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:14:29.195 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
+2025-11-26 00:14:29.196 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
+2025-11-26 00:14:29.196 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
+2025-11-26 00:14:29.197 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
+2025-11-26 00:14:29.197 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
+2025-11-26 00:14:29.197 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
+2025-11-26 00:14:29.198 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
+2025-11-26 00:14:29.198 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
+2025-11-26 00:14:29.198 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
+2025-11-26 00:14:29.198 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:14:29.201 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
+2025-11-26 00:14:29.201 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
+2025-11-26 00:14:29.201 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
+2025-11-26 00:14:29.201 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
+2025-11-26 00:14:29.201 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
+2025-11-26 00:14:29.202 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
+2025-11-26 00:14:29.202 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
+2025-11-26 00:14:29.246 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-26 00:14:29.296 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
+2025-11-26 00:14:29.297 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
+2025-11-26 00:14:29.318 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-26 00:14:29.318 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-26 00:14:29.318 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/TFG/VotacionBC/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+2025-11-26 00:14:29.318 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
+2025-11-26 00:14:29.319 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
+2025-11-26 00:14:29.319 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
+2025-11-26 00:14:29.319 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
+2025-11-26 00:14:30.121 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Fabric network
+2025-11-26 00:14:30.122 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-26 00:14:30.138 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
+2025-11-26 00:14:30.138 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
+2025-11-26 00:14:30.145 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
+2025-11-26 00:14:30.146 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
+2025-11-26 00:14:30.146 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
+2025-11-26 00:14:30.146 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
+2025-11-26 00:14:30.146 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
+2025-11-26 00:14:30.146 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
+2025-11-26 00:14:30.146 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
+2025-11-26 00:14:30.146 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
+2025-11-26 00:14:30.146 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
+2025-11-26 00:14:30.789 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: b7973c93-46f5-43f7-9d49-9370d2c52db6
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-26 00:14:30.825 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-26 00:14:31.018 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
+2025-11-26 00:14:31.020 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-26 00:14:31.128 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
+2025-11-26 00:14:31.735 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2025-11-26 00:14:31.737 [main] INFO  e.t.votacion.service.StorageService - Shutting down Storage Service
+2025-11-26 00:14:31.739 [main] DEBUG e.t.votacion.service.StorageService - Master key cleared from memory
+2025-11-26 00:14:31.739 [main] INFO  e.tfg.votacion.service.FabricService - Closing Fabric Gateway connection
+2025-11-26 00:14:31.762 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-11-26 00:14:31.792 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2025-11-26 00:15:13.830 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 120461 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-26 00:15:13.832 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-26 00:15:13.832 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
+2025-11-26 00:15:14.942 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-26 00:15:14.954 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-26 00:15:14.954 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-26 00:15:15.003 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-11-26 00:15:15.003 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1130 ms
+2025-11-26 00:15:15.049 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
+2025-11-26 00:15:15.050 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:15:15.066 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
+2025-11-26 00:15:15.067 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
+2025-11-26 00:15:15.067 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
+2025-11-26 00:15:15.069 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
+2025-11-26 00:15:15.069 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
+2025-11-26 00:15:15.069 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
+2025-11-26 00:15:15.070 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
+2025-11-26 00:15:15.070 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
+2025-11-26 00:15:15.070 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
+2025-11-26 00:15:15.070 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:15:15.073 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
+2025-11-26 00:15:15.073 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
+2025-11-26 00:15:15.074 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
+2025-11-26 00:15:15.074 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
+2025-11-26 00:15:15.074 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
+2025-11-26 00:15:15.074 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
+2025-11-26 00:15:15.074 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
+2025-11-26 00:15:15.111 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-26 00:15:15.148 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
+2025-11-26 00:15:15.149 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
+2025-11-26 00:15:15.166 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-26 00:15:15.166 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-26 00:15:15.166 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/TFG/VotacionBC/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+2025-11-26 00:15:15.167 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
+2025-11-26 00:15:15.167 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
+2025-11-26 00:15:15.167 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
+2025-11-26 00:15:15.167 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
+2025-11-26 00:15:16.059 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Fabric network
+2025-11-26 00:15:16.059 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-26 00:15:16.078 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
+2025-11-26 00:15:16.078 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
+2025-11-26 00:15:16.083 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
+2025-11-26 00:15:16.083 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
+2025-11-26 00:15:16.083 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
+2025-11-26 00:15:16.084 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
+2025-11-26 00:15:16.084 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
+2025-11-26 00:15:16.084 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
+2025-11-26 00:15:16.084 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
+2025-11-26 00:15:16.084 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
+2025-11-26 00:15:16.084 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
+2025-11-26 00:15:16.488 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: a6879350-d3d7-4d5d-9cb1-438b61c6b03d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-26 00:15:16.495 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-26 00:15:16.544 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
+2025-11-26 00:15:16.546 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-26 00:15:16.575 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
+2025-11-26 00:15:16.963 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
+2025-11-26 00:15:16.972 [main] INFO  es.tfg.votacion.Application - Started Application in 3.864 seconds (process running for 4.173)
+2025-11-26 00:17:25.673 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-26 00:17:25.677 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-26 00:17:25.679 [SpringApplicationShutdownHook] INFO  e.t.votacion.service.StorageService - Shutting down Storage Service
+2025-11-26 00:17:25.680 [SpringApplicationShutdownHook] DEBUG e.t.votacion.service.StorageService - Master key cleared from memory
+2025-11-26 00:17:25.680 [SpringApplicationShutdownHook] INFO  e.tfg.votacion.service.FabricService - Closing Fabric Gateway connection
+2025-11-26 00:42:15.378 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 132819 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-26 00:42:15.380 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-26 00:42:15.380 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
+2025-11-26 00:42:17.333 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-26 00:42:17.349 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-26 00:42:17.349 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-26 00:42:17.410 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-11-26 00:42:17.410 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1977 ms
+2025-11-26 00:42:17.467 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
+2025-11-26 00:42:17.468 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:42:17.490 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
+2025-11-26 00:42:17.492 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
+2025-11-26 00:42:17.492 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
+2025-11-26 00:42:17.492 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
+2025-11-26 00:42:17.493 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
+2025-11-26 00:42:17.493 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
+2025-11-26 00:42:17.494 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
+2025-11-26 00:42:17.494 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
+2025-11-26 00:42:17.494 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
+2025-11-26 00:42:17.494 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 00:42:17.497 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
+2025-11-26 00:42:17.497 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
+2025-11-26 00:42:17.497 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
+2025-11-26 00:42:17.497 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
+2025-11-26 00:42:17.498 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
+2025-11-26 00:42:17.498 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
+2025-11-26 00:42:17.498 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
+2025-11-26 00:42:17.546 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-26 00:42:17.592 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
+2025-11-26 00:42:17.594 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
+2025-11-26 00:42:17.613 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-26 00:42:17.614 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-26 00:42:17.614 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/TFG/VotacionBC/fabric/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+2025-11-26 00:42:17.614 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
+2025-11-26 00:42:17.614 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
+2025-11-26 00:42:17.614 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
+2025-11-26 00:42:17.614 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
+2025-11-26 00:42:18.457 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Fabric network
+2025-11-26 00:42:18.458 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-26 00:42:18.477 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
+2025-11-26 00:42:18.477 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
+2025-11-26 00:42:18.485 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
+2025-11-26 00:42:18.485 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
+2025-11-26 00:42:18.485 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
+2025-11-26 00:42:18.485 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
+2025-11-26 00:42:18.486 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
+2025-11-26 00:42:18.486 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
+2025-11-26 00:42:18.486 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
+2025-11-26 00:42:18.486 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
+2025-11-26 00:42:18.486 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
+2025-11-26 00:42:19.061 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 962d28d2-101f-4a8a-99ea-6e8e77902840
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-26 00:42:19.071 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-26 00:42:19.123 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
+2025-11-26 00:42:19.125 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-26 00:42:19.162 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
+2025-11-26 00:42:19.566 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
+2025-11-26 00:42:19.577 [main] INFO  es.tfg.votacion.Application - Started Application in 4.91 seconds (process running for 5.403)
+2025-11-26 01:12:35.605 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-26 01:12:35.620 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-26 01:12:35.625 [SpringApplicationShutdownHook] INFO  e.t.votacion.service.StorageService - Shutting down Storage Service
+2025-11-26 01:12:35.625 [SpringApplicationShutdownHook] DEBUG e.t.votacion.service.StorageService - Master key cleared from memory
+2025-11-26 01:12:35.626 [SpringApplicationShutdownHook] INFO  e.tfg.votacion.service.FabricService - Closing Fabric Gateway connection
+2025-11-26 01:38:16.695 [main] INFO  es.tfg.votacion.Application - Starting Application using Java 21.0.8 with PID 162662 (/home/ehuetadr/TFG/VotacionBC/backend-spring/target/classes started by ehuetadr in /home/ehuetadr/TFG/VotacionBC/backend-spring)
+2025-11-26 01:38:16.706 [main] DEBUG es.tfg.votacion.Application - Running with Spring Boot v3.5.7, Spring v6.2.12
+2025-11-26 01:38:16.708 [main] INFO  es.tfg.votacion.Application - No active profile set, falling back to 1 default profile: "default"
+2025-11-26 01:38:20.543 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-11-26 01:38:20.599 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-26 01:38:20.600 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-26 01:38:20.744 [main] INFO  o.a.c.c.C.[.[localhost].[/api/v1] - Initializing Spring embedded WebApplicationContext
+2025-11-26 01:38:20.744 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3879 ms
+2025-11-26 01:38:20.835 [main] INFO  es.tfg.votacion.service.AuthService - Initializing Authentication Service (Mock Mode)
+2025-11-26 01:38:20.835 [main] DEBUG es.tfg.votacion.service.AuthService - Loading mock users from: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 01:38:20.878 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: juan.perez (role: Votante (voter), active: true)
+2025-11-26 01:38:20.879 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: maria.gonzalez (role: Votante (voter), active: true)
+2025-11-26 01:38:20.879 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: admin (role: Administrador (admin), active: true)
+2025-11-26 01:38:20.880 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: auditor (role: Auditor (auditor), active: true)
+2025-11-26 01:38:20.880 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: carlos.martin (role: Votante (voter), active: true)
+2025-11-26 01:38:20.880 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: ana.rodriguez (role: Votante (voter), active: true)
+2025-11-26 01:38:20.881 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: pedro.lopez (role: Administrador (admin), active: true)
+2025-11-26 01:38:20.881 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: lucia.garcia (role: Votante (voter), active: false)
+2025-11-26 01:38:20.885 [main] DEBUG es.tfg.votacion.service.AuthService - Loaded user: test.user (role: Votante (voter), active: true)
+2025-11-26 01:38:20.885 [main] INFO  es.tfg.votacion.service.AuthService - Loaded 9 mock users from /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json
+2025-11-26 01:38:20.905 [main] DEBUG es.tfg.votacion.service.AuthService - JWT signing key initialized with HS256 algorithm
+2025-11-26 01:38:20.906 [main] INFO  es.tfg.votacion.service.AuthService - JWT signing key initialized successfully
+2025-11-26 01:38:20.906 [main] DEBUG es.tfg.votacion.service.AuthService - JWT issuer: votacion-blockchain-poc
+2025-11-26 01:38:20.906 [main] DEBUG es.tfg.votacion.service.AuthService - JWT audience: voting-system
+2025-11-26 01:38:20.906 [main] DEBUG es.tfg.votacion.service.AuthService - JWT expiration: 3600 seconds
+2025-11-26 01:38:20.906 [main] DEBUG es.tfg.votacion.service.AuthService - Allowed roles: [voter, admin, auditor]
+2025-11-26 01:38:20.906 [main] WARN  es.tfg.votacion.service.AuthService - Running in MOCK authentication mode - not suitable for production!
+2025-11-26 01:38:21.008 [main] DEBUG e.t.v.config.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-11-26 01:38:21.165 [main] INFO  e.t.votacion.service.ElectionService - Initializing ElectionService with mock elections
+2025-11-26 01:38:21.166 [main] INFO  e.t.votacion.service.ElectionService - Created 3 mock elections
+2025-11-26 01:38:21.206 [main] INFO  e.tfg.votacion.service.FabricService - Initializing Hyperledger Fabric Gateway connection
+2025-11-26 01:38:21.206 [main] INFO  e.tfg.votacion.service.FabricService - Attempting to connect to Fabric network...
+2025-11-26 01:38:21.207 [main] DEBUG e.tfg.votacion.service.FabricService - Connection profile: /home/ehuetadr/TFG/VotacionBC/fabric/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json
+2025-11-26 01:38:21.207 [main] DEBUG e.tfg.votacion.service.FabricService - Wallet path: /home/ehuetadr/TFG/VotacionBC/backend-spring/wallet
+2025-11-26 01:38:21.207 [main] DEBUG e.tfg.votacion.service.FabricService - User: appUser
+2025-11-26 01:38:21.207 [main] DEBUG e.tfg.votacion.service.FabricService - Channel: electionchannel
+2025-11-26 01:38:21.207 [main] DEBUG e.tfg.votacion.service.FabricService - Chaincode: electioncc
+2025-11-26 01:38:23.425 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Fabric network
+2025-11-26 01:38:23.425 [main] INFO  e.tfg.votacion.service.FabricService - Successfully connected to Hyperledger Fabric network
+2025-11-26 01:38:23.471 [main] INFO  e.t.votacion.service.StorageService - Initializing Storage Service with AES-GCM encryption
+2025-11-26 01:38:23.480 [main] DEBUG e.t.votacion.service.StorageService - Loading encryption key from keystore: /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json
+2025-11-26 01:38:23.487 [main] DEBUG e.t.votacion.service.StorageService - Keystore loaded - algorithm: AES/GCM/NoPadding, key length: 256 bits
+2025-11-26 01:38:23.488 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded and validated successfully
+2025-11-26 01:38:23.488 [main] INFO  e.t.votacion.service.StorageService - Encryption key loaded successfully from keystore
+2025-11-26 01:38:23.489 [main] INFO  e.t.votacion.service.StorageService - Storage directory initialized: /home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage
+2025-11-26 01:38:23.490 [main] DEBUG e.t.votacion.service.StorageService - Encryption algorithm: AES/GCM/NoPadding
+2025-11-26 01:38:23.499 [main] DEBUG e.t.votacion.service.StorageService - Key length: 256 bits
+2025-11-26 01:38:23.499 [main] DEBUG e.t.votacion.service.StorageService - IV length: 12 bytes
+2025-11-26 01:38:23.499 [main] DEBUG e.t.votacion.service.StorageService - Tag length: 128 bits
+2025-11-26 01:38:23.499 [main] INFO  e.t.votacion.service.StorageService - Automatic cleanup enabled - retention: 30 days
+2025-11-26 01:38:24.761 [main] WARN  o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: a342f0d0-bf96-47b6-be44-b6e0bf7220b4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-11-26 01:38:24.786 [main] INFO  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-11-26 01:38:24.929 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring Spring Security with JWT authentication
+2025-11-26 01:38:24.959 [main] INFO  e.tfg.votacion.config.SecurityConfig - Configuring CORS for development environment
+2025-11-26 01:38:25.034 [main] INFO  e.tfg.votacion.config.SecurityConfig - Spring Security configured successfully
+2025-11-26 01:38:26.068 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/api/v1'
+2025-11-26 01:38:26.091 [main] INFO  es.tfg.votacion.Application - Started Application in 11.094 seconds (process running for 12.29)
+2025-11-26 01:40:34.217 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-26 01:40:34.224 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-26 01:40:34.227 [SpringApplicationShutdownHook] INFO  e.t.votacion.service.StorageService - Shutting down Storage Service
+2025-11-26 01:40:34.227 [SpringApplicationShutdownHook] DEBUG e.t.votacion.service.StorageService - Master key cleared from memory
+2025-11-26 01:40:34.228 [SpringApplicationShutdownHook] INFO  e.tfg.votacion.service.FabricService - Closing Fabric Gateway connection

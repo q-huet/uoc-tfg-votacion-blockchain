@@ -43,7 +43,7 @@ spring:
 # Configuración de Hyperledger Fabric
 fabric:
   # Ruta al perfil de conexión de la organización
-  connection-profile: "/home/ehuetadr/fabric/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
+  connection-profile: "/home/ehuetadr/TFG/VotacionBC/fabric/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
 
   # Ruta del wallet donde se almacenan las identidades
   wallet-path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/wallet"
