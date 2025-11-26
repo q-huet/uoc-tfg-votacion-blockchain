@@ -375,3 +375,12 @@ if [[ "${_arg_comp[@]}" =~ (^| |,)d(ocker)? ]]; then
         CONTAINER_CLI=docker
         pullImages
 fi
+
+# Rename fabric-samples to fabric to match project structure
+if [ -d "fabric-samples" ]; then
+    echo
+    echo "Renaming fabric-samples to fabric..."
+    mv fabric-samples fabric
+    echo "Done."
+fi
+

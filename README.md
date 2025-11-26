@@ -220,18 +220,19 @@ cd backend-spring
 ### 3. Configurar Hyperledger Fabric
 
 ```bash
-cd fabric-samples
-
-# Descargar binarios de Fabric
-curl -sSL https://bit.ly/2ysbOFE | bash -s -- 2.5.0 1.5.5
+# Instalar binarios y docker images de Fabric (esto creará la carpeta 'fabric')
+chmod +x install-fabric.sh
+./install-fabric.sh
 
 # Iniciar red de prueba
-cd test-network
-./network.sh up createChannel -c electionchannel -ca
-
-# Desplegar chaincode (cuando esté disponible)
-./network.sh deployCC -ccn electioncc -ccp ../chaincode -ccl javascript
+cd scripts
+./start-network.sh
 ```
+
+El script `start-network.sh` se encargará de:
+1. Iniciar la red con CouchDB
+2. Crear el canal `electionchannel`
+3. Desplegar el chaincode Java `electioncc`
 
 ### 4. Configurar Frontend (Opcional)
 
