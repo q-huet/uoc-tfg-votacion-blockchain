@@ -24,10 +24,6 @@
       "password": "explorer-admin-pw"
     }
   },
-  "adminCredential": {
-    "id": "explorer-admin",
-    "password": "explorer-admin-pw"
-  },
   "organizations": [
     {
       "mspid": "Org1MSP",

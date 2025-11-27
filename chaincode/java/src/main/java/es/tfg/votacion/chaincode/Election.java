@@ -1,4 +1,4 @@
-package es.tfg.votacion.chaincode;
+package main.java.es.tfg.votacion.chaincode;
 
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.DataType;
