@@ -23,3 +23,9 @@ chaincode/java/lib/
 .vscode/
 *.iml
 .DS_Store
+
+# Java / Maven
+target/
+*.jar
+*.war
+*.ear
