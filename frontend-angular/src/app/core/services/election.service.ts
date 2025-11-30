@@ -59,6 +59,26 @@ export class ElectionService {
   }
 
   /**
+   * Obtener todas las elecciones (solo ADMIN)
+   * GET /api/v1/elections/all
+   *
+   * @returns Observable con lista de todas las elecciones
+   */
+  getAllElections(): Observable<ElectionSummary[]> {
+    this.loadingSubject.next(true);
+    const url = `${this.baseUrl}/all`;
+
+    return this.http.get<any[]>(url).pipe(
+      map(response => this.mapToElectionSummaries(response)),
+      tap(() => this.loadingSubject.next(false)),
+      catchError(error => {
+        this.loadingSubject.next(false);
+        return this.handleError(error);
+      })
+    );
+  }
+
+  /**
    * Obtener detalle de una elección específica
    * GET /api/v1/elections/{id}
    *
@@ -174,8 +194,11 @@ export class ElectionService {
     const startTime = new Date(election.startTime);
     const endTime = new Date(election.endTime);
 
-    return election.status === 'ACTIVE' &&
-           now >= startTime &&
+    // Allow voting 5 minutes before start time to account for clock skew
+    const adjustedNow = new Date(now.getTime() + 5 * 60000);
+
+    return election.status === 'active' &&
+           adjustedNow >= startTime &&
            now <= endTime;
   }
 
@@ -233,7 +256,8 @@ export class ElectionService {
       totalVotes: response.totalVotes || 0,
       maxVotesPerUser: response.maxVotesPerUser || 1,
       allowVoteModification: response.allowVoteModification || false,
-      requireAuditTrail: response.requireAuditTrail || true
+      requireAuditTrail: response.requireAuditTrail || true,
+      hasVoted: response.hasVoted
     };
   }
 

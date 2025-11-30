@@ -40,8 +40,8 @@ public record ElectionResponse(
     }
     
     public record OptionInfo(
-        String id,
-        String label,
+        String optionId,
+        String title,
         String description
     ) {}
 }

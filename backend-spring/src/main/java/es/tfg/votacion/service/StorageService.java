@@ -187,6 +187,39 @@ public class StorageService {
     }
 
     /**
+     * Lista todos los blobs cifrados de una elección
+     * 
+     * @param electionId ID de la elección
+     * @return Lista de IDs de blobs encontrados
+     */
+    public java.util.List<String> listElectionBlobs(String electionId) {
+        if (electionId == null || electionId.isBlank()) {
+            return java.util.Collections.emptyList();
+        }
+        
+        try {
+            Path electionDir = storageBasePath.resolve(sanitizeElectionId(electionId));
+            if (!Files.exists(electionDir)) {
+                return java.util.Collections.emptyList();
+            }
+            
+            try (Stream<Path> paths = Files.list(electionDir)) {
+                return paths
+                    .filter(Files::isRegularFile)
+                    .filter(p -> p.getFileName().toString().endsWith(".enc"))
+                    .map(p -> {
+                        String fileName = p.getFileName().toString();
+                        return fileName.substring(0, fileName.length() - 4); // Remove .enc
+                    })
+                    .collect(java.util.stream.Collectors.toList());
+            }
+        } catch (IOException e) {
+            logger.error("Error listing blobs for election {}: {}", electionId, e.getMessage());
+            return java.util.Collections.emptyList();
+        }
+    }
+
+    /**
      * Elimina un blob del almacenamiento
      * 
      * @param blobId ID del blob a eliminar

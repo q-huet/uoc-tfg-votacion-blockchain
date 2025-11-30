@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit {
    * Calcular estadísticas del dashboard
    */
   private calculateStats(elections: ElectionSummary[]): void {
-    this.stats.totalActive = elections.filter(e => e.status === 'ACTIVE').length;
+    this.stats.totalActive = elections.filter(e => e.status === 'active').length;
     this.stats.voted = elections.filter(e => e.hasVoted).length;
     this.stats.pending = elections.filter(e => !e.hasVoted && e.canVote).length;
     this.stats.receipts = this.voteService.getAllReceipts().length;

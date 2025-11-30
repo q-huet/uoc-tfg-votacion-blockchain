@@ -1,5 +1,9 @@
 package es.tfg.votacion.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import es.tfg.votacion.model.Election;
 import es.tfg.votacion.model.ElectionOption;
 import es.tfg.votacion.model.ElectionStatus;
@@ -8,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,31 +21,102 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Servicio mock para gestión de elecciones
  * 
- * Implementa almacenamiento en memoria para desarrollo y testing.
- * En producción, esto se reemplazaría con una base de datos.
+ * Implementa almacenamiento en memoria con persistencia en archivo JSON para desarrollo.
  * 
  * @author Enrique Huet Adrover
- * @version 1.0
+ * @version 1.1
  */
 @Service
 public class ElectionService {
 
     private static final Logger logger = LoggerFactory.getLogger(ElectionService.class);
+    private static final String DATA_FILE = "data/elections-db.json";
     
     private final Map<String, Election> elections = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> userVotes = new ConcurrentHashMap<>(); // electionId -> Set<userId>
     private final Map<String, Map<String, Integer>> voteResults = new ConcurrentHashMap<>(); // electionId -> optionId -> count
+    
+    @org.springframework.beans.factory.annotation.Autowired
+    private StorageService storageService;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private FabricService fabricService;
+
+    private final ObjectMapper objectMapper;
+
+    public ElectionService() {
+        this.objectMapper = new ObjectMapper();
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        this.objectMapper.configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 
     @PostConstruct
     public void init() {
-        logger.info("Initializing ElectionService with mock elections");
+        logger.info("Initializing ElectionService");
+        loadData();
+    }
+
+    private void loadData() {
+        File file = new File(DATA_FILE);
+        if (file.exists()) {
+            try {
+                PersistedData data = objectMapper.readValue(file, PersistedData.class);
+                
+                if (data.elections != null) {
+                    elections.putAll(data.elections);
+                }
+                if (data.userVotes != null) {
+                    userVotes.putAll(data.userVotes);
+                }
+                if (data.voteResults != null) {
+                    voteResults.putAll(data.voteResults);
+                }
+                logger.info("Loaded {} elections from disk", elections.size());
+                return;
+            } catch (IOException e) {
+                logger.error("Error loading data from disk", e);
+            }
+        }
+        
+        logger.info("No existing data found, creating mock elections");
         createMockElections();
+        saveData();
+    }
+
+    private void saveData() {
+        try {
+            File file = new File(DATA_FILE);
+            File parent = file.getParentFile();
+            if (!parent.exists() && !parent.mkdirs()) {
+                logger.error("Could not create data directory");
+                return;
+            }
+            
+            PersistedData data = new PersistedData();
+            data.elections = new HashMap<>(elections);
+            data.userVotes = new HashMap<>(userVotes);
+            data.voteResults = new HashMap<>(voteResults);
+            
+            objectMapper.writeValue(file, data);
+            logger.info("Data saved to disk");
+        } catch (IOException e) {
+            logger.error("Error saving data to disk", e);
+        }
+    }
+
+    private static class PersistedData {
+        public Map<String, Election> elections;
+        public Map<String, Set<String>> userVotes;
+        public Map<String, Map<String, Integer>> voteResults;
     }
 
     /**
      * Crea elecciones mock para testing
      */
     private void createMockElections() {
+        logger.info("Mock elections creation disabled.");
+        /*
         // Elección 1: Activa
         Election election1 = new Election(
             "election-001",
@@ -114,6 +191,7 @@ public class ElectionService {
         voteResults.put(election2.id(), results2);
         
         logger.info("Created {} mock elections", elections.size());
+        */
     }
 
     /**
@@ -124,11 +202,13 @@ public class ElectionService {
     }
 
     /**
-     * Obtiene solo elecciones activas
+     * Obtiene elecciones públicas (Activas, Cerradas, Completadas)
      */
     public List<Election> getActiveElections() {
         return elections.values().stream()
-            .filter(e -> e.status() == ElectionStatus.ACTIVE)
+            .filter(e -> e.status() == ElectionStatus.ACTIVE || 
+                         e.status() == ElectionStatus.CLOSED || 
+                         e.status() == ElectionStatus.COMPLETED)
             .toList();
     }
 
@@ -168,6 +248,7 @@ public class ElectionService {
         
         logger.info("Vote registered: electionId={}, userId={}, optionId={}", 
             electionId, userId, optionId);
+        saveData();
     }
 
     /**
@@ -191,6 +272,19 @@ public class ElectionService {
     public Election createElection(Election election) {
         elections.put(election.id(), election);
         logger.info("Election created: {}", election.id());
+        
+        // Create on Blockchain
+        try {
+            if (fabricService != null) {
+                fabricService.createElection(election.id());
+                logger.info("Election created on blockchain: {}", election.id());
+            }
+        } catch (Exception e) {
+            logger.error("Failed to create election on blockchain: {}", e.getMessage());
+            // We might want to rollback or mark as failed, but for PoC we continue
+        }
+        
+        saveData();
         return election;
     }
 
@@ -206,13 +300,71 @@ public class ElectionService {
         Election updated = election.withStatus(newStatus);
         elections.put(electionId, updated);
         logger.info("Election status updated: {} -> {}", electionId, newStatus);
+        saveData();
         return updated;
     }
 
     /**
-     * Cierra una elección
+     * Cierra una elección y realiza el recuento de votos
      */
     public Election closeElection(String electionId) {
+        logger.info("Closing election process started: {}", electionId);
+
+        // 1. Close on Blockchain
+        try {
+            if (fabricService != null) {
+                fabricService.closeElection(electionId);
+                logger.info("Election closed on blockchain: {}", electionId);
+            }
+        } catch (Exception e) {
+            logger.error("Failed to close election on blockchain: {}", e.getMessage());
+            // Continue to close locally
+        }
+
+        // 2. Perform Recount (Decryption)
+        if (storageService != null) {
+            logger.info("Starting vote recount (decryption) for election: {}", electionId);
+            Map<String, Integer> recountedResults = new HashMap<>();
+            List<String> blobs = storageService.listElectionBlobs(electionId);
+            
+            int decryptedCount = 0;
+            for (String blobId : blobs) {
+                try {
+                    byte[] decrypted = storageService.loadDecrypted(blobId);
+                    com.fasterxml.jackson.databind.JsonNode voteNode = objectMapper.readTree(decrypted);
+                    
+                    if (voteNode.has("optionId")) {
+                        String optionId = voteNode.get("optionId").asText();
+                        recountedResults.merge(optionId, 1, Integer::sum);
+                        decryptedCount++;
+                    }
+                } catch (Exception e) {
+                    logger.error("Failed to decrypt/count vote blob {}: {}", blobId, e.getMessage());
+                }
+            }
+            
+            logger.info("Recount finished. Decrypted {} votes.", decryptedCount);
+            
+            // Log discrepancy if any
+            Map<String, Integer> currentResults = voteResults.getOrDefault(electionId, new HashMap<>());
+            if (!currentResults.equals(recountedResults)) {
+                logger.warn("DISCREPANCY DETECTED! Incremental count: {}, Decrypted count: {}", currentResults, recountedResults);
+            } else {
+                logger.info("Integrity check passed: Incremental count matches decrypted count.");
+            }
+
+            // 3. Update Results with Recounted values (Source of Truth)
+            voteResults.put(electionId, recountedResults);
+            
+            // Update total votes based on recount
+            int totalRecountedVotes = recountedResults.values().stream().mapToInt(Integer::intValue).sum();
+            Election election = elections.get(electionId);
+            if (election != null) {
+                Election updated = election.withTotalVotes(totalRecountedVotes);
+                elections.put(electionId, updated);
+            }
+        }
+
         return updateElectionStatus(electionId, ElectionStatus.CLOSED);
     }
 }

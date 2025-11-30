@@ -4,6 +4,7 @@ es/tfg/votacion/model/User.class
 es/tfg/votacion/config/ElectionProperties$Default.class
 es/tfg/votacion/dto/VoteSubmissionResponse.class
 es/tfg/votacion/config/JwtAccessDeniedHandler.class
+es/tfg/votacion/service/ElectionService$PersistedData.class
 es/tfg/votacion/dto/ElectionResponse.class
 es/tfg/votacion/service/StorageService.class
 es/tfg/votacion/config/StorageProperties$Encryption.class
@@ -41,6 +42,7 @@ es/tfg/votacion/dto/VoteSubmissionRequest.class
 es/tfg/votacion/config/ElectionProperties$Validation.class
 es/tfg/votacion/config/FabricProperties$Retry.class
 es/tfg/votacion/config/JwtAuthenticationFilter.class
+es/tfg/votacion/model/CreateElectionRequest.class
 es/tfg/votacion/model/Receipt.class
 es/tfg/votacion/dto/LoginResponse.class
 es/tfg/votacion/service/FabricService.class

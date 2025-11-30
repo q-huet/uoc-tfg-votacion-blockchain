@@ -52,8 +52,9 @@ export class VoteService {
     const url = `${this.baseUrl}/${electionId}/vote`;
 
     const request: VoteSubmissionRequest = {
+      electionId,
       optionId,
-      voterComments: comment
+      comment
     };
 
     return this.http.post<any>(url, request).pipe(
@@ -151,7 +152,9 @@ export class VoteService {
    */
   clearAllReceipts(): void {
     this.voteReceiptsSubject.next(new Map());
-    localStorage.removeItem('vote_receipts');
+    // Do not remove from localStorage to persist receipts across sessions for the same browser
+    // But we should probably key them by user. For now, let's just clear memory state on logout
+    // and let the backend be the source of truth for "hasVoted".
   }
 
   /**

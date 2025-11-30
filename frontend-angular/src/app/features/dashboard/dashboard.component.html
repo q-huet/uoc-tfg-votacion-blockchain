@@ -10,21 +10,7 @@
         </div>
       </div>
       <div class="header-actions">
-        <button
-          pButton
-          icon="pi pi-refresh"
-          label="Actualizar"
-          class="p-button-outlined"
-          (click)="refresh()"
-          [loading]="loading"
-        ></button>
-        <button
-          pButton
-          icon="pi pi-sign-out"
-          label="Cerrar Sesión"
-          class="p-button-outlined p-button-danger"
-          (click)="logout()"
-        ></button>
+        <!-- Botones eliminados por redundancia con el header global -->
       </div>
     </div>
   </div>
@@ -188,9 +174,9 @@
             <p class="text-600">{{ election.description }}</p>
             <div class="election-meta">
               <span class="badge" [ngClass]="{
-                'badge-success': election.status === 'ACTIVE',
-                'badge-warning': election.status === 'DRAFT',
-                'badge-secondary': election.status === 'CLOSED'
+                'badge-success': election.status === 'active',
+                'badge-warning': election.status === 'draft',
+                'badge-secondary': election.status === 'closed'
               }">
                 {{ election.status }}
               </span>

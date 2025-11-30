@@ -69,6 +69,11 @@ export class AuthService {
 
     return this.http.post<LoginResponse>(url, loginRequest).pipe(
       tap(response => {
+        // Normalizar rol a mayúsculas
+        if (response.user && response.user.role) {
+          response.user.role = response.user.role.toUpperCase();
+        }
+
         // Guardar token y usuario
         this.saveToken(response.token);
         this.saveUser(response.user);
@@ -93,6 +98,12 @@ export class AuthService {
   logout(): Observable<LogoutResponse> {
     const url = `${this.API_URL}${environment.endpoints.auth.logout}`;
     const token = this.getToken();
+
+    // Inject VoteService to clear receipts
+    // Note: Circular dependency might be an issue if injected in constructor.
+    // Better to handle this in the component or use a state management solution.
+    // For this fix, we will rely on the fact that we are clearing localStorage 'currentUser'
+    // and the app will reload/redirect.
 
     if (!token) {
       // Si no hay token, solo limpiar localmente
@@ -170,6 +181,10 @@ export class AuthService {
 
     return this.http.get<UserInfo>(url, { headers }).pipe(
       tap(user => {
+        // Normalizar rol a mayúsculas
+        if (user && user.role) {
+          user.role = user.role.toUpperCase();
+        }
         this.saveUser(user);
         this.currentUserSubject.next(user);
       }),

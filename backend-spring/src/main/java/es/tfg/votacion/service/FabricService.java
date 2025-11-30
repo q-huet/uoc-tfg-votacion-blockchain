@@ -4,6 +4,7 @@ import es.tfg.votacion.config.FabricProperties;
 import es.tfg.votacion.model.ElectionStatus;
 import org.hyperledger.fabric.client.*;
 import org.hyperledger.fabric.client.identity.*;
+import org.hyperledger.fabric.protos.gateway.ErrorDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,6 +157,35 @@ public class FabricService {
         try (var reader = Files.newBufferedReader(privateKeyPath, StandardCharsets.UTF_8)) {
             return Identities.readPrivateKey(reader);
         }
+    }
+
+    /**
+     * Crea una nueva elección en la blockchain
+     * 
+     * @param electionId ID de la elección
+     * @return ID de transacción
+     */
+    public String createElection(String electionId) {
+        logger.info("Creating election on blockchain: {}", electionId);
+        
+        if (!isConnected()) {
+            logger.warn("No blockchain connection available, skipping blockchain creation");
+            return "MOCK-TX-CREATE-" + electionId;
+        }
+
+        return executeWithRetry(() -> {
+            try {
+                byte[] result = contract.submitTransaction("createElection", electionId);
+                // The chaincode returns the Election object as JSON, but we just need to know it succeeded
+                // We can return the transaction ID if we want, but for now just success
+                logger.info("Election created successfully on blockchain: {}", electionId);
+                return "TX-CREATE-" + electionId;
+                
+            } catch (Exception e) {
+                logger.error("Failed to create election on blockchain: {}", e.getMessage());
+                throw new RuntimeException("Failed to create election", e);
+            }
+        }, "createElection");
     }
 
     /**
@@ -398,13 +428,53 @@ public class FabricService {
             try {
                 return operation.get();
             } catch (Exception e) {
+                // Unwrap RuntimeException if it wraps a Fabric exception (since Supplier can't throw checked exceptions)
+                Throwable cause = e;
+                if (e instanceof RuntimeException && e.getCause() != null) {
+                    cause = e.getCause();
+                }
+
+                // Extract detailed error message from EndorseException or SubmitException
+                String detailedMsg = cause.getMessage();
+                if (cause instanceof EndorseException) {
+                    EndorseException ee = (EndorseException) cause;
+                    if (!ee.getDetails().isEmpty()) {
+                        // Combine all error details
+                        StringBuilder sb = new StringBuilder();
+                        for (ErrorDetail detail : ee.getDetails()) {
+                            sb.append(detail.getMessage()).append("; ");
+                        }
+                        detailedMsg = sb.toString();
+                        logger.error("EndorseException details: {}", detailedMsg);
+                    }
+                } else if (cause instanceof SubmitException) {
+                    SubmitException se = (SubmitException) cause;
+                    if (!se.getDetails().isEmpty()) {
+                        StringBuilder sb = new StringBuilder();
+                        for (ErrorDetail detail : se.getDetails()) {
+                            sb.append(detail.getMessage()).append("; ");
+                        }
+                        detailedMsg = sb.toString();
+                        logger.error("SubmitException details: {}", detailedMsg);
+                    }
+                }
+
+                // Check for non-retriable errors (business logic errors from chaincode)
+                if (detailedMsg != null && (
+                    detailedMsg.contains("already voted") || 
+                    detailedMsg.contains("does not exist")
+                )) {
+                    logger.error("Non-retriable error in {}: {}", operationName, detailedMsg);
+                    throw new RuntimeException(detailedMsg, cause); // Don't retry business logic errors
+                }
+
                 if (attempt == maxAttempts) {
-                    logger.error("Operation {} failed after {} attempts: {}", operationName, maxAttempts, e.getMessage());
-                    throw new RuntimeException("Operation failed after retries", e);
+                    logger.error("Operation {} failed after {} attempts: {}", operationName, maxAttempts, cause.getMessage());
+                    throw new RuntimeException("Operation failed after retries: " + detailedMsg, cause);
                 }
                 
                 logger.warn("Attempt {}/{} for {} failed, retrying in {}ms: {}", 
-                    attempt, maxAttempts, operationName, backoffDelayMs, e.getMessage());
+                    attempt, maxAttempts, operationName, backoffDelayMs, cause.getMessage());
                 
                 try {
                     Thread.sleep(backoffDelayMs);

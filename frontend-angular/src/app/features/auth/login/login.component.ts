@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { UserRole } from '../../../models/user-role.enum';
 
 // PrimeNG imports
 import { CardModule } from 'primeng/card';
@@ -69,7 +70,20 @@ export class LoginComponent implements OnInit {
     this.authService.login(username, password).subscribe({
       next: (response) => {
         console.log('Login successful:', response.user.username);
-        this.router.navigate([this.returnUrl]);
+
+        // Redirigir según rol si no hay returnUrl específico
+        if (this.returnUrl === '/dashboard' || this.returnUrl === '/') {
+          const role = response.user.role.toUpperCase();
+          if (role === UserRole.ADMIN) {
+            this.router.navigate(['/admin']);
+          } else if (role === UserRole.AUDITOR) {
+            this.router.navigate(['/audit']);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
+        } else {
+          this.router.navigate([this.returnUrl]);
+        }
       },
       error: (error) => {
         console.error('Login error:', error);

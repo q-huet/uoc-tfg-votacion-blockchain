@@ -3,6 +3,7 @@ package es.tfg.votacion.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.tfg.votacion.dto.*;
+import es.tfg.votacion.model.CreateElectionRequest;
 import es.tfg.votacion.model.Election;
 import es.tfg.votacion.model.ElectionStatus;
 import es.tfg.votacion.model.Receipt;
@@ -65,6 +66,67 @@ public class ElectionController {
     }
 
     /**
+     * Crear una nueva elección (ADMIN)
+     * POST /api/v1/elections
+     */
+    @PostMapping
+    public ResponseEntity<?> createElection(
+            @Valid @RequestBody CreateElectionRequest createRequest,
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            HttpServletRequest request) {
+        
+        logger.info("Creating new election: {}", createRequest.title());
+        
+        User user = validateAdminAccess(authHeader, request);
+        if (user == null) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponse(
+                    403,
+                    "Forbidden",
+                    "Admin access required",
+                    request.getRequestURI()
+                ));
+        }
+
+        // Validate dates
+        if (createRequest.endTime().isBefore(createRequest.startTime())) {
+             return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(
+                    400,
+                    "Bad Request",
+                    "End time must be after start time",
+                    request.getRequestURI()
+                ));
+        }
+        
+        String id = "election-" + UUID.randomUUID().toString().substring(0, 8);
+        
+        Election election = new Election(
+            id,
+            createRequest.title(),
+            createRequest.description(),
+            createRequest.options(),
+            ElectionStatus.ACTIVE, // Default to ACTIVE for simplicity in this POC
+            createRequest.startTime(),
+            createRequest.endTime(),
+            user.username(),
+            LocalDateTime.now(),
+            0,
+            1,
+            false,
+            true
+        );
+        
+        Election created = electionService.createElection(election);
+        
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(created);
+    }
+
+    /**
      * Lista todas las elecciones activas
      * GET /api/v1/elections
      * 
@@ -95,6 +157,12 @@ public class ElectionController {
                 .map(election -> {
                     boolean hasVoted = currentUser != null && 
                         electionService.hasUserVoted(election.id(), currentUser.id());
+                    
+                    if (currentUser != null) {
+                        logger.info("Checking vote status for user {} in election {}: hasVoted={}", 
+                            currentUser.username(), election.id(), hasVoted);
+                    }
+
                     return ElectionResponse.fromElection(
                         election, 
                         hasVoted, 
@@ -104,10 +172,74 @@ public class ElectionController {
                 .toList();
             
             logger.info("Returning {} active elections", response.size());
-            return ResponseEntity.ok(response);
+            
+            return ResponseEntity.ok()
+                .header("Cache-Control", "no-cache, no-store, must-revalidate")
+                .header("Pragma", "no-cache")
+                .header("Expires", "0")
+                .body(response);
             
         } catch (Exception e) {
             logger.error("Error fetching elections", e);
+            return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(
+                    500,
+                    "Internal Server Error",
+                    "Error fetching elections",
+                    request.getRequestURI()
+                ));
+        }
+    }
+
+    /**
+     * Lista todas las elecciones (ADMIN)
+     * GET /api/v1/elections/all
+     * 
+     * @param authHeader Authorization header con JWT
+     * @param request HTTP request para logging
+     * @return Lista de todas las elecciones
+     */
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllElections(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            HttpServletRequest request) {
+        
+        logger.info("Fetching all elections (ADMIN) from IP: {}", request.getRemoteAddr());
+        
+        User user = validateAdminAccess(authHeader, request);
+        if (user == null) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponse(
+                    403,
+                    "Forbidden",
+                    "Admin access required",
+                    request.getRequestURI()
+                ));
+        }
+        
+        try {
+            List<Election> elections = electionService.getAllElections();
+            
+            List<ElectionResponse> response = elections.stream()
+                .map(election -> ElectionResponse.fromElection(
+                    election, 
+                    false, // Admin doesn't need to know if they voted in this view
+                    election.totalVotes()
+                ))
+                .toList();
+            
+            logger.info("Returning {} elections", response.size());
+            
+            return ResponseEntity.ok()
+                .header("Cache-Control", "no-cache, no-store, must-revalidate")
+                .header("Pragma", "no-cache")
+                .header("Expires", "0")
+                .body(response);
+            
+        } catch (Exception e) {
+            logger.error("Error fetching all elections", e);
             return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse(
@@ -165,7 +297,11 @@ public class ElectionController {
             election.totalVotes()
         );
         
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok()
+            .header("Cache-Control", "no-cache, no-store, must-revalidate")
+            .header("Pragma", "no-cache")
+            .header("Expires", "0")
+            .body(response);
     }
 
     /**
@@ -325,6 +461,29 @@ public class ElectionController {
                     request.getRequestURI()
                 ));
         } catch (Exception e) {
+            // Handle case where user already voted on blockchain but local DB is out of sync
+            if (e.getMessage() != null && e.getMessage().contains("already voted")) {
+                logger.warn("User {} already voted in election {} on blockchain. Syncing local state.", user.username(), electionId);
+                
+                // Sync local state
+                electionService.registerVote(electionId, user.id(), voteRequest.optionId());
+                
+                // Return success response with a note
+                VoteSubmissionResponse response = new VoteSubmissionResponse(
+                    "PREVIOUSLY-RECORDED",
+                    electionId,
+                    Instant.now(),
+                    "ALREADY-HASHED",
+                    "ALREADY-STORED",
+                    true,
+                    "Vote was already recorded. Local status updated."
+                );
+                
+                return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(response);
+            }
+
             logger.error("Error submitting vote", e);
             return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -9,7 +9,7 @@
       "name": "auth.jwt",
       "type": "es.tfg.votacion.config.AuthProperties$Jwt",
       "sourceType": "es.tfg.votacion.config.AuthProperties",
-      "sourceMethod": "getJwt()"
+      "sourceMethod": "public es.tfg.votacion.config.AuthProperties.Jwt getJwt() "
     },
     {
       "name": "elections",
@@ -20,19 +20,19 @@
       "name": "elections.default-config",
       "type": "es.tfg.votacion.config.ElectionProperties$Default",
       "sourceType": "es.tfg.votacion.config.ElectionProperties",
-      "sourceMethod": "getDefaultConfig()"
+      "sourceMethod": "public es.tfg.votacion.config.ElectionProperties.Default getDefaultConfig() "
     },
     {
       "name": "elections.notifications",
       "type": "es.tfg.votacion.config.ElectionProperties$Notifications",
       "sourceType": "es.tfg.votacion.config.ElectionProperties",
-      "sourceMethod": "getNotifications()"
+      "sourceMethod": "public es.tfg.votacion.config.ElectionProperties.Notifications getNotifications() "
     },
     {
       "name": "elections.validation",
       "type": "es.tfg.votacion.config.ElectionProperties$Validation",
       "sourceType": "es.tfg.votacion.config.ElectionProperties",
-      "sourceMethod": "getValidation()"
+      "sourceMethod": "public es.tfg.votacion.config.ElectionProperties.Validation getValidation() "
     },
     {
       "name": "fabric",
@@ -43,13 +43,13 @@
       "name": "fabric.retry",
       "type": "es.tfg.votacion.config.FabricProperties$Retry",
       "sourceType": "es.tfg.votacion.config.FabricProperties",
-      "sourceMethod": "getRetry()"
+      "sourceMethod": "public es.tfg.votacion.config.FabricProperties.Retry getRetry() "
     },
     {
       "name": "fabric.timeouts",
       "type": "es.tfg.votacion.config.FabricProperties$Timeouts",
       "sourceType": "es.tfg.votacion.config.FabricProperties",
-      "sourceMethod": "getTimeouts()"
+      "sourceMethod": "public es.tfg.votacion.config.FabricProperties.Timeouts getTimeouts() "
     },
     {
       "name": "storage",
@@ -60,13 +60,13 @@
       "name": "storage.cleanup",
       "type": "es.tfg.votacion.config.StorageProperties$Cleanup",
       "sourceType": "es.tfg.votacion.config.StorageProperties",
-      "sourceMethod": "getCleanup()"
+      "sourceMethod": "public es.tfg.votacion.config.StorageProperties.Cleanup getCleanup() "
     },
     {
       "name": "storage.encryption",
       "type": "es.tfg.votacion.config.StorageProperties$Encryption",
       "sourceType": "es.tfg.votacion.config.StorageProperties",
-      "sourceMethod": "getEncryption()"
+      "sourceMethod": "public es.tfg.votacion.config.StorageProperties.Encryption getEncryption() "
     }
   ],
   "properties": [
@@ -78,8 +78,7 @@
     {
       "name": "auth.jwt.expiration",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.AuthProperties$Jwt",
-      "defaultValue": 3600
+      "sourceType": "es.tfg.votacion.config.AuthProperties$Jwt"
     },
     {
       "name": "auth.jwt.issuer",
@@ -94,12 +93,7 @@
     {
       "name": "auth.roles",
       "type": "java.lang.String[]",
-      "sourceType": "es.tfg.votacion.config.AuthProperties",
-      "defaultValue": [
-        "voter",
-        "admin",
-        "auditor"
-      ]
+      "sourceType": "es.tfg.votacion.config.AuthProperties"
     },
     {
       "name": "auth.users-file",
@@ -109,74 +103,62 @@
     {
       "name": "elections.default-config.allow-vote-modification",
       "type": "java.lang.Boolean",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Default",
-      "defaultValue": false
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Default"
     },
     {
       "name": "elections.default-config.max-votes-per-user",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Default",
-      "defaultValue": 1
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Default"
     },
     {
       "name": "elections.default-config.require-audit-trail",
       "type": "java.lang.Boolean",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Default",
-      "defaultValue": true
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Default"
     },
     {
       "name": "elections.default-config.voting-duration-hours",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Default",
-      "defaultValue": 24
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Default"
     },
     {
       "name": "elections.notifications.email-enabled",
       "type": "java.lang.Boolean",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Notifications",
-      "defaultValue": false
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Notifications"
     },
     {
       "name": "elections.notifications.sms-enabled",
       "type": "java.lang.Boolean",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Notifications",
-      "defaultValue": false
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Notifications"
     },
     {
       "name": "elections.validation.max-description-length",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation",
-      "defaultValue": 500
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation"
     },
     {
       "name": "elections.validation.max-options",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation",
-      "defaultValue": 10
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation"
     },
     {
       "name": "elections.validation.max-title-length",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation",
-      "defaultValue": 100
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation"
     },
     {
       "name": "elections.validation.min-description-length",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation",
-      "defaultValue": 10
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation"
     },
     {
       "name": "elections.validation.min-options",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation",
-      "defaultValue": 2
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation"
     },
     {
       "name": "elections.validation.min-title-length",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation",
-      "defaultValue": 5
+      "sourceType": "es.tfg.votacion.config.ElectionProperties$Validation"
     },
     {
       "name": "fabric.chaincode",
@@ -196,32 +178,27 @@
     {
       "name": "fabric.retry.backoff-delay-ms",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.FabricProperties$Retry",
-      "defaultValue": 1000
+      "sourceType": "es.tfg.votacion.config.FabricProperties$Retry"
     },
     {
       "name": "fabric.retry.max-attempts",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.FabricProperties$Retry",
-      "defaultValue": 3
+      "sourceType": "es.tfg.votacion.config.FabricProperties$Retry"
     },
     {
       "name": "fabric.timeouts.connection",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.FabricProperties$Timeouts",
-      "defaultValue": 30
+      "sourceType": "es.tfg.votacion.config.FabricProperties$Timeouts"
     },
     {
       "name": "fabric.timeouts.query",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.FabricProperties$Timeouts",
-      "defaultValue": 10
+      "sourceType": "es.tfg.votacion.config.FabricProperties$Timeouts"
     },
     {
       "name": "fabric.timeouts.transaction",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.FabricProperties$Timeouts",
-      "defaultValue": 60
+      "sourceType": "es.tfg.votacion.config.FabricProperties$Timeouts"
     },
     {
       "name": "fabric.user",
@@ -241,38 +218,32 @@
     {
       "name": "storage.cleanup.enabled",
       "type": "java.lang.Boolean",
-      "sourceType": "es.tfg.votacion.config.StorageProperties$Cleanup",
-      "defaultValue": true
+      "sourceType": "es.tfg.votacion.config.StorageProperties$Cleanup"
     },
     {
       "name": "storage.cleanup.retention-days",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.StorageProperties$Cleanup",
-      "defaultValue": 30
+      "sourceType": "es.tfg.votacion.config.StorageProperties$Cleanup"
     },
     {
       "name": "storage.encryption.algorithm",
       "type": "java.lang.String",
-      "sourceType": "es.tfg.votacion.config.StorageProperties$Encryption",
-      "defaultValue": "AES\/GCM\/NoPadding"
+      "sourceType": "es.tfg.votacion.config.StorageProperties$Encryption"
     },
     {
       "name": "storage.encryption.iv-length",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.StorageProperties$Encryption",
-      "defaultValue": 12
+      "sourceType": "es.tfg.votacion.config.StorageProperties$Encryption"
     },
     {
       "name": "storage.encryption.key-length",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.StorageProperties$Encryption",
-      "defaultValue": 256
+      "sourceType": "es.tfg.votacion.config.StorageProperties$Encryption"
     },
     {
       "name": "storage.encryption.tag-length",
       "type": "java.lang.Integer",
-      "sourceType": "es.tfg.votacion.config.StorageProperties$Encryption",
-      "defaultValue": 128
+      "sourceType": "es.tfg.votacion.config.StorageProperties$Encryption"
     },
     {
       "name": "storage.keystore-path",

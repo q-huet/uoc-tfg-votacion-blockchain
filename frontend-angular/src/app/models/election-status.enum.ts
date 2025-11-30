@@ -3,11 +3,11 @@
  * Debe coincidir con ElectionStatus.java del backend
  */
 export enum ElectionStatus {
-  DRAFT = 'DRAFT',
-  ACTIVE = 'ACTIVE',
-  CLOSED = 'CLOSED',
-  COMPLETED = 'COMPLETED',
-  CANCELLED = 'CANCELLED'
+  DRAFT = 'draft',
+  ACTIVE = 'active',
+  CLOSED = 'closed',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled'
 }
 
 /**

@@ -3,8 +3,9 @@
  * Coincide con VoteSubmissionRequest DTO del backend
  */
 export interface VoteSubmissionRequest {
+  electionId: string;
   optionId: string;
-  voterComments?: string;
+  comment?: string;
 }
 
 /**

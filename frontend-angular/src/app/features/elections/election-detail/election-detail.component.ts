@@ -82,6 +82,7 @@ export class ElectionDetailComponent implements OnInit {
     this.electionService.getElectionById(electionId).subscribe({
       next: (election) => {
         this.election = election;
+        this.checkIfVoted(electionId); // Re-check after loading election data
         this.loading = false;
       },
       error: (error) => {
@@ -96,7 +97,12 @@ export class ElectionDetailComponent implements OnInit {
    * Verificar si el usuario ya votó
    */
   private checkIfVoted(electionId: string): void {
-    this.hasVoted = this.voteService.hasVoted(electionId);
+    // Prioritize server status, fallback to local receipt check
+    if (this.election && this.election.hasVoted !== undefined) {
+      this.hasVoted = this.election.hasVoted;
+    } else {
+      this.hasVoted = this.voteService.hasVoted(electionId);
+    }
   }
 
   /**
@@ -112,6 +118,48 @@ export class ElectionDetailComponent implements OnInit {
    */
   canVote(): boolean {
     return this.isActiveForVoting() && !this.hasVoted && this.authService.isAuthenticated();
+  }
+
+  /**
+   * Verificar si el usuario es administrador
+   */
+  isAdmin(): boolean {
+    return this.authService.hasRole('ADMIN');
+  }
+
+  /**
+   * Cerrar elección
+   */
+  closeElection(): void {
+    if (!this.election) return;
+
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de que quieres cerrar esta elección? Esto iniciará el proceso de recuento y no se podrán recibir más votos.',
+      header: 'Cerrar Elección',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.loading = true;
+        this.electionService.closeElection(this.election!.id).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Elección Cerrada',
+              detail: 'La elección ha sido cerrada y el recuento ha comenzado.'
+            });
+            this.loadElection(this.election!.id);
+          },
+          error: (error) => {
+            console.error('Error closing election:', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error al cerrar la elección: ' + error.message
+            });
+            this.loading = false;
+          }
+        });
+      }
+    });
   }
 
   /**
@@ -236,14 +284,14 @@ export class ElectionDetailComponent implements OnInit {
     if (!this.election) return '';
 
     switch (this.election.status) {
-      case 'ACTIVE':
+      case 'active':
         return 'status-active';
-      case 'DRAFT':
+      case 'draft':
         return 'status-draft';
-      case 'CLOSED':
-      case 'COMPLETED':
+      case 'closed':
+      case 'completed':
         return 'status-closed';
-      case 'CANCELLED':
+      case 'cancelled':
         return 'status-cancelled';
       default:
         return '';
@@ -257,15 +305,15 @@ export class ElectionDetailComponent implements OnInit {
     if (!this.election) return '';
 
     switch (this.election.status) {
-      case 'ACTIVE':
+      case 'active':
         return 'Activa';
-      case 'DRAFT':
+      case 'draft':
         return 'Borrador';
-      case 'CLOSED':
+      case 'closed':
         return 'Cerrada';
-      case 'COMPLETED':
+      case 'completed':
         return 'Completada';
-      case 'CANCELLED':
+      case 'cancelled':
         return 'Cancelada';
       default:
         return this.election.status;

@@ -46,11 +46,11 @@ export class ElectionListComponent implements OnInit {
 
   statusOptions = [
     { label: 'Todas', value: null },
-    { label: 'Activas', value: 'ACTIVE' },
-    { label: 'Borradores', value: 'DRAFT' },
-    { label: 'Cerradas', value: 'CLOSED' },
-    { label: 'Completadas', value: 'COMPLETED' },
-    { label: 'Canceladas', value: 'CANCELLED' }
+    { label: 'Activas', value: 'active' },
+    { label: 'Borradores', value: 'draft' },
+    { label: 'Cerradas', value: 'closed' },
+    { label: 'Completadas', value: 'completed' },
+    { label: 'Canceladas', value: 'cancelled' }
   ];
 
   constructor(
@@ -134,14 +134,14 @@ export class ElectionListComponent implements OnInit {
    */
   getStatusClass(status: string): string {
     switch (status) {
-      case 'ACTIVE':
+      case 'active':
         return 'status-badge-active';
-      case 'DRAFT':
+      case 'draft':
         return 'status-badge-draft';
-      case 'CLOSED':
-      case 'COMPLETED':
+      case 'closed':
+      case 'completed':
         return 'status-badge-closed';
-      case 'CANCELLED':
+      case 'cancelled':
         return 'status-badge-cancelled';
       default:
         return '';
@@ -153,15 +153,15 @@ export class ElectionListComponent implements OnInit {
    */
   getStatusLabel(status: string): string {
     switch (status) {
-      case 'ACTIVE':
+      case 'active':
         return 'Activa';
-      case 'DRAFT':
+      case 'draft':
         return 'Borrador';
-      case 'CLOSED':
+      case 'closed':
         return 'Cerrada';
-      case 'COMPLETED':
+      case 'completed':
         return 'Completada';
-      case 'CANCELLED':
+      case 'cancelled':
         return 'Cancelada';
       default:
         return status;
@@ -190,6 +190,6 @@ export class ElectionListComponent implements OnInit {
    */
   isClosingSoon(election: ElectionSummary): boolean {
     const daysRemaining = this.getDaysRemaining(election);
-    return daysRemaining > 0 && daysRemaining <= 3 && election.status === 'ACTIVE';
+    return daysRemaining > 0 && daysRemaining <= 3 && election.status === 'active';
   }
 }

@@ -26,13 +26,24 @@
   <div *ngIf="election && !loading" class="election-content">
     <!-- Header -->
     <div class="election-header-section">
-      <button
-        pButton
-        icon="pi pi-arrow-left"
-        label="Volver"
-        class="p-button-text p-button-secondary mb-3"
-        (click)="goBack()"
-      ></button>
+      <div class="flex justify-content-between align-items-center mb-3">
+        <button
+          pButton
+          icon="pi pi-arrow-left"
+          label="Volver"
+          class="p-button-text p-button-secondary"
+          (click)="goBack()"
+        ></button>
+
+        <button
+          *ngIf="isAdmin() && election.status === 'active'"
+          pButton
+          icon="pi pi-lock"
+          label="Cerrar Elección"
+          class="p-button-danger"
+          (click)="closeElection()"
+        ></button>
+      </div>
 
       <p-card styleClass="header-card">
         <div class="header-content">
@@ -72,7 +83,7 @@
             </div>
 
             <!-- Progress Bar -->
-            <div class="time-progress" *ngIf="election.status === 'ACTIVE'">
+            <div class="time-progress" *ngIf="election.status === 'active'">
               <p-progressBar [value]="getTimeProgress()"></p-progressBar>
               <small class="text-600">Progreso de la votación</small>
             </div>
@@ -105,7 +116,7 @@
     </p-message>
 
     <p-message
-      *ngIf="!isActiveForVoting() && election.status !== 'ACTIVE'"
+      *ngIf="!isActiveForVoting() && election.status !== 'active'"
       severity="warn"
       [text]="'Esta elección no está activa para votación (Estado: ' + getStatusLabel() + ')'"
       styleClass="w-full mb-3"

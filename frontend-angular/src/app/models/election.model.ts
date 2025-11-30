@@ -19,6 +19,7 @@ export interface Election {
   maxVotesPerUser: number;
   allowVoteModification: boolean;
   requireAuditTrail: boolean;
+  hasVoted?: boolean;
 }
 
 /**
@@ -43,15 +44,24 @@ export interface ElectionSummary {
 export interface CreateElectionRequest {
   title: string;
   description: string;
-  options: Array<{
-    optionId: string;
-    title: string;
-    description?: string;
-    displayOrder: number;
-  }>;
+  options: ElectionOption[];
   startTime: string;
   endTime: string;
-  maxVotesPerUser: number;
-  allowVoteModification: boolean;
-  requireAuditTrail: boolean;
+}
+
+export interface ElectionResultOption {
+  optionId: string;
+  label: string;
+  votes: number;
+  percentage: number;
+}
+
+export interface ElectionResults {
+  electionId: string;
+  title: string;
+  status: ElectionStatus;
+  closedAt: string;
+  totalVotes: number;
+  results: ElectionResultOption[];
+  auditTrail: string;
 }

@@ -1,17 +1,65 @@
 <div class="admin-container">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+
   <p-card>
     <ng-template pTemplate="header">
-      <h2>Panel de Administración</h2>
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2 class="m-0">Panel de Administración</h2>
+        <button pButton label="Nueva Elección" icon="pi pi-plus" (click)="navigateToCreate()"></button>
+      </div>
     </ng-template>
     <ng-template pTemplate="content">
-      <p>Funcionalidades administrativas próximamente disponibles:</p>
-      <ul>
-        <li>Crear nuevas elecciones</li>
-        <li>Gestionar opciones de votación</li>
-        <li>Cerrar elecciones</li>
-        <li>Ver resultados completos</li>
-        <li>Gestionar usuarios</li>
-      </ul>
+
+      <p-table [value]="elections" [loading]="loading" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Título</th>
+                <th>Estado</th>
+                <th>Votos</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-election>
+            <tr>
+                <td>{{election.title}}</td>
+                <td>
+                    <p-tag [value]="election.status" [severity]="getSeverity(election.status)"></p-tag>
+                </td>
+                <td>{{election.totalVotes}}</td>
+                <td>{{election.startTime | date:'short'}}</td>
+                <td>{{election.endTime | date:'short'}}</td>
+                                <td>
+                    <div class="flex gap-2">
+                        <button *ngIf="election.status === 'active'"
+                                pButton
+                                icon="pi pi-ban"
+                                class="p-button-danger p-button-sm"
+                                pTooltip="Cerrar Elección"
+                                tooltipPosition="top"
+                                (click)="closeElection(election)">
+                        </button>
+                        <button *ngIf="election.status === 'closed'"
+                                pButton
+                                icon="pi pi-chart-bar"
+                                class="p-button-info p-button-sm"
+                                pTooltip="Ver Resultados"
+                                tooltipPosition="top"
+                                (click)="viewResults(election.electionId)">
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">No hay elecciones registradas.</td>
+            </tr>
+        </ng-template>
+      </p-table>
+
     </ng-template>
   </p-card>
 </div>

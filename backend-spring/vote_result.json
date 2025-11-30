@@ -1,0 +1,7 @@
+{
+  "status" : 500,
+  "error" : "Internal Server Error",
+  "message" : "Error submitting vote: Operation failed after retries",
+  "path" : "/api/v1/elections/election-001/vote",
+  "timestamp" : "2025-11-29T09:49:57.611583751Z"
+}

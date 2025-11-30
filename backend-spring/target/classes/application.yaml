@@ -182,7 +182,7 @@ info:
     version: "0.0.1-SNAPSHOT"
     description: "Sistema de Votación Sindical basado en Blockchain - TFG"
     author: "Enrique Huet Adrover"
-    java-version: "21.0.8"
+    java-version: "21.0.9"
   build:
     artifact: "votacion"
     group: "es.tfg"

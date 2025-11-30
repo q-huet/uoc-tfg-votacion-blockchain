@@ -19,6 +19,7 @@
 /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/java/es/tfg/votacion/dto/TokenValidationResponse.java
 /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/java/es/tfg/votacion/dto/VoteSubmissionRequest.java
 /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/java/es/tfg/votacion/dto/VoteSubmissionResponse.java
+/home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/java/es/tfg/votacion/model/CreateElectionRequest.java
 /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/java/es/tfg/votacion/model/Election.java
 /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/java/es/tfg/votacion/model/ElectionOption.java
 /home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/java/es/tfg/votacion/model/ElectionStatus.java
