@@ -8,6 +8,13 @@ NC='\033[0m' # No Color
 
 echo -e "${BLUE}=== Starting Voting Blockchain System ===${NC}"
 
+# 0. Clean up local data (Hard Reset)
+echo -e "${BLUE}Cleaning up local backend data...${NC}"
+rm -rf backend-spring/data/elections-db.json
+rm -rf backend-spring/data/storage/*
+rm -rf backend-spring/wallet/*
+echo "Local data cleaned."
+
 # 1. Start Network
 echo -e "${GREEN}[1/3] Starting Hyperledger Fabric Network...${NC}"
 ./scripts/start-network.sh
@@ -21,14 +28,16 @@ echo "Backend starting with PID $BACKEND_PID. Logs are being written to backend.
 
 # Wait for Backend to be ready (check for port 8080)
 echo "Waiting for Backend to initialize..."
-MAX_RETRIES=30
+MAX_RETRIES=150 # 5 minutes
 COUNT=0
 while ! nc -z localhost 8080; do
     sleep 2
     COUNT=$((COUNT+1))
     if [ $COUNT -ge $MAX_RETRIES ]; then
         echo "Error: Backend failed to start in time."
-        cat backend.log
+        echo "=== Backend Logs (Last 50 lines) ==="
+        tail -n 50 backend.log
+        echo "===================================="
         kill $BACKEND_PID
         exit 1
     fi

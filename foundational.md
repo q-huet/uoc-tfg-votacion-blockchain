@@ -2,66 +2,55 @@
 
 ## Descripción general
 
-Este proyecto implementa un **prototipo funcional (Proof of Concept)** de un sistema de votación electrónica para procesos sindicales dentro de un entorno industrial (por ejemplo, una planta industrial como Ford España S.A).
+Este proyecto implementa un **prototipo funcional (Proof of Concept)** de un sistema de votación electrónica para procesos sindicales dentro de un entorno industrial.
 
 El objetivo principal es demostrar cómo una **blockchain permissioned**, como **Hyperledger Fabric**, puede proporcionar:
 
-- **Transparencia** en el proceso electoral  
-- **Inmutabilidad** de las transacciones  
-- **Trazabilidad** verificable por todas las partes  
-- **Gobernanza distribuida** entre empresa y sindicatos  
-- **Seguridad** frente a manipulación o doble voto  
+- **Transparencia** en el proceso electoral.
+- **Inmutabilidad** de las transacciones.
+- **Trazabilidad** verificable por todas las partes.
+- **Seguridad** frente a manipulación o doble voto.
 
-La PoC está orientada a un Trabajo Final de Grado, por lo que se prioriza una arquitectura clara, demostrable y con evidencias verificables (transacciones en Fabric, bloques, chaincode, logs, etc.).
+La PoC está orientada a un Trabajo Final de Grado, priorizando una arquitectura clara, demostrable y con evidencias verificables.
 
-## Arquitectura general
+## Arquitectura Actual
 
 El sistema se compone de los siguientes módulos principales:
 
 ### • Backend (Spring Boot + Java 21)
-- Actúa como **cliente Fabric Gateway**, firmando y enviando transacciones a la red.
-- Gestiona la autenticación (mock EntraID).
-- Orquesta el ciclo de vida del voto: autenticación → cifrado off-chain → emisión → registro en blockchain.
-- Expone una API REST que consumen kioscos y aplicaciones web/móviles.
+- **Cliente Fabric Gateway**: Firma y envía transacciones a la red usando identidades X.509.
+- **Gestión de Elecciones**: Orquesta la creación y cierre de elecciones.
+- **Persistencia Híbrida**:
+  - **On-Chain (Blockchain)**: Hashes de votos y estado global de la elección (inmutable).
+  - **Off-Chain (Local)**: Base de datos ligera (`elections-db.json`) y almacenamiento de votos cifrados (`storage/`) para privacidad.
+- **Seguridad**: Autenticación JWT y cifrado AES-GCM para los votos antes de su almacenamiento.
 
-### • Frontend (Angular)
-- Interfaz para el votante: autenticación, selección de candidatura y confirmación.
-- Se ejecuta en:
-  - **Kioscos físicos** distribuidos por la factoría (modo kiosco).
-  - Navegador web estándar (para PoC).
+### • Frontend (Angular 17)
+- Interfaz de usuario moderna y responsiva (Angular Material).
+- Funcionalidades:
+  - Panel de votación.
+  - Visualización de resultados en tiempo real (post-cierre).
+  - Verificación de recibos de voto.
 
-### • Chaincode (Node.js / fabric-contract-api)
-- Contrato inteligente que define la lógica de la elección.
-- Funciones previstas:
-  - `crearEleccion()`
-  - `registrarVotante()`
-  - `emitirVoto()`
-  - `cerrarEleccion()`
-  - `tally()`
-  - `consultarResultados()`
+### • Chaincode (Java)
+- **Smart Contract** desarrollado en Java.
+- Define la lógica de negocio en la blockchain:
+  - `InitLedger`: Inicialización.
+  - `CreateElection`: Registro de nueva elección.
+  - `EmitVote`: Registro inmutable del hash del voto.
+  - `CloseElection`: Cierre oficial.
 
-### • Red Blockchain (Hyperledger Fabric)
-- Red **permissioned** compuesta por varias organizaciones:
-  - **Empresa**
-  - **Sindicato A**
-  - **Sindicato B**
-  - **Auditor** (opcional, acceso sólo lectura)
-- Cada organización mantiene su **peer** en infraestructura controlada.
-- Ordering Service basado en Raft (**CFT — Crash Fault Tolerant**).
-- Identidades emitidas por Fabric CA.
+### • Red Blockchain (Hyperledger Fabric 2.5)
+- Basada en la **Test Network** oficial.
+- **Topología**: 2 Organizaciones (Org1, Org2) + 1 Orderer (Raft).
+- **Simulación**: Org1 y Org2 representan a la Empresa y los Sindicatos validando conjuntamente las transacciones.
+- **Estado**: CouchDB como base de datos de estado (World State).
 
-### • Kioscos (clientes ligeros)
-- Ejecutan únicamente el **frontend Angular**.
-- No ejecutan peers.
-- La lógica de firma/envío de transacciones la hace el backend Spring Boot.
-
-### • Herramienta de Auditoría: Hyperledger Explorer
-- Permite visualizar:
-  - Bloques
-  - Transacciones
-  - Canales
-  - Chaincodes
-- Se usará para generar **evidencias** en la memoria de la PoC.
+### • Scripts de Ciclo de Vida
+- Automatización completa mediante Bash scripts:
+  - `start-all.sh`: Despliegue desde cero (Hard Reset).
+  - `stop-soft.sh` / `resume-soft.sh`: Persistencia del entorno de desarrollo.
+  - `install-fabric.sh`: Gestión de binarios.
 
 ---
 
@@ -71,27 +60,25 @@ El sistema se compone de los siguientes módulos principales:
 - **Java 21**
 - **Spring Boot 3.5.7**
 - **Hyperledger Fabric Java Gateway SDK**
-- **JWT** (mock de EntraID)
-- **AES-GCM** para almacenamiento off-chain local
+- **Spring Security + JWT**
+- **AES-GCM** (Cifrado de votos)
 - **Maven**
-- **Docker Desktop + WSL2**
 
 ### Frontend
 - **Angular 17**
-- Typescript
-- Angular Material
+- **TypeScript**
+- **Angular Material**
 
 ### Blockchain
 - **Hyperledger Fabric 2.5**
-- test-network extendida (3 organizaciones)
-- Chaincode en Node.js
-- Orquestación con scripts Bash y Docker Compose
-- Ordering Service con **Raft (CFT)**
+- **Chaincode en Java**
+- **Docker & Docker Compose**
+- **CouchDB**
 
-### Herramientas de apoyo
-- VSCode (Remote WSL2)
-- Hyperledger Explorer
-- Curl / jq / node / docker CLI
+### Entorno de Desarrollo
+- **OS**: Linux (Ubuntu/WSL2)
+- **IDE**: VS Code
+- **Herramientas**: Docker, Git, Curl, JQ
 
 ---
 
@@ -99,43 +86,22 @@ El sistema se compone de los siguientes módulos principales:
 
 La PoC tiene como objetivo demostrar:
 
-1. Cómo Hyperledger Fabric aporta **confianza, trazabilidad y resistencia a manipulación** en procesos electorales internos.
-2. Cómo múltiples actores (empresa y sindicatos) pueden **compartir la gobernanza** de una red blockchain permissioned.
-3. Qué patrones permiten equilibrar **privacidad del voto** con **verificabilidad del resultado**.
-4. Cómo integrar aplicaciones corporativas modernas (**Spring Boot + Angular**) con una red Fabric usando el **Gateway SDK**.
+1.  **Integridad**: Cómo garantizar que un voto no ha sido modificado mediante hashes en Blockchain.
+2.  **Privacidad**: Cómo separar la identidad del votante del contenido del voto (Cifrado + Almacenamiento Off-chain).
+3.  **Verificabilidad**: Capacidad del votante de comprobar que su voto fue contabilizado usando su recibo.
+4.  **Integración**: Conexión fluida entre aplicaciones empresariales (Spring Boot) y DLTs (Fabric).
 
 ---
 
-## Objetivos técnicos
+## Estado del Proyecto
 
-- Desplegar una red Hyperledger Fabric local con al menos **tres organizaciones**.
-- Implementar y desplegar un **chaincode** para la gestión del voto.
-- Conectar el backend Spring Boot al Fabric mediante **Java Gateway SDK**.
-- Simular el proceso de votación a través de kioscos (frontend Angular).
-- Registrar votos cifrados off-chain y hash o referencia inmutable on-chain.
-- Demostrar la trazabilidad y auditoría mediante **Hyperledger Explorer**.
-- Documentar todas las decisiones arquitectónicas con criterios técnicos sólidos.
+- [x] **Red Fabric**: Operativa con Chaincode Java desplegado.
+- [x] **Backend**: API REST completa, seguridad JWT, conexión Gateway.
+- [x] **Frontend**: Interfaz de votación y resultados implementada.
+- [x] **Persistencia**: Sistema de parada y reanudación (Soft Stop/Resume).
+- [x] **Limpieza**: Scripts de mantenimiento y estructura de proyecto optimizada.
 
 ---
 
-## Entregables esperados (TFG)
-
-- Código funcional: backend, chaincode, frontend y scripts de infraestructura.
-- Capturas de evidencia de:
-  - Transacciones en Explorer
-  - Bloques generados
-  - Funciones chaincode invocadas
-  - Flujo del votante
-- Documento técnico que justifique:
-  - Endorsement policy
-  - Modelo de privacidad
-  - Arquitectura de gobernanza
-  - Seguridad y limitaciones
-- Repositorio GitHub público o privado para revisión académica.
-
----
-
-**Autor:** Enrique Huet Adrover  
-**Entorno:** Windows 10 + Docker Desktop + WSL2 (Ubuntu)  
-**IDE:** VSCode (Remote WSL2)  
-**Fecha:** 2025
+**Autor:** Enrique Huet Adrover
+**TFG - UOC**

@@ -1,95 +1,34 @@
-# Frontend Angular - Sistema de Votación Sindical
+# Frontend - Sistema de Votación (Angular)
 
-Aplicación frontend para el sistema de votación sindical basado en blockchain.
+Este directorio contiene la interfaz de usuario web, desarrollada en Angular.
 
-## 🚀 Tecnologías
+## 🛠️ Tecnologías
 
-- **Angular 17** - Framework principal
-- **PrimeNG 17** - Componentes UI
-- **NGXS** - Gestión de estado
-- **RxJS** - Programación reactiva
-- **Chart.js** - Gráficos y visualizaciones
+*   **Angular 17+**: Framework frontend.
+*   **Angular Material**: Componentes de UI.
+*   **TypeScript**: Lenguaje de programación.
 
-## 📋 Requisitos previos
+## 📂 Estructura
 
-- Node.js 20.x LTS
-- npm 10.x
-- Angular CLI 17
+*   `src/app`: Componentes, servicios y modelos de la aplicación.
+*   `angular.json`: Configuración de build de Angular.
 
-## 🛠️ Instalación
+## 🚀 Ejecución
 
+El frontend se comunica con el backend en `http://localhost:8080`.
+
+### Instalación de dependencias
 ```bash
-# Instalar dependencias
 npm install
-
-# Iniciar servidor de desarrollo
-npm start
-
-# Compilar para producción
-npm run build
 ```
 
-## 🏗️ Estructura del proyecto
-
+### Servidor de desarrollo
+```bash
+ng serve
 ```
-src/
-├── app/
-│   ├── core/                 # Servicios core y modelos
-│   │   ├── services/        # AuthService, ElectionService, etc.
-│   │   ├── models/          # Interfaces y tipos
-│   │   ├── guards/          # Guards de navegación
-│   │   └── interceptors/    # HTTP interceptors
-│   ├── shared/              # Componentes compartidos
-│   │   └── components/      # Header, Footer, etc.
-│   ├── features/            # Módulos de características
-│   │   ├── auth/           # Login, registro
-│   │   ├── elections/      # Listado de elecciones
-│   │   └── voting/         # Proceso de votación
-│   └── environments/        # Configuración de entornos
-└── assets/                  # Recursos estáticos
+La aplicación estará disponible en `http://localhost:4200`.
+
+O utilizando el script de utilidad:
+```bash
+../scripts/run-frontend.sh
 ```
-
-## 🔗 Conexión con Backend
-
-El frontend se conecta al backend Spring Boot en:
-- **Desarrollo:** `http://localhost:8080/api/v1`
-- **Producción:** Configurar en `environment.prod.ts`
-
-## 👤 Usuarios de prueba
-
-Los usuarios de prueba están configurados en el backend:
-- **Usuario:** `test.user` / **Password:** `password123`
-- **Admin:** `admin` / **Password:** `password123`
-- **Auditor:** `auditor` / **Password:** `password123`
-
-Ver más usuarios en `backend-spring/src/main/resources/mock/README.md`
-
-## 🎨 Temas y estilos
-
-El proyecto usa el tema **Lara Light Blue** de PrimeNG.
-
-## 📝 Scripts disponibles
-
-- `npm start` - Inicia el servidor de desarrollo
-- `npm run build` - Compila para producción  
-- `npm test` - Ejecuta las pruebas
-
-## 🔐 Autenticación
-
-El sistema usa JWT (JSON Web Tokens) para la autenticación.
-
-## 🚧 Estado actual
-
-✅ Estructura base creada
-✅ Componente de login funcional
-✅ Servicio de autenticación implementado
-✅ Configuración de rutas básica
-⏳ Pendiente: Componentes de elecciones
-⏳ Pendiente: Proceso de votación
-⏳ Pendiente: Dashboard de resultados
-
----
-
-**Autor:** Enrique Huet Adrover  
-**Universidad:** UOC  
-**Año:** 2025
