@@ -18,12 +18,28 @@ else
 fi
 
 # 2. Logs del Peer (Validación y Commit de Bloques)
-echo "2. Capturando logs del Peer (Validación de Bloques)..."
-docker logs peer0.org1.example.com > "$OUTPUT_DIR/peer_logs.txt" 2>&1
-# Extraer solo las líneas de commit de bloques para facilitar la lectura
-grep -i "committed block" "$OUTPUT_DIR/peer_logs.txt" > "$OUTPUT_DIR/peer_block_commits.txt"
-echo "   - Logs completos en $OUTPUT_DIR/peer_logs.txt"
-echo "   - Resumen de commits en $OUTPUT_DIR/peer_block_commits.txt"
+echo "2. Capturando logs de los Peers (Validación de Bloques)..."
+# Peer Org1
+docker logs peer0.org1.example.com > "$OUTPUT_DIR/peer0_org1_logs.txt" 2>&1
+grep -i "committed block" "$OUTPUT_DIR/peer0_org1_logs.txt" > "$OUTPUT_DIR/peer0_org1_commits.txt"
+# Peer Org2 (Importante para ver rechazos de validación si Org1 es el atacante)
+docker logs peer0.org2.example.com > "$OUTPUT_DIR/peer0_org2_logs.txt" 2>&1
+grep -i "committed block" "$OUTPUT_DIR/peer0_org2_logs.txt" > "$OUTPUT_DIR/peer0_org2_commits.txt"
+
+# Buscar errores de validación (VSCC) que evidencien intentos de hackeo
+echo "   - Buscando evidencias de transacciones inválidas..."
+grep -i "VSCC error" "$OUTPUT_DIR/peer0_org1_logs.txt" "$OUTPUT_DIR/peer0_org2_logs.txt" > "$OUTPUT_DIR/validation_errors.txt" || true
+grep -i "validation failed" "$OUTPUT_DIR/peer0_org1_logs.txt" "$OUTPUT_DIR/peer0_org2_logs.txt" >> "$OUTPUT_DIR/validation_errors.txt" || true
+
+echo "   - Logs completos en $OUTPUT_DIR/peer0_org*_logs.txt"
+echo "   - Resumen de commits en $OUTPUT_DIR/peer0_org*_commits.txt"
+echo "   - Errores de validación en $OUTPUT_DIR/validation_errors.txt"
+
+# 2.1 Capturar log del intento de hackeo si existe
+if [ -f "hack_attempt.log" ]; then
+    echo "2.1 Capturando log de simulación de hackeo..."
+    cp hack_attempt.log "$OUTPUT_DIR/hack_attempt_console.txt"
+fi
 
 # 3. Logs del Orderer (Creación de Bloques)
 echo "3. Capturando logs del Orderer (Consenso)..."

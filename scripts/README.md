@@ -21,7 +21,8 @@ Este directorio contiene scripts Bash para gestionar el ciclo de vida completo d
 | `run-frontend.sh` | Instala dependencias y sirve el Frontend Angular. |
 | `check-environment.sh` | Verifica versiones de Java, Docker, Node, etc. |
 | `clean-fabric.sh` | Elimina ejemplos y archivos innecesarios de la carpeta `fabric/` tras la instalación. |
-| `generate_evidence.sh` | Recopila logs y estados para depuración. |
+| `simulate-hack.sh` | **Seguridad**. Simula un intento de voto fraudulento por parte de Org1 para verificar el rechazo de la red. |
+| `generate_evidence.sh` | Recopila logs, estados y evidencias de seguridad (incluyendo intentos de hackeo). |
 
 ## ⚠️ Notas Importantes
 
