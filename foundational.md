@@ -43,7 +43,10 @@ El sistema se compone de los siguientes módulos principales:
 ### • Red Blockchain (Hyperledger Fabric 2.5)
 - Basada en la **Test Network** oficial.
 - **Topología**: 2 Organizaciones (Org1, Org2) + 1 Orderer (Raft).
-- **Simulación**: Org1 y Org2 representan a la Empresa y los Sindicatos validando conjuntamente las transacciones.
+- **Simulación de Roles**:
+  - **Orderer Org**: Representa a la **Empresa** (Proveedor de Infraestructura).
+  - **Org1**: Representa al **Sindicato A** (Validador).
+  - **Org2**: Representa al **Sindicato B** (Validador).
 - **Estado**: CouchDB como base de datos de estado (World State).
 
 ### • Scripts de Ciclo de Vida

@@ -4,7 +4,7 @@
 # SIMULACIÓN DE ATAQUE: Intento de voto fraudulento por parte de Org1
 # ------------------------------------------------------------------
 # Este script intenta invocar el chaincode 'EmitVote' utilizando ÚNICAMENTE
-# el peer de Org1 (Empresa), ignorando al peer de Org2 (Sindicato).
+# el peer de Org1 (Sindicato A), ignorando al peer de Org2 (Sindicato B).
 #
 # Objetivo: Demostrar que la red rechaza la transacción por fallo en la
 # política de aval (Endorsement Policy Failure).
@@ -19,7 +19,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 echo -e "${RED}=== 🕵️  INICIANDO SIMULACIÓN DE HACKEO (ORG1) ===${NC}"
-echo "Escenario: El administrador de Org1 intenta insertar un voto falso sin el consenso de Org2."
+echo "Escenario: El administrador de Org1 (Sindicato A) intenta insertar un voto falso sin el consenso de Org2 (Sindicato B)."
 
 # 1. Definir variables de entorno para actuar como Org1
 export CORE_PEER_TLS_ENABLED=true
@@ -35,8 +35,8 @@ FAKE_ELECTION_ID="election-hack-001"
 FAKE_VOTE_HASH="HACKED_HASH_123456789"
 
 echo -e "${BLUE}[1] Construyendo transacción fraudulenta...${NC}"
-echo "Target: Solo Peer0.Org1 (Empresa)"
-echo "Omitiendo: Peer0.Org2 (Sindicato)"
+echo "Target: Solo Peer0.Org1 (Sindicato A)"
+echo "Omitiendo: Peer0.Org2 (Sindicato B)"
 
 # 2. Intentar invocar el chaincode apuntando SOLO a Org1
 # Nota: En una operación normal, apuntaríamos a ambos peers.
