@@ -43,10 +43,13 @@ spring:
 # Configuración de Hyperledger Fabric
 fabric:
   # Ruta al perfil de conexión de la organización
-  connection-profile: "/home/ehuetadr/TFG/VotacionBC/fabric/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
+  connection-profile: "../fabric/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
 
   # Ruta del wallet donde se almacenan las identidades
-  wallet-path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/wallet"
+  wallet-path: "wallet"
+
+  # Ruta a los materiales criptográficos (para importar identidad inicial)
+  crypto-path: "../fabric/test-network/organizations/peerOrganizations/org1.example.com"
 
   # Usuario de aplicación para conectar con Fabric
   user: "appUser"
@@ -71,10 +74,10 @@ fabric:
 # Configuración de almacenamiento cifrado off-chain
 storage:
   # Directorio base para almacenar blobs cifrados
-  base-path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/data/storage"
+  base-path: "data/storage"
 
   # Ruta al keystore con las claves de cifrado
-  keystore-path: "/home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/keystore/keystore.json"
+  keystore-path: "src/main/resources/keystore/keystore.json"
 
   # Configuración de cifrado AES-GCM
   encryption:
@@ -91,7 +94,7 @@ storage:
 # Configuración de autenticación mock (simula Azure EntraID)
 auth:
   # Ruta al archivo con usuarios mock
-  users-file: "/home/ehuetadr/TFG/VotacionBC/backend-spring/src/main/resources/mock/users.json"
+  users-file: "src/main/resources/mock/users.json"
 
   # Configuración JWT simulada
   jwt:
@@ -141,7 +144,7 @@ logging:
     console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
   file:
-    name: "/home/ehuetadr/TFG/VotacionBC/backend-spring/logs/application.log"
+    name: "logs/application.log"
     max-size: "10MB"
     max-history: 30
 

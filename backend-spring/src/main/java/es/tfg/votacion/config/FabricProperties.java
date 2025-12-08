@@ -16,6 +16,7 @@ public class FabricProperties {
 
     private String connectionProfile;
     private String walletPath;
+    private String cryptoPath;
     private String user;
     private String channel;
     private String chaincode;
@@ -37,6 +38,14 @@ public class FabricProperties {
 
     public void setWalletPath(String walletPath) {
         this.walletPath = walletPath;
+    }
+
+    public String getCryptoPath() {
+        return cryptoPath;
+    }
+
+    public void setCryptoPath(String cryptoPath) {
+        this.cryptoPath = cryptoPath;
     }
 
     public String getUser() {

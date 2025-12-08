@@ -24,8 +24,8 @@ Asegúrate de tener instalado en tu entorno Linux:
 
 ### 2. Clonar y Preparar
 ```bash
-git clone <url-del-repo>
-cd VotacionBC
+git clone https://github.com/q-huet/uoc-tfg-votacion-blockchain.git
+cd uoc-tfg-votacion-blockchain
 chmod +x scripts/*.sh install-fabric.sh
 ```
 

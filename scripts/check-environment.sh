@@ -151,9 +151,9 @@ echo ""
 
 echo "## 7. PROYECTO TFG"
 echo "-----------------------------------"
-if [ -d ~/TFG/VotacionBC ]; then
-    echo -e "${GREEN}✓${NC} Directorio del proyecto existe: ~/TFG/VotacionBC"
-    cd ~/TFG/VotacionBC
+PROJECT_DIR=$(pwd)
+if [ -f "$PROJECT_DIR/pom.xml" ] || [ -f "$PROJECT_DIR/backend-spring/pom.xml" ]; then
+    echo -e "${GREEN}✓${NC} Ejecutando desde el directorio del proyecto: $PROJECT_DIR"
     
     # Git status
     BRANCH=$(git branch --show-current 2>/dev/null)
@@ -181,7 +181,7 @@ if [ -d ~/TFG/VotacionBC ]; then
         echo -e "${RED}✗${NC} Frontend Angular NO encontrado"
     fi
 else
-    echo -e "${RED}✗${NC} Directorio del proyecto NO encontrado: ~/TFG/VotacionBC"
+    echo -e "${RED}✗${NC} No parece estar en la raíz del proyecto (no se encontró pom.xml o backend-spring)"
 fi
 echo ""
 
@@ -227,5 +227,5 @@ fi
 
 echo ""
 echo "Para comparar con otro PC, ejecuta este script en ambos y compara los resultados."
-echo "Script guardado en: ~/TFG/VotacionBC/check-environment.sh"
+echo "Script ejecutado desde: $0"
 echo ""
