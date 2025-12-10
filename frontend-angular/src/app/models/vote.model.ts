@@ -33,23 +33,4 @@ export interface VoteReceipt {
   instructions: string;
 }
 
-/**
- * Resultados de una elección (solo ADMIN/AUDITOR)
- */
-export interface ElectionResults {
-  electionId: string;
-  title: string;
-  status: string;
-  totalVotes: number;
-  totalEligibleVoters: number;
-  participationRate: number;
-  options: Array<{
-    optionId: string;
-    title: string;
-    voteCount: number;
-    percentage: number;
-  }>;
-  startTime: string;
-  endTime: string;
-  closedAt: string | null;
-}
+

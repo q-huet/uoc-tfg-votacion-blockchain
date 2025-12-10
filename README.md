@@ -10,6 +10,7 @@ Cada parte del sistema tiene su propia documentación detallada:
 *   [**Frontend (Angular)**](./frontend-angular/README.md): Interfaz de usuario web.
 *   [**Chaincode (Smart Contract)**](./chaincode/README.md): Lógica inmutable en la Blockchain.
 *   [**Scripts**](./scripts/README.md): Herramientas de automatización y gestión.
+*   [**Usuarios de Prueba**](./backend-spring/src/main/resources/mock/README.md): Lista de usuarios mock para pruebas.
 
 ---
 

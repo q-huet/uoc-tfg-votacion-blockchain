@@ -468,20 +468,14 @@ public class ElectionController {
                 // Sync local state
                 electionService.registerVote(electionId, user.id(), voteRequest.optionId());
                 
-                // Return success response with a note
-                VoteSubmissionResponse response = new VoteSubmissionResponse(
-                    "PREVIOUSLY-RECORDED",
-                    electionId,
-                    Instant.now(),
-                    "ALREADY-HASHED",
-                    "ALREADY-STORED",
-                    true,
-                    "Vote was already recorded. Local status updated."
-                );
-                
                 return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(response);
+                    .status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse(
+                        409,
+                        "Conflict",
+                        "User has already voted in this election",
+                        request.getRequestURI()
+                    ));
             }
 
             logger.error("Error submitting vote", e);

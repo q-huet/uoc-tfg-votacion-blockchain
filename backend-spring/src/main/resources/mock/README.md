@@ -15,6 +15,16 @@ Este archivo contiene los usuarios mock para desarrollo y testing del sistema de
 | pedro.lopez | password123 | ADMIN | Dirección | Activo |
 | lucia.garcia | password123 | VOTER | Producción | **Inactivo** |
 | test.user | password123 | VOTER | Testing | Activo |
+| voter10 | password123 | VOTER | Operaciones | Activo |
+| voter11 | password123 | VOTER | Operaciones | Activo |
+| voter12 | password123 | VOTER | Operaciones | Activo |
+| voter13 | password123 | VOTER | Operaciones | Activo |
+| voter14 | password123 | VOTER | Operaciones | Activo |
+| voter15 | password123 | VOTER | Operaciones | Activo |
+| voter16 | password123 | VOTER | Operaciones | Activo |
+| voter17 | password123 | VOTER | Operaciones | Activo |
+| voter18 | password123 | VOTER | Operaciones | Activo |
+| voter19 | password123 | VOTER | Operaciones | Activo |
 
 ## 🔐 Información de Seguridad
 
