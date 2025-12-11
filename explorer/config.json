@@ -11,26 +11,5 @@
   "log-level": "debug",
   "enable-authentication": false,
   "host": "0.0.0.0",
-  "port": 8080,
-  "channel": "electionchannel",
-  "mspid": "Org1MSP",
-  "peers": [
-    "peer0.org1.example.com"
-  ],
-  "client": {
-    "tlsEnable": true,
-    "adminCredential": {
-      "id": "explorer-admin",
-      "password": "explorer-admin-pw"
-    }
-  },
-  "organizations": [
-    {
-      "mspid": "Org1MSP",
-      "adminUser": "Admin",
-      "adminPassword": "AdminPassword",
-      "signedCert": "/tmp/crypto/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem",
-      "adminPrivateKey": "/tmp/crypto/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk"
-    }
-  ]
+  "port": 8080
 }

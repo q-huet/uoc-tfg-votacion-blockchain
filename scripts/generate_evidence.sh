@@ -36,15 +36,15 @@ echo "   - Resumen de commits en $OUTPUT_DIR/peer0_org*_commits.txt"
 echo "   - Errores de validación en $OUTPUT_DIR/validation_errors.txt"
 
 # 2.1 Capturar log del intento de hackeo si existe
-if [ -f "hack_attempt.log" ]; then
+if [ -f "scripts/logs/hack_attempt.log" ]; then
     echo "2.1 Capturando log de simulación de hackeo (Sindicato)..."
-    cp hack_attempt.log "$OUTPUT_DIR/hack_attempt_console.txt"
+    cp scripts/logs/hack_attempt.log "$OUTPUT_DIR/hack_attempt_console.txt"
 fi
 
 # 2.2 Capturar log del intento de hackeo de la Empresa si existe
-if [ -f "hack_attempt_company.log" ]; then
+if [ -f "scripts/logs/hack_attempt_company.log" ]; then
     echo "2.2 Capturando log de simulación de hackeo (Empresa)..."
-    cp hack_attempt_company.log "$OUTPUT_DIR/hack_attempt_company_console.txt"
+    cp scripts/logs/hack_attempt_company.log "$OUTPUT_DIR/hack_attempt_company_console.txt"
 fi
 
 # 3. Logs del Orderer (Creación de Bloques)

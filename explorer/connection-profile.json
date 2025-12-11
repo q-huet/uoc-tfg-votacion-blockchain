@@ -3,10 +3,31 @@
     "version": "1.0.0",
     "client": {
         "organization": "Org1",
+        "tlsEnable": true,
         "connection": {
             "timeout": {
                 "peer": {
                     "endorser": "300"
+                }
+            }
+        },
+        "adminCredential": {
+            "id": "explorer-admin",
+            "password": "explorer-admin-pw"
+        }
+    },
+    "channels": {
+        "electionchannel": {
+            "orderers": [
+                "orderer.example.com"
+            ],
+            "peers": {
+                "peer0.org1.example.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "ledgerQuery": true,
+                    "eventSource": true,
+                    "discover": true
                 }
             }
         }
@@ -16,7 +37,15 @@
             "mspid": "Org1MSP",
             "peers": [
                 "peer0.org1.example.com"
-            ]
+            ],
+            "adminUser": "Admin",
+            "adminPassword": "AdminPassword",
+            "signedCert": {
+                "path": "/tmp/crypto/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem"
+            },
+            "adminPrivateKey": {
+                "path": "/tmp/crypto/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk"
+            }
         }
     },
     "peers": {
@@ -28,6 +57,30 @@
             "grpcOptions": {
                 "ssl-target-name-override": "peer0.org1.example.com",
                 "hostnameOverride": "peer0.org1.example.com"
+            }
+        }
+    },
+    "orderers": {
+        "orderer.example.com": {
+            "url": "grpcs://orderer.example.com:7050",
+            "tlsCACerts": {
+                "path": "/tmp/crypto/organizations/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem"
+            },
+            "grpcOptions": {
+                "ssl-target-name-override": "orderer.example.com",
+                "hostnameOverride": "orderer.example.com"
+            }
+        }
+    },
+    "certificateAuthorities": {
+        "ca.org1.example.com": {
+            "url": "https://ca.org1.example.com:7054",
+            "caName": "ca-org1",
+            "tlsCACerts": {
+                "path": "/tmp/crypto/organizations/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
+            },
+            "httpOptions": {
+                "verify": false
             }
         }
     }

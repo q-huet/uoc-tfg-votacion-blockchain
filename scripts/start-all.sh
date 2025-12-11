@@ -13,18 +13,34 @@ echo -e "${BLUE}Cleaning up local backend data...${NC}"
 rm -rf backend-spring/data/elections-db.json
 rm -rf backend-spring/data/storage/*
 rm -rf backend-spring/wallet/*
+
+# Stop and clean Explorer
+echo "Cleaning up Explorer..."
+if [ -d "explorer" ]; then
+    pushd explorer > /dev/null
+    docker-compose down -v 2>/dev/null || true
+    popd > /dev/null
+fi
+
 echo "Local data cleaned."
 
 # 1. Start Network
 echo -e "${GREEN}[1/3] Starting Hyperledger Fabric Network...${NC}"
 ./scripts/start-network.sh
 
+# 1.5 Start Hyperledger Explorer
+echo -e "${GREEN}[1.5/3] Starting Hyperledger Explorer...${NC}"
+pushd explorer > /dev/null
+docker-compose up -d
+popd > /dev/null
+echo "Explorer started at http://localhost:8090"
+
 # 2. Start Backend
 echo -e "${GREEN}[2/3] Starting Spring Boot Backend...${NC}"
 # Run in background and save PID
-./scripts/run-backend.sh > backend.log 2>&1 &
+./scripts/run-backend.sh > backend-spring/logs/backend.log 2>&1 &
 BACKEND_PID=$!
-echo "Backend starting with PID $BACKEND_PID. Logs are being written to backend.log"
+echo "Backend starting with PID $BACKEND_PID. Logs are being written to backend-spring/logs/backend.log"
 
 # Wait for Backend to be ready (check for port 8080)
 echo "Waiting for Backend to initialize..."
@@ -36,7 +52,7 @@ while ! nc -z localhost 8080; do
     if [ $COUNT -ge $MAX_RETRIES ]; then
         echo "Error: Backend failed to start in time."
         echo "=== Backend Logs (Last 50 lines) ==="
-        tail -n 50 backend.log
+        tail -n 50 backend-spring/logs/backend.log
         echo "===================================="
         kill $BACKEND_PID
         exit 1

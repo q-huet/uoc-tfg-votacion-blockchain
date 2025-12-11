@@ -23,7 +23,7 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
                         name = "Apache 2.0 License",
                         url = "http://www.apache.org/licenses/LICENSE-2.0.html"),
                 contact = @Contact(
-                        email = "ehuetadr@uoc.edu",
+                        email = "ehuet@uoc.edu",
                         name = "Enrique Huet",
                         url = "https://github.com/q-huet/uoc-tfg-votacion-blockchain")))
 @Default

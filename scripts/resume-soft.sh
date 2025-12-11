@@ -27,7 +27,7 @@ fi
 
 # 2. Start Backend
 echo -e "${GREEN}[2/3] Starting Spring Boot Backend...${NC}"
-./scripts/run-backend.sh > backend.log 2>&1 &
+./scripts/run-backend.sh > backend-spring/logs/backend.log 2>&1 &
 BACKEND_PID=$!
 echo "Backend starting with PID $BACKEND_PID"
 
@@ -40,7 +40,7 @@ while ! nc -z localhost 8080; do
     COUNT=$((COUNT+1))
     if [ $COUNT -ge $MAX_RETRIES ]; then
         echo "Error: Backend failed to start."
-        tail -n 50 backend.log
+        tail -n 50 backend-spring/logs/backend.log
         kill $BACKEND_PID
         exit 1
     fi

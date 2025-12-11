@@ -51,12 +51,12 @@ peer chaincode invoke \
     -n electioncc \
     --peerAddresses localhost:7051 \
     --tlsRootCertFiles "$PEER0_ORG1_CA" \
-    -c "{\"function\":\"EmitVote\",\"Args\":[\"$FAKE_ELECTION_ID\",\"$FAKE_VOTE_HASH\"]}" > hack_attempt.log 2>&1
+    -c "{\"function\":\"EmitVote\",\"Args\":[\"$FAKE_ELECTION_ID\",\"$FAKE_VOTE_HASH\"]}" > scripts/logs/hack_attempt.log 2>&1
 
 EXIT_CODE=$?
 
 echo -e "${BLUE}[2] Resultado del intento:${NC}"
-cat hack_attempt.log
+cat scripts/logs/hack_attempt.log
 
 if [ $EXIT_CODE -ne 0 ]; then
     echo -e "\n${GREEN}✅ ÉXITO DE LA PRUEBA DE SEGURIDAD${NC}"
