@@ -9,6 +9,7 @@ Cada parte del sistema tiene su propia documentación detallada:
 *   [**Backend (Spring Boot)**](./backend-spring/README.md): Lógica de negocio, API REST y conexión con Fabric.
 *   [**Frontend (Angular)**](./frontend-angular/README.md): Interfaz de usuario web.
 *   [**Chaincode (Smart Contract)**](./chaincode/README.md): Lógica inmutable en la Blockchain.
+*   [**Hyperledger Explorer**](./explorer/README.md): Visualizador de bloques y transacciones.
 *   [**Scripts**](./scripts/README.md): Herramientas de automatización y gestión.
 *   [**Usuarios de Prueba**](./backend-spring/src/main/resources/mock/README.md): Lista de usuarios mock para pruebas.
 
@@ -17,11 +18,21 @@ Cada parte del sistema tiene su propia documentación detallada:
 ## 🚀 Guía de Inicio Rápido
 
 ### 1. Requisitos Previos
-Asegúrate de tener instalado en tu entorno Linux:
-*   **Docker** y **Docker Compose**.
+Para asegurar que tu entorno está listo, hemos preparado un script de verificación.
+
+Ejecuta el siguiente comando para comprobar tus herramientas instaladas:
+
+```bash
+./scripts/check-environment.sh
+```
+
+Este script verificará:
+*   **Docker** y **Docker Compose** (con permisos de usuario correctos).
 *   **Java 21** (JDK).
 *   **Node.js** (v18+) y **NPM**.
-*   **Curl** y **Git**.
+*   Herramientas básicas: **Curl**, **Git**, **JQ**, **Make**.
+
+Si falta alguna herramienta, el script te sugerirá el comando para instalarla en Ubuntu/Debian.
 
 ### 2. Clonar y Preparar
 ```bash
@@ -78,6 +89,28 @@ Para continuar donde lo dejaste:
 ./scripts/resume-soft.sh
 ```
 Esto reiniciará los contenedores existentes y volverá a levantar el Backend y el Frontend.
+
+---
+
+## 🛡️ Simulación de Ciberataques
+
+Este proyecto incluye scripts para demostrar la seguridad y resistencia de la red Blockchain ante intentos de manipulación.
+
+### 1. Ataque de Consenso (Endorsement Policy)
+Simula un intento de **Org1 (Sindicato A)** de registrar un voto sin el consenso de **Org2 (Sindicato B)**. La transacción debería fallar porque la política de aval requiere la firma de ambas organizaciones.
+
+```bash
+./scripts/simulate-hack.sh
+```
+
+### 2. Ataque de Identidad (Empresa)
+Simula un intento de la **Empresa (Orderer)** de emitir un voto utilizando sus credenciales administrativas. La transacción debería ser rechazada porque la identidad del Orderer no está autorizada para invocar transacciones de voto en el Chaincode.
+
+```bash
+./scripts/simulate-hack-company.sh
+```
+
+Los logs de estos intentos quedarán registrados en `scripts/logs/`.
 
 ---
 
