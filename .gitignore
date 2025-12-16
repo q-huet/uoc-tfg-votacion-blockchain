@@ -1,10 +1,6 @@
 # Documentation
-PLAN_TRABAJO.md
-HELP.md
-prompt-context.md
-resumen_frontend.md
-plan_frontend.md
-markdown/
+docs/Design
+
 
 # Hyperledger Fabric Infrastructure
 fabric/
