@@ -376,4 +376,19 @@ if [[ "${_arg_comp[@]}" =~ (^| |,)d(ocker)? ]]; then
         pullImages
 fi
 
+# Patching for VotacionBC project
+echo
+echo "===> Patching fabric-samples for VotacionBC project"
+# We expect to be inside fabric-samples if samples were installed
+if [ -f "test-network/compose/compose-couch.yaml" ]; then
+    echo "===> Updating CouchDB port to 8984 in test-network/compose/compose-couch.yaml"
+    sed -i 's/7984:5984/8984:5984/g' test-network/compose/compose-couch.yaml
+elif [ -f "fabric-samples/test-network/compose/compose-couch.yaml" ]; then
+     # Fallback in case we are still in root
+    echo "===> Updating CouchDB port to 8984 in fabric-samples/test-network/compose/compose-couch.yaml"
+    sed -i 's/7984:5984/8984:5984/g' fabric-samples/test-network/compose/compose-couch.yaml
+else
+    echo "WARNING: test-network/compose/compose-couch.yaml not found. Could not patch CouchDB port."
+fi
+
 
