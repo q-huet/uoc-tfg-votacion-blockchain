@@ -110,3 +110,8 @@ This generated password is for development use only. Your security configuration
 2025-12-11 18:42:55.669  INFO 5427 --- [           main] es.tfg.votacion.config.SecurityConfig    : Spring Security configured successfully
 2025-12-11 18:42:56.023  INFO 5427 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/api/v1'
 2025-12-11 18:42:56.033  INFO 5427 --- [           main] es.tfg.votacion.Application              : Started Application in 22.65 seconds (process running for 20.862)
+2025-12-15 02:41:33.971  INFO 5427 --- [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-15 02:41:33.982  INFO 5427 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-12-15 02:41:33.984  INFO 5427 --- [ionShutdownHook] es.tfg.votacion.service.FabricService    : Closing Fabric Gateway connection
+2025-12-15 02:41:33.988  INFO 5427 --- [ionShutdownHook] es.tfg.votacion.service.StorageService   : Shutting down Storage Service
+2025-12-15 02:41:33.988 DEBUG 5427 --- [ionShutdownHook] es.tfg.votacion.service.StorageService   : Master key cleared from memory

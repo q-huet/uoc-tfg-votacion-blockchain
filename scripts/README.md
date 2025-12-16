@@ -20,7 +20,8 @@ Este directorio contiene scripts Bash para gestionar el ciclo de vida completo d
 | `run-backend.sh` | Compila y ejecuta el Backend Spring Boot. |
 | `run-frontend.sh` | Instala dependencias y sirve el Frontend Angular. |
 | `check-environment.sh` | Verifica versiones de Java, Docker, Node, etc. |
-| `clean-fabric.sh` | Elimina ejemplos y archivos innecesarios de la carpeta `fabric/` tras la instalación. |
+| `clean-fabric.sh` | Elimina ejemplos y archivos innecesarios de la carpeta `fabric-samples/` tras la instalación. |
+
 | `simulate-hack.sh` | **Seguridad**. Simula un intento de voto fraudulento por parte de Org1 (Sindicato A) sin el aval de Org2 (Sindicato B). |
 | `simulate-hack-company.sh` | **Seguridad**. Simula un intento de voto ilegítimo por parte de la Empresa (Orderer Org) usando su identidad administrativa. |
 | `generate_evidence.sh` | Recopila logs, estados y evidencias de seguridad (incluyendo intentos de hackeo). |

@@ -43,13 +43,14 @@ spring:
 # Configuración de Hyperledger Fabric
 fabric:
   # Ruta al perfil de conexión de la organización
-  connection-profile: "../fabric/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
+  connection-profile: "../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/connection-org1.json"
 
   # Ruta del wallet donde se almacenan las identidades
   wallet-path: "wallet"
 
-  # Ruta a los materiales criptográficos (para importar identidad inicial)
-  crypto-path: "../fabric/test-network/organizations/peerOrganizations/org1.example.com"
+  # Ruta a los materiales criptográficos (para inicializar el wallet si está vacío)
+  crypto-path: "../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com"
+
 
   # Usuario de aplicación para conectar con Fabric
   user: "appUser"

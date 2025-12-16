@@ -2,14 +2,15 @@
 set -e
 
 # Add Fabric binaries to PATH
-export PATH=${PWD}/../fabric/bin:$PATH
-export FABRIC_CFG_PATH=${PWD}/../fabric/config/
+export PATH=${PWD}/../fabric-samples/bin:$PATH
+export FABRIC_CFG_PATH=${PWD}/../fabric-samples/config/
 
 echo "Starting Hyperledger Fabric Network..."
 echo "Fabric Binaries Path: $(which peer)"
 
 # Navigate to test-network
-cd $(dirname "$0")/../fabric/test-network
+cd $(dirname "$0")/../fabric-samples/test-network
+
 
 # Tear down any existing network
 echo "Cleaning up previous network..."

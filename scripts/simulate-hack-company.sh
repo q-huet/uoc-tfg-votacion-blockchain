@@ -12,11 +12,12 @@
 # Objetivo: Demostrar que el Chaincode o la Red rechazan la transacción
 # porque la identidad 'OrdererMSP' no tiene permisos para votar.
 
-export PATH=${PWD}/../fabric/bin:$PATH
-export FABRIC_CFG_PATH=${PWD}/../fabric/config/
+export PATH=${PWD}/../fabric-samples/bin:$PATH
+export FABRIC_CFG_PATH=${PWD}/../fabric-samples/config/
 
 # Colores
 RED='\033[0;31m'
+
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m'
@@ -27,15 +28,16 @@ echo "Escenario: El Administrador de la Empresa (OrdererMSP) intenta votar."
 # 1. Definir variables de entorno para actuar como Orderer Admin
 # Nota: Usamos la identidad del Admin del Orderer, pero necesitamos hablar con los Peers
 export CORE_PEER_TLS_ENABLED=true
-export ORDERER_CA=${PWD}/../fabric/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+export ORDERER_CA=${PWD}/../fabric-samples/test-network/organizations/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 
 # Usamos la identidad MSP del Orderer
 export CORE_PEER_LOCALMSPID="OrdererMSP"
-export CORE_PEER_MSPCONFIGPATH=${PWD}/../fabric/test-network/organizations/ordererOrganizations/example.com/users/Admin@example.com/msp
+export CORE_PEER_MSPCONFIGPATH=${PWD}/../fabric-samples/test-network/organizations/ordererOrganizations/example.com/users/Admin@example.com/msp
 
 # Necesitamos confiar en los certificados TLS de los Peers para hablar con ellos
-export PEER0_ORG1_CA=${PWD}/../fabric/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-export PEER0_ORG2_CA=${PWD}/../fabric/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+export PEER0_ORG1_CA=${PWD}/../fabric-samples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+export PEER0_ORG2_CA=${PWD}/../fabric-samples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+
 
 # Datos del voto falso de la empresa
 FAKE_ELECTION_ID="election-hack-company"

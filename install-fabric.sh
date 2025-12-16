@@ -376,24 +376,4 @@ if [[ "${_arg_comp[@]}" =~ (^| |,)d(ocker)? ]]; then
         pullImages
 fi
 
-# Rename fabric-samples to fabric to match project structure
-if [ -d "fabric-samples" ]; then
-    if [ -d "fabric" ]; then
-        echo
-        echo "Fabric directory already exists. Merging binaries and config..."
-        if [ ! -d "fabric/bin" ] && [ -d "fabric-samples/bin" ]; then
-            mv fabric-samples/bin fabric/
-        fi
-        if [ ! -d "fabric/config" ] && [ -d "fabric-samples/config" ]; then
-            mv fabric-samples/config fabric/
-        fi
-        # Leave the rest for the cleanup script or manual inspection
-        echo "Binaries merged. You can run scripts/clean-fabric.sh to remove unused samples."
-    else
-        echo
-        echo "Renaming fabric-samples to fabric..."
-        mv fabric-samples fabric
-        echo "Done."
-    fi
-fi
 

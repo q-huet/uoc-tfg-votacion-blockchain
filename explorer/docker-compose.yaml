@@ -43,8 +43,9 @@ services:
     volumes:
       - ./config.json:/opt/explorer/app/platform/fabric/config.json
       - ./connection-profile.json:/opt/explorer/app/platform/fabric/connection-profile.json
-      - ../fabric/test-network:/tmp/crypto
+      - ../fabric-samples/test-network:/tmp/crypto
       - walletstore:/opt/explorer/wallet
+
     ports:
       - 8090:8080
     depends_on:

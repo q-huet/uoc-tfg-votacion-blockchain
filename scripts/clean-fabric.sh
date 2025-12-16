@@ -7,17 +7,10 @@
 
 # Directorio raíz del proyecto
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-FABRIC_DIR="${PROJECT_ROOT}/fabric"
+FABRIC_DIR="${PROJECT_ROOT}/fabric-samples"
 
 echo "🧹 Iniciando limpieza de componentes de Fabric..."
 
-# 1. Corregir anidamiento si install-fabric.sh movió fabric-samples dentro de fabric
-if [ -d "${FABRIC_DIR}/fabric-samples" ]; then
-    echo "⚠️  Detectada carpeta anidada 'fabric-samples'. Moviendo binarios..."
-    
-    # Mover bin y config si no existen en el nivel superior
-    if [ ! -d "${FABRIC_DIR}/bin" ] && [ -d "${FABRIC_DIR}/fabric-samples/bin" ]; then
-        mv "${FABRIC_DIR}/fabric-samples/bin" "${FABRIC_DIR}/"
         echo "✅ Binarios movidos a ${FABRIC_DIR}/bin"
     fi
     

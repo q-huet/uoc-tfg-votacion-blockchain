@@ -22,7 +22,8 @@ El backend suele ser orquestado por los scripts en la raíz del proyecto, pero p
 
 ### Requisitos
 *   Red Hyperledger Fabric activa.
-*   Certificados generados en `../fabric/test-network`.
+*   Certificados generados en `../fabric-samples/test-network`.
+
 
 ### Comando
 ```bash
