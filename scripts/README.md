@@ -26,6 +26,13 @@ Este directorio contiene scripts Bash para gestionar el ciclo de vida completo d
 | `simulate-hack-company.sh` | **Seguridad**. Simula un intento de voto ilegítimo por parte de la Empresa (Orderer Org) usando su identidad administrativa. |
 | `generate_evidence.sh` | Recopila logs, estados y evidencias de seguridad (incluyendo intentos de hackeo). |
 
+## 🔐 Gestión de Claves (Cold Storage)
+
+Aunque no se incluyen scripts automatizados para la gestión de "Cold Storage" (por su naturaleza offline), la arquitectura asume que:
+1.  Las claves de elección se generan en un entorno seguro.
+2.  Solo la **Clave Pública** se carga en el sistema (`backend-spring/data/elections-db.json` o similar) al crear la elección.
+3.  La **Clave Privada** permanece fuera de línea hasta el momento del recuento.
+
 ## ⚠️ Notas Importantes
 
 *   **Permisos**: Asegúrate de dar permisos de ejecución: `chmod +x *.sh`.

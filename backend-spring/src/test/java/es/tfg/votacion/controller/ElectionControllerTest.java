@@ -145,7 +145,8 @@ class ElectionControllerTest {
                 0,
                 1,
                 Boolean.FALSE,
-                Boolean.TRUE
+                Boolean.TRUE,
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA..."
         );
 
         // Elección cerrada
@@ -159,11 +160,19 @@ class ElectionControllerTest {
                 LocalDateTime.now().minusDays(1),
                 "admin-001",
                 LocalDateTime.now().minusDays(3),
-                100,
+                40,
                 1,
                 Boolean.FALSE,
-                Boolean.TRUE
+                Boolean.TRUE,
+                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA..."
         );
+        // Mock auth service roles
+        when(authService.hasRole(any(), eq(UserRole.ADMIN))).thenReturn(true);
+        when(authService.hasRole(any(), eq(UserRole.VOTER))).thenReturn(true);
+        when(authService.hasRole(any(), eq(UserRole.AUDITOR))).thenReturn(true);
+        // Fix for varargs matching
+        when(authService.hasAnyRole(any(), any())).thenReturn(true);
+        when(authService.hasAnyRole(any(), eq(UserRole.ADMIN), eq(UserRole.AUDITOR))).thenReturn(true);
     }
 
     // ==================== GET ELECTIONS TESTS ====================
@@ -176,14 +185,14 @@ class ElectionControllerTest {
             .thenReturn(List.of(activeElection));
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections"))
+        mockMvc.perform(get("/elections"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].electionId").value("election-001"))
+                .andExpect(jsonPath("$[0].id").value("election-001"))
                 .andExpect(jsonPath("$[0].title").value("Test Election"))
-                .andExpect(jsonPath("$[0].status").value("ACTIVE"))
+                .andExpect(jsonPath("$[0].status").value("active"))
                 .andExpect(jsonPath("$[0].hasVoted").value(false));
     }
 
@@ -199,7 +208,7 @@ class ElectionControllerTest {
             .thenReturn(true);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections")
+        mockMvc.perform(get("/elections")
                 .header("Authorization", "Bearer " + voterToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].hasVoted").value(true));
@@ -213,7 +222,7 @@ class ElectionControllerTest {
             .thenReturn(Collections.emptyList());
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections"))
+        mockMvc.perform(get("/elections"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(0)));
@@ -233,13 +242,13 @@ class ElectionControllerTest {
             .thenReturn(false);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections/election-001")
+        mockMvc.perform(get("/elections/election-001")
                 .header("Authorization", "Bearer " + voterToken))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.electionId").value("election-001"))
+                .andExpect(jsonPath("$.id").value("election-001"))
                 .andExpect(jsonPath("$.title").value("Test Election"))
-                .andExpect(jsonPath("$.status").value("ACTIVE"))
-                .andExpect(jsonPath("$.options", hasSize(2)))
+                .andExpect(jsonPath("$.status").value("active"))
+                .andExpect(jsonPath("$.options", hasSize(3)))
                 .andExpect(jsonPath("$.hasVoted").value(false));
     }
 
@@ -253,17 +262,17 @@ class ElectionControllerTest {
             .thenReturn(Optional.empty());
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections/non-existent")
+        mockMvc.perform(get("/elections/non-existent")
                 .header("Authorization", "Bearer " + voterToken))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
-                .andExpect(jsonPath("$.message").value("Election not found"));
+                .andExpect(jsonPath("$.message").value("Election not found: non-existent"));
     }
 
     @Test
     @DisplayName("Obtener elección sin token retorna 401")
     void testGetElectionWithoutAuth() throws Exception {
-        mockMvc.perform(get("/api/v1/elections/election-001"))
+        mockMvc.perform(get("/elections/election-001"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -276,6 +285,7 @@ class ElectionControllerTest {
         VoteSubmissionRequest voteRequest = new VoteSubmissionRequest(
             "election-001",
             "opt-001",
+            "encrypted-payload",
             "Comentario opcional"
         );
 
@@ -288,15 +298,15 @@ class ElectionControllerTest {
         when(storageService.storeEncrypted(eq("election-001"), any(byte[].class)))
             .thenReturn("blob-12345");
         when(fabricService.emitVote(anyString(), eq("election-001")))
-            .thenReturn("TX-12345");
+            .thenReturn("1234567890abcdef");
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-001/vote")
+        mockMvc.perform(post("/elections/election-001/vote")
                 .header("Authorization", "Bearer " + voterToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voteRequest)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.transactionId").value("TX-12345"))
+                .andExpect(jsonPath("$.transactionId").value("1234567890abcdef"))
                 .andExpect(jsonPath("$.electionId").value("election-001"))
                 .andExpect(jsonPath("$.timestamp").exists())
                 .andExpect(jsonPath("$.commitment").exists())
@@ -304,7 +314,7 @@ class ElectionControllerTest {
                 .andExpect(jsonPath("$.verified").value(true));
 
         // Verify vote was registered
-        verify(electionService).registerVote("election-001", "voter-001", "opt-001");
+        verify(electionService).registerVote("election-001", "voter-001", "ENCRYPTED");
     }
 
     @Test
@@ -314,11 +324,12 @@ class ElectionControllerTest {
         VoteSubmissionRequest voteRequest = new VoteSubmissionRequest(
             "election-001",
             "opt-001",
+            "encrypted-payload",
             null
         );
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-001/vote")
+        mockMvc.perform(post("/elections/election-001/vote")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voteRequest)))
                 .andExpect(status().isUnauthorized());
@@ -331,6 +342,7 @@ class ElectionControllerTest {
         VoteSubmissionRequest voteRequest = new VoteSubmissionRequest(
             "election-001",
             "opt-001",
+            "encrypted-payload",
             null
         );
 
@@ -338,7 +350,7 @@ class ElectionControllerTest {
             .thenReturn(adminUser);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-001/vote")
+        mockMvc.perform(post("/elections/election-001/vote")
                 .header("Authorization", "Bearer " + adminToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voteRequest)))
@@ -352,6 +364,7 @@ class ElectionControllerTest {
         VoteSubmissionRequest voteRequest = new VoteSubmissionRequest(
             "election-001",
             "opt-001",
+            "encrypted-payload",
             null
         );
 
@@ -363,7 +376,7 @@ class ElectionControllerTest {
             .thenReturn(true);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-001/vote")
+        mockMvc.perform(post("/elections/election-001/vote")
                 .header("Authorization", "Bearer " + voterToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voteRequest)))
@@ -382,6 +395,7 @@ class ElectionControllerTest {
         VoteSubmissionRequest voteRequest = new VoteSubmissionRequest(
             "election-002",
             "opt-001",
+            "encrypted-payload",
             null
         );
 
@@ -391,7 +405,7 @@ class ElectionControllerTest {
             .thenReturn(Optional.of(closedElection));
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-002/vote")
+        mockMvc.perform(post("/elections/election-002/vote")
                 .header("Authorization", "Bearer " + voterToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voteRequest)))
@@ -406,6 +420,7 @@ class ElectionControllerTest {
         VoteSubmissionRequest voteRequest = new VoteSubmissionRequest(
             "election-001",
             "invalid-option",
+            null,
             null
         );
 
@@ -417,25 +432,25 @@ class ElectionControllerTest {
             .thenReturn(false);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-001/vote")
+        mockMvc.perform(post("/elections/election-001/vote")
                 .header("Authorization", "Bearer " + voterToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voteRequest)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Invalid option for this election"));
+                .andExpect(jsonPath("$.message").value("Invalid option ID or missing encrypted payload"));
     }
 
     @Test
     @DisplayName("Votar con campos vacíos retorna 400")
     void testVoteWithEmptyFields() throws Exception {
         // Given
-        VoteSubmissionRequest voteRequest = new VoteSubmissionRequest("", "", null);
+        VoteSubmissionRequest voteRequest = new VoteSubmissionRequest("", "", "", null);
 
         when(authService.validateJwtToken(voterToken))
             .thenReturn(voterUser);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-001/vote")
+        mockMvc.perform(post("/elections/election-001/vote")
                 .header("Authorization", "Bearer " + voterToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voteRequest)))
@@ -452,22 +467,28 @@ class ElectionControllerTest {
             .thenReturn(adminUser);
         when(electionService.getElectionById("election-001"))
             .thenReturn(Optional.of(activeElection));
-        doNothing().when(electionService).closeElection("election-001");
+        
+        // Mock return value
+        when(electionService.closeElection(eq("election-001"), anyString()))
+            .thenReturn(closedElection);
+
+        es.tfg.votacion.dto.CloseElectionRequest closeRequest = new es.tfg.votacion.dto.CloseElectionRequest("fake-private-key");
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-001/close")
-                .header("Authorization", "Bearer " + adminToken))
+        mockMvc.perform(post("/elections/election-001/close")
+                .header("Authorization", "Bearer " + adminToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(closeRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("Election closed successfully"))
-                .andExpect(jsonPath("$.electionId").value("election-001"));
+                .andExpect(jsonPath("$.status").value("closed"));
 
-        verify(electionService).closeElection("election-001");
+        verify(electionService).closeElection(eq("election-001"), anyString());
     }
 
     @Test
     @DisplayName("Cerrar elección sin autenticación retorna 401")
     void testCloseElectionWithoutAuth() throws Exception {
-        mockMvc.perform(post("/api/v1/elections/election-001/close"))
+        mockMvc.perform(post("/elections/election-001/close"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -479,7 +500,7 @@ class ElectionControllerTest {
             .thenReturn(voterUser);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-001/close")
+        mockMvc.perform(post("/elections/election-001/close")
                 .header("Authorization", "Bearer " + voterToken))
                 .andExpect(status().isForbidden());
     }
@@ -494,10 +515,12 @@ class ElectionControllerTest {
             .thenReturn(Optional.empty());
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/non-existent/close")
-                .header("Authorization", "Bearer " + adminToken))
+        mockMvc.perform(post("/elections/non-existent/close")
+                .header("Authorization", "Bearer " + adminToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"privateKey\":\"fake-private-key\"}"))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("Election not found"));
+                .andExpect(jsonPath("$.message").value("Election not found: non-existent"));
     }
 
     @Test
@@ -510,8 +533,10 @@ class ElectionControllerTest {
             .thenReturn(Optional.of(closedElection));
 
         // When & Then
-        mockMvc.perform(post("/api/v1/elections/election-002/close")
-                .header("Authorization", "Bearer " + adminToken))
+        mockMvc.perform(post("/elections/election-002/close")
+                .header("Authorization", "Bearer " + adminToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"privateKey\":\"fake-private-key\"}"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Election is not active"));
     }
@@ -535,14 +560,13 @@ class ElectionControllerTest {
             .thenReturn(results);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections/election-002/results")
+        mockMvc.perform(get("/elections/election-002/results")
                 .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.electionId").value("election-002"))
                 .andExpect(jsonPath("$.title").value("Closed Election"))
-                .andExpect(jsonPath("$.status").value("CLOSED"))
+                .andExpect(jsonPath("$.status").value("closed"))
                 .andExpect(jsonPath("$.totalVotes").value(40))
-                .andExpect(jsonPath("$.results", hasSize(2)))
+                .andExpect(jsonPath("$.results", hasSize(3)))
                 .andExpect(jsonPath("$.results[0].votes").isNumber())
                 .andExpect(jsonPath("$.results[0].percentage").isNumber());
     }
@@ -561,7 +585,7 @@ class ElectionControllerTest {
             .thenReturn(results);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections/election-002/results")
+        mockMvc.perform(get("/elections/election-002/results")
                 .header("Authorization", "Bearer " + auditorToken))
                 .andExpect(status().isOk());
     }
@@ -569,7 +593,7 @@ class ElectionControllerTest {
     @Test
     @DisplayName("Ver resultados sin autenticación retorna 401")
     void testGetResultsWithoutAuth() throws Exception {
-        mockMvc.perform(get("/api/v1/elections/election-002/results"))
+        mockMvc.perform(get("/elections/election-002/results"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -581,7 +605,7 @@ class ElectionControllerTest {
             .thenReturn(voterUser);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections/election-002/results")
+        mockMvc.perform(get("/elections/election-002/results")
                 .header("Authorization", "Bearer " + voterToken))
                 .andExpect(status().isForbidden());
     }
@@ -596,10 +620,10 @@ class ElectionControllerTest {
             .thenReturn(Optional.of(activeElection));
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections/election-001/results")
+        mockMvc.perform(get("/elections/election-001/results")
                 .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Results are only available for closed elections"));
+                .andExpect(jsonPath("$.message").value("Election must be closed to view results"));
     }
 
     @Test
@@ -612,7 +636,7 @@ class ElectionControllerTest {
             .thenReturn(Optional.empty());
 
         // When & Then
-        mockMvc.perform(get("/api/v1/elections/non-existent/results")
+        mockMvc.perform(get("/elections/non-existent/results")
                 .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isNotFound());
     }
@@ -626,7 +650,7 @@ class ElectionControllerTest {
         when(electionService.getActiveElections())
             .thenReturn(List.of(activeElection));
 
-        mockMvc.perform(get("/api/v1/elections"))
+        mockMvc.perform(get("/elections"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
 
@@ -638,7 +662,7 @@ class ElectionControllerTest {
         when(electionService.hasUserVoted("election-001", "voter-001"))
             .thenReturn(false);
 
-        mockMvc.perform(get("/api/v1/elections/election-001")
+        mockMvc.perform(get("/elections/election-001")
                 .header("Authorization", "Bearer " + voterToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.hasVoted").value(false));
@@ -647,15 +671,16 @@ class ElectionControllerTest {
         VoteSubmissionRequest voteRequest = new VoteSubmissionRequest(
             "election-001",
             "opt-001",
+            "encrypted-payload",
             null
         );
 
         when(storageService.storeEncrypted(eq("election-001"), any(byte[].class)))
             .thenReturn("blob-12345");
         when(fabricService.emitVote(anyString(), eq("election-001")))
-            .thenReturn("TX-12345");
+            .thenReturn("1234567890abcdef");
 
-        mockMvc.perform(post("/api/v1/elections/election-001/vote")
+        mockMvc.perform(post("/elections/election-001/vote")
                 .header("Authorization", "Bearer " + voterToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voteRequest)))

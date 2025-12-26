@@ -35,12 +35,16 @@ public class ElectionService {
     private final Map<String, Election> elections = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> userVotes = new ConcurrentHashMap<>(); // electionId -> Set<userId>
     private final Map<String, Map<String, Integer>> voteResults = new ConcurrentHashMap<>(); // electionId -> optionId -> count
+    private final Map<String, String> blobTransactions = new ConcurrentHashMap<>(); // blobId -> transactionId
     
     @org.springframework.beans.factory.annotation.Autowired
     private StorageService storageService;
 
     @org.springframework.beans.factory.annotation.Autowired
     private FabricService fabricService;
+
+    @org.springframework.beans.factory.annotation.Autowired
+    private CryptoService cryptoService;
 
     private final ObjectMapper objectMapper;
 
@@ -72,6 +76,9 @@ public class ElectionService {
                 if (data.voteResults != null) {
                     voteResults.putAll(data.voteResults);
                 }
+                if (data.blobTransactions != null) {
+                    blobTransactions.putAll(data.blobTransactions);
+                }
                 logger.info("Loaded {} elections from disk", elections.size());
                 return;
             } catch (IOException e) {
@@ -97,6 +104,7 @@ public class ElectionService {
             data.elections = new HashMap<>(elections);
             data.userVotes = new HashMap<>(userVotes);
             data.voteResults = new HashMap<>(voteResults);
+            data.blobTransactions = new HashMap<>(blobTransactions);
             
             objectMapper.writeValue(file, data);
             logger.info("Data saved to disk");
@@ -109,6 +117,7 @@ public class ElectionService {
         public Map<String, Election> elections;
         public Map<String, Set<String>> userVotes;
         public Map<String, Map<String, Integer>> voteResults;
+        public Map<String, String> blobTransactions;
     }
 
     /**
@@ -230,7 +239,7 @@ public class ElectionService {
     /**
      * Registra un voto
      */
-    public void registerVote(String electionId, String userId, String optionId) {
+    public void registerVote(String electionId, String userId, String optionId, String blobId, String transactionId) {
         // Registrar que el usuario votó
         userVotes.computeIfAbsent(electionId, k -> ConcurrentHashMap.newKeySet())
             .add(userId);
@@ -238,6 +247,11 @@ public class ElectionService {
         // Actualizar contador de votos
         voteResults.computeIfAbsent(electionId, k -> new ConcurrentHashMap<>())
             .merge(optionId, 1, Integer::sum);
+            
+        // Registrar mapeo blob -> transaccion
+        if (blobId != null && transactionId != null) {
+            blobTransactions.put(blobId, transactionId);
+        }
         
         // Actualizar total de votos en la elección
         Election election = elections.get(electionId);
@@ -246,8 +260,8 @@ public class ElectionService {
             elections.put(electionId, updated);
         }
         
-        logger.info("Vote registered: electionId={}, userId={}, optionId={}", 
-            electionId, userId, optionId);
+        logger.info("Vote registered: electionId={}, userId={}, optionId={}, txId={}", 
+            electionId, userId, optionId, transactionId);
         saveData();
     }
 
@@ -269,15 +283,29 @@ public class ElectionService {
     /**
      * Crea una nueva elección
      */
-    public Election createElection(Election election) {
-        elections.put(election.id(), election);
-        logger.info("Election created: {}", election.id());
+    public es.tfg.votacion.dto.ElectionCreationResult createElection(Election election) {
+        // Generate Keys
+        java.security.KeyPair keyPair = cryptoService.generateKeyPair();
+        String publicKeyPem = cryptoService.publicKeyToPem(keyPair.getPublic());
+        String privateKeyPem = cryptoService.privateKeyToPem(keyPair.getPrivate());
+
+        // Update election with public key
+        Election electionWithKey = new Election(
+            election.id(), election.title(), election.description(), election.options(),
+            election.status(), election.startTime(), election.endTime(),
+            election.createdBy(), election.createdAt(), election.totalVotes(),
+            election.maxVotesPerUser(), election.allowVoteModification(),
+            election.requireAuditTrail(), publicKeyPem
+        );
+
+        elections.put(electionWithKey.id(), electionWithKey);
+        logger.info("Election created: {}", electionWithKey.id());
         
         // Create on Blockchain
         try {
             if (fabricService != null) {
-                fabricService.createElection(election.id());
-                logger.info("Election created on blockchain: {}", election.id());
+                fabricService.createElection(electionWithKey.id());
+                logger.info("Election created on blockchain: {}", electionWithKey.id());
             }
         } catch (Exception e) {
             logger.error("Failed to create election on blockchain: {}", e.getMessage());
@@ -285,7 +313,7 @@ public class ElectionService {
         }
         
         saveData();
-        return election;
+        return new es.tfg.votacion.dto.ElectionCreationResult(electionWithKey, privateKeyPem);
     }
 
     /**
@@ -307,7 +335,7 @@ public class ElectionService {
     /**
      * Cierra una elección y realiza el recuento de votos
      */
-    public Election closeElection(String electionId) {
+    public Election closeElection(String electionId, String privateKeyPem) {
         logger.info("Closing election process started: {}", electionId);
 
         // 1. Close on Blockchain
@@ -331,15 +359,63 @@ public class ElectionService {
             for (String blobId : blobs) {
                 try {
                     byte[] decrypted = storageService.loadDecrypted(blobId);
+                    
+                    // --- VERIFICATION START ---
+                    try {
+                        java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+                        byte[] hash = digest.digest(decrypted);
+                        String calculatedCommitment = java.util.Base64.getEncoder().encodeToString(hash);
+                        
+                        String transactionId = blobTransactions.get(blobId);
+                        if (transactionId != null) {
+                            String blockchainCommitment = fabricService.getVoteCommitment(transactionId);
+                            if (blockchainCommitment != null) {
+                                if (!calculatedCommitment.equals(blockchainCommitment)) {
+                                    logger.error("INTEGRITY FAILURE: Blob {} commitment {} does not match blockchain commitment {}", 
+                                        blobId, calculatedCommitment, blockchainCommitment);
+                                    continue; // Skip this vote!
+                                } else {
+                                    logger.debug("Integrity check passed for blob {}", blobId);
+                                }
+                            } else {
+                                 if (fabricService.isConnected()) {
+                                     logger.error("Transaction {} not found in blockchain. Skipping vote.", transactionId);
+                                     continue;
+                                 } else {
+                                     logger.warn("Could not verify vote against blockchain (not connected). Proceeding with local data.");
+                                 }
+                            }
+                        } else {
+                            logger.warn("No transaction ID found for blob {}. Skipping verification.", blobId);
+                        }
+                    } catch (Exception e) {
+                        logger.error("Error during vote verification: {}", e.getMessage());
+                    }
+                    // --- VERIFICATION END ---
+
                     com.fasterxml.jackson.databind.JsonNode voteNode = objectMapper.readTree(decrypted);
                     
-                    if (voteNode.has("optionId")) {
-                        String optionId = voteNode.get("optionId").asText();
+                    String optionId = null;
+                    if (voteNode.has("encryptedVote")) {
+                        // RSA Decrypt using the provided private key
+                        String encryptedVoteBase64 = voteNode.get("encryptedVote").asText();
+                        try {
+                            optionId = cryptoService.decrypt(encryptedVoteBase64, privateKeyPem);
+                        } catch (Exception e) {
+                            logger.error("Failed to RSA decrypt vote {}: {}", blobId, e.getMessage());
+                            continue; // Skip this vote if decryption fails
+                        }
+                    } else if (voteNode.has("optionId")) {
+                        // Legacy/Dev fallback
+                        optionId = voteNode.get("optionId").asText();
+                    }
+                    
+                    if (optionId != null) {
                         recountedResults.merge(optionId, 1, Integer::sum);
                         decryptedCount++;
                     }
                 } catch (Exception e) {
-                    logger.error("Failed to decrypt/count vote blob {}: {}", blobId, e.getMessage());
+                    logger.error("Failed to process vote blob {}: {}", blobId, e.getMessage());
                 }
             }
             

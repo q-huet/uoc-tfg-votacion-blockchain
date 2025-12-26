@@ -62,4 +62,25 @@
 
     </ng-template>
   </p-card>
+
+  <p-dialog header="Cerrar Elección" [(visible)]="showCloseDialog" [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+    <div class="flex flex-column gap-2">
+        <p>Para cerrar la elección <strong>{{selectedElection?.title}}</strong> y descifrar el recuento, es necesario introducir la Clave Privada que se generó al crearla.</p>
+        <div class="field">
+            <label for="privateKey" class="font-bold">Clave Privada (PEM)</label>
+            <textarea
+                id="privateKey"
+                rows="10"
+                pInputTextarea
+                [(ngModel)]="privateKeyInput"
+                class="w-full"
+                placeholder="-----BEGIN PRIVATE KEY----- ...">
+            </textarea>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton label="Cancelar" icon="pi pi-times" (click)="showCloseDialog = false" class="p-button-text"></button>
+        <button pButton label="Cerrar y Recontar" icon="pi pi-check" (click)="confirmClose()" [disabled]="!privateKeyInput"></button>
+    </ng-template>
+  </p-dialog>
 </div>

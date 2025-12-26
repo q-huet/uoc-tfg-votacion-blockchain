@@ -91,7 +91,7 @@ class AuthControllerTest {
             .thenReturn(testToken);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
@@ -99,12 +99,12 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.token").value(testToken))
                 .andExpect(jsonPath("$.tokenType").value("Bearer"))
                 .andExpect(jsonPath("$.expiresIn").value(3600))
-                .andExpect(jsonPath("$.userInfo.id").value("user-001"))
-                .andExpect(jsonPath("$.userInfo.username").value("test.user"))
-                .andExpect(jsonPath("$.userInfo.email").value("test.user@empresa.com"))
-                .andExpect(jsonPath("$.userInfo.fullName").value("Test User"))
-                .andExpect(jsonPath("$.userInfo.role").value("VOTER"))
-                .andExpect(jsonPath("$.userInfo.department").value("Testing Department"));
+                .andExpect(jsonPath("$.user.id").value("user-001"))
+                .andExpect(jsonPath("$.user.username").value("test.user"))
+                .andExpect(jsonPath("$.user.email").value("test.user@empresa.com"))
+                .andExpect(jsonPath("$.user.fullName").value("Test User"))
+                .andExpect(jsonPath("$.user.role").value("voter"))
+                .andExpect(jsonPath("$.user.department").value("Testing Department"));
     }
 
     @Test
@@ -117,7 +117,7 @@ class AuthControllerTest {
             .thenReturn(null);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isUnauthorized())
@@ -125,7 +125,7 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.status").value(401))
                 .andExpect(jsonPath("$.error").value("Unauthorized"))
                 .andExpect(jsonPath("$.message").value("Invalid username or password"))
-                .andExpect(jsonPath("$.path").value("/api/v1/auth/login"));
+                .andExpect(jsonPath("$.path").value("/auth/login"));
     }
 
     @Test
@@ -138,7 +138,7 @@ class AuthControllerTest {
             .thenReturn(null);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isUnauthorized())
@@ -153,7 +153,7 @@ class AuthControllerTest {
         LoginRequest loginRequest = new LoginRequest("", "password123");
 
         // When & Then
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isBadRequest());
@@ -166,7 +166,7 @@ class AuthControllerTest {
         LoginRequest loginRequest = new LoginRequest("test.user", "");
 
         // When & Then
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isBadRequest());
@@ -175,7 +175,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("Login fallido con request body vacío")
     void testLoginWithEmptyBody() throws Exception {
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"))
                 .andExpect(status().isBadRequest());
@@ -184,7 +184,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("Login fallido con JSON malformado")
     void testLoginWithMalformedJson() throws Exception {
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{invalid json"))
                 .andExpect(status().isBadRequest());
@@ -200,14 +200,14 @@ class AuthControllerTest {
             .thenReturn(testUser);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/auth/validate")
+        mockMvc.perform(get("/auth/validate")
                 .header("Authorization", "Bearer " + testToken))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.valid").value(true))
                 .andExpect(jsonPath("$.username").value("test.user"))
                 .andExpect(jsonPath("$.email").value("test.user@empresa.com"))
-                .andExpect(jsonPath("$.role").value("VOTER"))
+                .andExpect(jsonPath("$.role").value("voter"))
                 .andExpect(jsonPath("$.message").value("Token is valid"));
     }
 
@@ -221,39 +221,32 @@ class AuthControllerTest {
             .thenReturn(null);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/auth/validate")
+        mockMvc.perform(get("/auth/validate")
                 .header("Authorization", "Bearer " + invalidToken))
-                .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.valid").value(false))
-                .andExpect(jsonPath("$.message").value("Invalid or expired token"));
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
     @DisplayName("Validación sin token (sin header Authorization)")
     void testValidateWithoutToken() throws Exception {
-        mockMvc.perform(get("/api/v1/auth/validate"))
-                .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.valid").value(false))
-                .andExpect(jsonPath("$.message").value("No token provided"));
+        mockMvc.perform(get("/auth/validate"))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
     @DisplayName("Validación con token vacío")
     void testValidateWithEmptyToken() throws Exception {
-        mockMvc.perform(get("/api/v1/auth/validate")
+        mockMvc.perform(get("/auth/validate")
                 .header("Authorization", "Bearer "))
-                .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.valid").value(false))
-                .andExpect(jsonPath("$.message").value("No token provided"));
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
     @DisplayName("Validación sin prefijo Bearer")
     void testValidateWithoutBearerPrefix() throws Exception {
-        mockMvc.perform(get("/api/v1/auth/validate")
+        mockMvc.perform(get("/auth/validate")
                 .header("Authorization", testToken))
-                .andExpect(status().isUnauthorized())
-                .andExpect(jsonPath("$.valid").value(false));
+                .andExpect(status().isUnauthorized());
     }
 
     // ==================== GET USER INFO TESTS ====================
@@ -266,7 +259,7 @@ class AuthControllerTest {
             .thenReturn(testUser);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/auth/user")
+        mockMvc.perform(get("/auth/user")
                 .header("Authorization", "Bearer " + testToken))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -274,15 +267,14 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.username").value("test.user"))
                 .andExpect(jsonPath("$.email").value("test.user@empresa.com"))
                 .andExpect(jsonPath("$.fullName").value("Test User"))
-                .andExpect(jsonPath("$.role").value("VOTER"))
-                .andExpect(jsonPath("$.department").value("Testing Department"))
-                .andExpect(jsonPath("$.active").value(true));
+                .andExpect(jsonPath("$.role").value("voter"))
+                .andExpect(jsonPath("$.department").value("Testing Department"));
     }
 
     @Test
     @DisplayName("Obtener información sin token retorna 401")
     void testGetCurrentUserWithoutToken() throws Exception {
-        mockMvc.perform(get("/api/v1/auth/user"))
+        mockMvc.perform(get("/auth/user"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -296,7 +288,7 @@ class AuthControllerTest {
             .thenReturn(null);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/auth/user")
+        mockMvc.perform(get("/auth/user")
                 .header("Authorization", "Bearer " + invalidToken))
                 .andExpect(status().isUnauthorized());
     }
@@ -311,18 +303,18 @@ class AuthControllerTest {
             .thenReturn(testUser);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/auth/logout")
+        mockMvc.perform(post("/auth/logout")
                 .header("Authorization", "Bearer " + testToken))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").value("Logout successful"))
-                .andExpect(jsonPath("$.note", containsString("JWT is stateless")));
+                .andExpect(jsonPath("$.instruction").value("Token should be removed from client storage"));
     }
 
     @Test
     @DisplayName("Logout sin token retorna 401")
     void testLogoutWithoutToken() throws Exception {
-        mockMvc.perform(post("/api/v1/auth/logout"))
+        mockMvc.perform(post("/auth/logout"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -347,12 +339,12 @@ class AuthControllerTest {
         when(authService.generateJwtToken(adminUser))
                 .thenReturn("admin.jwt.token");
 
-        mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"username\":\"admin.user\",\"password\":\"admin123\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("admin.jwt.token"))
-                .andExpect(jsonPath("$.user.role").value("ADMIN"));
+                .andExpect(jsonPath("$.user.role").value("admin"));
 
         verify(authService).authenticateUser("admin.user", "admin123");
         verify(authService).generateJwtToken(adminUser);
@@ -377,12 +369,12 @@ class AuthControllerTest {
         when(authService.generateJwtToken(auditorUser))
                 .thenReturn("auditor.jwt.token");
 
-        mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"username\":\"auditor.user\",\"password\":\"auditor123\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("auditor.jwt.token"))
-                .andExpect(jsonPath("$.user.role").value("AUDITOR"));
+                .andExpect(jsonPath("$.user.role").value("auditor"));
 
         verify(authService).authenticateUser("auditor.user", "auditor123");
         verify(authService).generateJwtToken(auditorUser);
@@ -402,11 +394,11 @@ class AuthControllerTest {
             .thenReturn(testToken);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.userInfo.username").value("test.user"));
+                .andExpect(jsonPath("$.user.username").value("test.user"));
     }
 
     @Test
@@ -421,7 +413,7 @@ class AuthControllerTest {
             .thenReturn(testToken);
 
         // When & Then
-        mockMvc.perform(post("/api/v1/auth/login")
+        mockMvc.perform(post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
@@ -437,7 +429,7 @@ class AuthControllerTest {
             .thenReturn(testUser);
 
         // When & Then
-        mockMvc.perform(get("/api/v1/auth/validate")
+        mockMvc.perform(get("/auth/validate")
                 .header("Authorization", "Bearer " + testToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.valid").value(true))

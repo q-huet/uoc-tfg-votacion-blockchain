@@ -20,6 +20,15 @@ export interface Election {
   allowVoteModification: boolean;
   requireAuditTrail: boolean;
   hasVoted?: boolean;
+  publicKey?: string; // Clave pública RSA para cifrado de votos
+}
+
+/**
+ * Resultado de la creación de una elección
+ */
+export interface ElectionCreationResult {
+  election: Election;
+  privateKey: string; // Clave privada RSA (solo se devuelve una vez)
 }
 
 /**

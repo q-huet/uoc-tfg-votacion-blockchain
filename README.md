@@ -15,7 +15,28 @@ Cada parte del sistema tiene su propia documentación detallada:
 
 ---
 
-## 🚀 Guía de Inicio Rápido
+## � Arquitectura de Seguridad y Privacidad
+
+Este sistema implementa un modelo de seguridad avanzado para garantizar el secreto del voto y la integridad del proceso:
+
+### 1. Cifrado en el Cliente (Frontend)
+*   El voto **nunca viaja en texto plano** por la red.
+*   El frontend cifra la selección del votante utilizando la **Clave Pública** de la elección antes de enviarla al servidor.
+*   Esto asegura que ni siquiera el servidor backend (ni un atacante que intercepte el tráfico) puede leer el contenido del voto.
+
+### 2. Cold Storage de Claves Privadas
+*   La **Clave Privada** necesaria para descifrar los votos y realizar el recuento **NO** reside en el servidor conectado a internet durante la elección.
+*   Se mantiene en **Cold Storage** (almacenamiento en frío/offline) bajo custodia de la Junta Electoral.
+*   Solo se introduce en el sistema en el momento del escrutinio final, garantizando que es matemáticamente imposible conocer los resultados parciales antes del cierre.
+
+### 3. Almacenamiento Híbrido (Blockchain + Off-chain)
+*   **Blockchain (Hyperledger Fabric)**: Almacena el **Hash** del voto y la transacción, garantizando la inmutabilidad y la trazabilidad (quién votó y cuándo, pero no qué votó).
+*   **Off-chain (Storage Seguro)**: Almacena el **BLOB cifrado** del voto.
+*   Esta arquitectura optimiza el rendimiento de la blockchain mientras mantiene la seguridad criptográfica de los datos.
+
+---
+
+## �🚀 Guía de Inicio Rápido
 
 ### 1. Requisitos Previos
 Para asegurar que tu entorno está listo, hemos preparado un script de verificación.

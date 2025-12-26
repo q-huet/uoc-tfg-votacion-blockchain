@@ -16,7 +16,17 @@ Este directorio contiene el código fuente del servidor backend, desarrollado en
 *   `data/`: Almacenamiento local para la base de datos ligera (`elections-db.json`) y votos cifrados (`storage/`).
 *   `wallet/`: Almacena las identidades digitales (certificados) para firmar transacciones en Fabric. Se genera automáticamente al arrancar.
 
-## 🚀 Ejecución
+## � Seguridad y Cifrado
+
+El backend actúa como un intermediario de confianza cero ("Zero Trust") respecto al contenido del voto:
+
+1.  **Recepción de Votos**: Recibe los votos ya cifrados desde el frontend. No tiene capacidad para descifrarlos durante la fase de votación.
+2.  **Almacenamiento**:
+    *   Persiste el **BLOB cifrado** en el sistema de archivos local (`data/storage/`).
+    *   Envía el **Hash** del voto a la red Hyperledger Fabric para su inmutabilidad.
+3.  **Escrutinio**: Solo cuando la Junta Electoral proporciona la clave privada (al cerrar la elección), el backend puede descifrar los BLOBs para realizar el recuento.
+
+## �🚀 Ejecución
 
 El backend suele ser orquestado por los scripts en la raíz del proyecto, pero puede ejecutarse individualmente si la red Fabric ya está activa.
 

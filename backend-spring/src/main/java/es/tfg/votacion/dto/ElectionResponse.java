@@ -19,7 +19,8 @@ public record ElectionResponse(
     LocalDateTime endTime,
     List<OptionInfo> options,
     boolean hasVoted,
-    int totalVotes
+    int totalVotes,
+    String publicKey
 ) {
     public static ElectionResponse fromElection(Election election, boolean hasVoted, int totalVotes) {
         List<OptionInfo> options = election.options().stream()
@@ -35,7 +36,8 @@ public record ElectionResponse(
             election.endTime(),
             options,
             hasVoted,
-            totalVotes
+            totalVotes,
+            election.publicKey()
         );
     }
     

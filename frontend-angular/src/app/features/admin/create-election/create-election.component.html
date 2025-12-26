@@ -69,4 +69,25 @@
 
     </form>
   </p-card>
+
+  <p-dialog header="¡ATENCIÓN! Clave Privada Generada" [(visible)]="showPrivateKeyDialog" [modal]="true" [style]="{width: '50vw'}" [closable]="false">
+    <div class="flex flex-column align-items-center">
+        <i class="pi pi-exclamation-triangle text-yellow-500 text-5xl mb-3"></i>
+        <p class="text-center font-bold text-xl mb-3">Guarde esta clave en un lugar seguro</p>
+        <p class="text-center mb-4">
+            Esta es la <strong>ÚNICA VEZ</strong> que se mostrará la clave privada.
+            Sin ella, <strong>NO SE PODRÁ REALIZAR EL RECUENTO</strong> de los votos.
+            El servidor NO guarda esta clave.
+        </p>
+
+        <textarea pInputTextarea [rows]="10" [cols]="60" [readonly]="true" class="w-full font-mono text-sm bg-gray-100 p-3">{{generatedPrivateKey}}</textarea>
+
+        <div class="mt-4 w-full">
+            <p-message severity="warn" text="Copie el contenido y guárdelo en un archivo seguro (ej. private_key.pem)"></p-message>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton icon="pi pi-check" (click)="closeDialog()" label="He guardado la clave" class="p-button-success"></button>
+    </ng-template>
+  </p-dialog>
 </div>

@@ -20,6 +20,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ProgressBarModule } from 'primeng/progressbar';
+import JSEncrypt from 'jsencrypt';
 
 @Component({
   selector: 'app-election-detail',
@@ -128,41 +129,6 @@ export class ElectionDetailComponent implements OnInit {
   }
 
   /**
-   * Cerrar elección
-   */
-  closeElection(): void {
-    if (!this.election) return;
-
-    this.confirmationService.confirm({
-      message: '¿Estás seguro de que quieres cerrar esta elección? Esto iniciará el proceso de recuento y no se podrán recibir más votos.',
-      header: 'Cerrar Elección',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.loading = true;
-        this.electionService.closeElection(this.election!.id).subscribe({
-          next: () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Elección Cerrada',
-              detail: 'La elección ha sido cerrada y el recuento ha comenzado.'
-            });
-            this.loadElection(this.election!.id);
-          },
-          error: (error) => {
-            console.error('Error closing election:', error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Error al cerrar la elección: ' + error.message
-            });
-            this.loading = false;
-          }
-        });
-      }
-    });
-  }
-
-  /**
    * Seleccionar una opción
    */
   selectOption(optionId: string): void {
@@ -207,9 +173,39 @@ export class ElectionDetailComponent implements OnInit {
     this.submitting = true;
     this.errorMessage = '';
 
+    let encryptedPayload: string | undefined;
+    let optionIdToSend: string | undefined = this.selectedOptionId;
+
+    // Si hay clave pública, ciframos el voto
+    if (this.election.publicKey) {
+        try {
+            const encryptor = new JSEncrypt();
+            encryptor.setPublicKey(this.election.publicKey);
+            const encrypted = encryptor.encrypt(this.selectedOptionId);
+
+            if (!encrypted) {
+                throw new Error('Encryption failed');
+            }
+
+            encryptedPayload = encrypted;
+            optionIdToSend = undefined; // No enviamos el ID en claro
+            console.log('Vote encrypted successfully');
+        } catch (e) {
+            console.error('Encryption error:', e);
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Error de Cifrado',
+                detail: 'No se pudo cifrar el voto. Inténtalo de nuevo.'
+            });
+            this.submitting = false;
+            return;
+        }
+    }
+
     this.voteService.submitVote(
       this.election.id,
-      this.selectedOptionId
+      optionIdToSend,
+      encryptedPayload
     ).subscribe({
       next: (receipt) => {
         this.submitting = false;

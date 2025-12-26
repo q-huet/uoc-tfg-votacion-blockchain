@@ -11,6 +11,10 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ElectionService } from '../../../core/services/election.service';
 import { ElectionSummary } from '../../../models/election.model';
 
+import { DialogModule } from 'primeng/dialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
@@ -22,7 +26,10 @@ import { ElectionSummary } from '../../../models/election.model';
     TableModule,
     TagModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    DialogModule,
+    InputTextareaModule,
+    FormsModule
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './admin-dashboard.component.html',
@@ -31,6 +38,12 @@ import { ElectionSummary } from '../../../models/election.model';
 export class AdminDashboardComponent implements OnInit {
   elections: ElectionSummary[] = [];
   loading: boolean = false;
+
+  // Variables para el diálogo de cierre
+  showCloseDialog = false;
+  privateKeyInput = '';
+  selectedElectionId: string | null = null;
+  selectedElection: ElectionSummary | null = null;
 
   constructor(
     private router: Router,
@@ -66,20 +79,26 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   closeElection(election: ElectionSummary) {
-    this.confirmationService.confirm({
-      message: `¿Estás seguro de que quieres cerrar la elección "${election.title}"? Esta acción no se puede deshacer.`,
-      header: 'Confirmar Cierre',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.electionService.closeElection(election.electionId).subscribe({
-          next: () => {
-            this.messageService.add({severity:'success', summary:'Éxito', detail:'Elección cerrada correctamente'});
-            this.loadElections();
-          },
-          error: (err) => {
-            this.messageService.add({severity:'error', summary:'Error', detail:'No se pudo cerrar la elección'});
-          }
-        });
+    this.selectedElectionId = election.electionId;
+    this.selectedElection = election;
+    this.privateKeyInput = '';
+    this.showCloseDialog = true;
+  }
+
+  confirmClose() {
+    if (!this.selectedElectionId || !this.privateKeyInput) return;
+
+    this.loading = true;
+    this.electionService.closeElection(this.selectedElectionId, this.privateKeyInput).subscribe({
+      next: () => {
+        this.loading = false;
+        this.showCloseDialog = false;
+        this.messageService.add({severity:'success', summary:'Éxito', detail:'Elección cerrada y recuento completado'});
+        this.loadElections();
+      },
+      error: (err) => {
+        this.loading = false;
+        this.messageService.add({severity:'error', summary:'Error', detail:'No se pudo cerrar la elección. Verifique la clave privada.'});
       }
     });
   }

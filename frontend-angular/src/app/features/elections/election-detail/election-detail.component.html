@@ -34,15 +34,6 @@
           class="p-button-text p-button-secondary"
           (click)="goBack()"
         ></button>
-
-        <button
-          *ngIf="isAdmin() && election.status === 'active'"
-          pButton
-          icon="pi pi-lock"
-          label="Cerrar Elección"
-          class="p-button-danger"
-          (click)="closeElection()"
-        ></button>
       </div>
 
       <p-card styleClass="header-card">

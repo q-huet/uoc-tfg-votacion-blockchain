@@ -56,7 +56,9 @@ public record Election(
 
         @JsonProperty("allowVoteModification") @NotNull(message = "Allow vote modification cannot be null") Boolean allowVoteModification,
 
-        @JsonProperty("requireAuditTrail") @NotNull(message = "Require audit trail cannot be null") Boolean requireAuditTrail) {
+        @JsonProperty("requireAuditTrail") @NotNull(message = "Require audit trail cannot be null") Boolean requireAuditTrail,
+
+        @JsonProperty("publicKey") String publicKey) {
 
     /**
      * Constructor compacto con validaciones adicionales
@@ -123,7 +125,8 @@ public record Election(
                 0, // Sin votos inicialmente
                 1, // Un voto por usuario por defecto
                 false, // No modificación por defecto
-                true // Auditoría requerida por defecto
+                true, // Auditoría requerida por defecto
+                null // Public Key initially null
         );
     }
 
@@ -160,7 +163,7 @@ public record Election(
     public Election withStatus(ElectionStatus newStatus) {
         return new Election(id, title, description, options, newStatus, startTime, endTime,
                 createdBy, createdAt, totalVotes, maxVotesPerUser,
-                allowVoteModification, requireAuditTrail);
+                allowVoteModification, requireAuditTrail, publicKey);
     }
 
     /**
@@ -176,7 +179,7 @@ public record Election(
 
         return new Election(id, title, description, options, status, startTime, endTime,
                 createdBy, createdAt, newTotalVotes, maxVotesPerUser,
-                allowVoteModification, requireAuditTrail);
+                allowVoteModification, requireAuditTrail, publicKey);
     }
 
     /**

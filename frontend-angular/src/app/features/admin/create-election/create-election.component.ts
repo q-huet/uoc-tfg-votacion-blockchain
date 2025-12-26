@@ -15,6 +15,9 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { DividerModule } from 'primeng/divider';
 
+import { DialogModule } from 'primeng/dialog';
+import { MessageModule } from 'primeng/message';
+
 @Component({
   selector: 'app-create-election',
   standalone: true,
@@ -27,7 +30,9 @@ import { DividerModule } from 'primeng/divider';
     CalendarModule,
     ButtonModule,
     ToastModule,
-    DividerModule
+    DividerModule,
+    DialogModule,
+    MessageModule
   ],
   providers: [MessageService],
   templateUrl: './create-election.component.html',
@@ -36,6 +41,8 @@ import { DividerModule } from 'primeng/divider';
 export class CreateElectionComponent {
   electionForm: FormGroup;
   loading = false;
+  showPrivateKeyDialog = false;
+  generatedPrivateKey = '';
 
   constructor(
     private fb: FormBuilder,
@@ -106,9 +113,13 @@ export class CreateElectionComponent {
     };
 
     this.electionService.createElection(request).subscribe({
-      next: () => {
+      next: (result) => {
+        this.loading = false;
         this.messageService.add({severity:'success', summary:'Éxito', detail:'Elección creada correctamente'});
-        setTimeout(() => this.router.navigate(['/admin']), 1500);
+
+        // Mostrar clave privada
+        this.generatedPrivateKey = result.privateKey;
+        this.showPrivateKeyDialog = true;
       },
       error: (err) => {
         this.loading = false;
@@ -116,5 +127,10 @@ export class CreateElectionComponent {
         console.error(err);
       }
     });
+  }
+
+  closeDialog() {
+    this.showPrivateKeyDialog = false;
+    this.router.navigate(['/admin']);
   }
 }

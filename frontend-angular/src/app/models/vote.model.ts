@@ -4,7 +4,8 @@
  */
 export interface VoteSubmissionRequest {
   electionId: string;
-  optionId: string;
+  optionId?: string; // Opcional si se usa encryptedPayload
+  encryptedPayload?: string; // Voto cifrado con RSA
   comment?: string;
 }
 

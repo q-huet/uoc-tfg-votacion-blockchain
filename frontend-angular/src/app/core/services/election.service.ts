@@ -6,7 +6,8 @@ import { environment } from '@environments/environment';
 import {
   Election,
   ElectionSummary,
-  CreateElectionRequest
+  CreateElectionRequest,
+  ElectionCreationResult
 } from '@models/election.model';
 import { ErrorResponse } from '@models/error.model';
 
@@ -105,13 +106,19 @@ export class ElectionService {
    * POST /api/v1/elections
    *
    * @param election Datos de la nueva elección
-   * @returns Observable con la elección creada
+   * @returns Observable con el resultado (incluye clave privada)
    */
-  createElection(election: CreateElectionRequest): Observable<Election> {
+  createElection(election: CreateElectionRequest): Observable<ElectionCreationResult> {
     this.loadingSubject.next(true);
 
     return this.http.post<any>(this.baseUrl, election).pipe(
-      map(response => this.mapToElection(response)),
+      map(response => {
+        // El backend devuelve { election: {...}, privateKey: "..." }
+        return {
+          election: this.mapToElection(response.election),
+          privateKey: response.privateKey
+        };
+      }),
       tap(() => {
         this.loadingSubject.next(false);
         // Refrescar lista de elecciones activas
@@ -129,14 +136,16 @@ export class ElectionService {
    * POST /api/v1/elections/{id}/close
    *
    * @param electionId ID de la elección a cerrar
+   * @param privateKey Clave privada para el recuento
    * @returns Observable con confirmación del cierre
    */
-  closeElection(electionId: string): Observable<any> {
+  closeElection(electionId: string, privateKey: string): Observable<any> {
     this.loadingSubject.next(true);
 
     const url = `${this.baseUrl}/${electionId}/close`;
+    const body = { privateKey };
 
-    return this.http.post<any>(url, {}).pipe(
+    return this.http.post<any>(url, body).pipe(
       tap(() => {
         this.loadingSubject.next(false);
         // Refrescar lista de elecciones activas
@@ -257,7 +266,8 @@ export class ElectionService {
       maxVotesPerUser: response.maxVotesPerUser || 1,
       allowVoteModification: response.allowVoteModification || false,
       requireAuditTrail: response.requireAuditTrail || true,
-      hasVoted: response.hasVoted
+      hasVoted: response.hasVoted,
+      publicKey: response.publicKey
     };
   }
 

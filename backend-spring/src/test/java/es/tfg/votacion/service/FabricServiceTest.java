@@ -35,6 +35,18 @@ class FabricServiceTest {
     @Autowired
     private FabricProperties fabricProperties;
 
+    @org.junit.jupiter.api.BeforeEach
+    void setUp() throws Exception {
+        // Force mock mode via reflection
+        java.lang.reflect.Field mockModeField = FabricService.class.getDeclaredField("mockMode");
+        mockModeField.setAccessible(true);
+        mockModeField.setBoolean(fabricService, true);
+        
+        java.lang.reflect.Field gatewayField = FabricService.class.getDeclaredField("gateway");
+        gatewayField.setAccessible(true);
+        gatewayField.set(fabricService, null);
+    }
+
     @Test
     void fabricPropertiesShouldBeInjected() {
         assertNotNull(fabricService);

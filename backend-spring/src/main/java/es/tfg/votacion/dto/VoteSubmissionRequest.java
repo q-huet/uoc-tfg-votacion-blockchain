@@ -11,8 +11,9 @@ public record VoteSubmissionRequest(
     @NotBlank(message = "Election ID is required")
     String electionId,
     
-    @NotBlank(message = "Option ID is required")
-    String optionId,
+    String optionId, // Opcional si se usa encryptedPayload
+    
+    String encryptedPayload, // Voto cifrado con RSA (Client-Side Encryption)
     
     String comment  // Opcional: comentario cifrado
 ) {}

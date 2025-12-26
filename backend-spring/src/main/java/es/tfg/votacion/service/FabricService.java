@@ -348,6 +348,42 @@ public class FabricService {
     }
 
     /**
+     * Obtiene el commitment de un voto desde la blockchain
+     * 
+     * @param transactionId ID de la transacción
+     * @return Commitment (hash) del voto
+     */
+    public String getVoteCommitment(String transactionId) {
+        logger.debug("Getting vote commitment for transaction: {}", transactionId);
+        
+        if (!isConnected()) {
+            logger.warn("No blockchain connection available, returning null");
+            return null;
+        }
+
+        return executeWithRetry(() -> {
+            try {
+                byte[] result = contract.evaluateTransaction("getVote", transactionId);
+                String resultJson = new String(result, StandardCharsets.UTF_8);
+                
+                // Parse JSON manually to extract commitment
+                // {"voteId":"...","electionId":"...","commitment":"HASH","timestamp":...}
+                if (resultJson.contains("\"commitment\":\"")) {
+                    String temp = resultJson.substring(resultJson.indexOf("\"commitment\":\"") + 14);
+                    if (temp.contains("\"")) {
+                        return temp.substring(0, temp.indexOf("\""));
+                    }
+                }
+                return null;
+                
+            } catch (Exception e) {
+                logger.error("Failed to get vote commitment: {}", e.getMessage());
+                return null;
+            }
+        }, "getVoteCommitment");
+    }
+
+    /**
      * Verifica que un voto fue registrado correctamente
      * 
      * @param transactionId ID de transacción del voto

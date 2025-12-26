@@ -44,7 +44,8 @@ export class VoteService {
    */
   submitVote(
     electionId: string,
-    optionId: string,
+    optionId?: string,
+    encryptedPayload?: string,
     comment?: string
   ): Observable<VoteReceipt> {
     this.loadingSubject.next(true);
@@ -53,9 +54,15 @@ export class VoteService {
 
     const request: VoteSubmissionRequest = {
       electionId,
-      optionId,
+      optionId: optionId || '',
+      encryptedPayload,
       comment
     };
+
+    if (encryptedPayload) {
+        // @ts-ignore
+        delete request.optionId;
+    }
 
     return this.http.post<any>(url, request).pipe(
       map(response => this.mapToVoteReceipt(response, electionId)),
