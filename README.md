@@ -30,9 +30,9 @@ Este sistema implementa un modelo de seguridad avanzado para garantizar el secre
 *   Solo se introduce en el sistema en el momento del escrutinio final, garantizando que es matemáticamente imposible conocer los resultados parciales antes del cierre.
 
 ### 3. Almacenamiento Híbrido (Blockchain + Off-chain)
-*   **Blockchain (Hyperledger Fabric)**: Almacena el **Hash** del voto y la transacción, garantizando la inmutabilidad y la trazabilidad (quién votó y cuándo, pero no qué votó).
-*   **Off-chain (Storage Seguro)**: Almacena el **BLOB cifrado** del voto.
-*   Esta arquitectura optimiza el rendimiento de la blockchain mientras mantiene la seguridad criptográfica de los datos.
+*   **Blockchain (Hyperledger Fabric)**: Almacena el **Hash (Commitment)** del voto y la transacción, garantizando la inmutabilidad y la trazabilidad (quién votó y cuándo, pero no qué votó).
+*   **Off-chain (Storage Seguro)**: Almacena el **BLOB cifrado** del voto en el sistema de archivos local (`data/storage`), protegido adicionalmente con cifrado AES-GCM.
+*   **Verificación de Integridad**: Durante el recuento, el sistema calcula el hash de cada BLOB almacenado localmente y lo compara con el commitment inmutable de la Blockchain. Si no coinciden, el voto se descarta como manipulado.
 
 ---
 

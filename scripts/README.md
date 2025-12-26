@@ -25,6 +25,7 @@ Este directorio contiene scripts Bash para gestionar el ciclo de vida completo d
 | `simulate-hack.sh` | **Seguridad**. Simula un intento de voto fraudulento por parte de Org1 (Sindicato A) sin el aval de Org2 (Sindicato B). |
 | `simulate-hack-company.sh` | **Seguridad**. Simula un intento de voto ilegítimo por parte de la Empresa (Orderer Org) usando su identidad administrativa. |
 | `generate_evidence.sh` | Recopila logs, estados y evidencias de seguridad (incluyendo intentos de hackeo). |
+| `decrypt_blob.sh` | **Utilidad**. Permite desencriptar manualmente un archivo BLOB (`.enc`) utilizando la clave maestra del servidor (AES) y la clave privada de la elección (RSA). Útil para auditorías manuales. |
 
 ## 🔐 Gestión de Claves (Cold Storage)
 

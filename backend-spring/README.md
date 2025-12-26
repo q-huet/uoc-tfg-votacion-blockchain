@@ -20,11 +20,13 @@ Este directorio contiene el código fuente del servidor backend, desarrollado en
 
 El backend actúa como un intermediario de confianza cero ("Zero Trust") respecto al contenido del voto:
 
-1.  **Recepción de Votos**: Recibe los votos ya cifrados desde el frontend. No tiene capacidad para descifrarlos durante la fase de votación.
-2.  **Almacenamiento**:
-    *   Persiste el **BLOB cifrado** en el sistema de archivos local (`data/storage/`).
-    *   Envía el **Hash** del voto a la red Hyperledger Fabric para su inmutabilidad.
-3.  **Escrutinio**: Solo cuando la Junta Electoral proporciona la clave privada (al cerrar la elección), el backend puede descifrar los BLOBs para realizar el recuento.
+1.  **Recepción de Votos**: Recibe los votos ya cifrados desde el frontend (RSA). No tiene capacidad para descifrarlos durante la fase de votación.
+2.  **Almacenamiento Híbrido**:
+    *   **Off-chain**: Persiste el **BLOB cifrado** en el sistema de archivos local (`data/storage/`), aplicando una segunda capa de cifrado (AES-GCM) con la clave maestra del servidor.
+    *   **On-chain**: Envía el **Hash (Commitment)** del voto a la red Hyperledger Fabric para garantizar su inmutabilidad.
+3.  **Escrutinio y Verificación**: 
+    *   Solo cuando la Junta Electoral proporciona la clave privada RSA (al cerrar la elección), el backend puede descifrar los BLOBs.
+    *   **Integridad**: Antes de contar cada voto, el sistema verifica que el hash del BLOB local coincida con el commitment almacenado en la Blockchain.
 
 ## �🚀 Ejecución
 

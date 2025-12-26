@@ -21,13 +21,14 @@ Este proceso está automatizado en el script `scripts/start-network.sh` (llamado
 
 *   `InitLedger`: Inicializa el ledger con datos de prueba.
 *   `CreateElection`: Registra una nueva elección en la blockchain.
-*   `EmitVote`: Registra un hash de voto (transacción inmutable).
+*   `EmitVote`: Registra un hash de voto (transacción inmutable) y lo vincula al usuario para evitar doble voto.
 *   `CloseElection`: Finaliza el periodo de votación.
+*   `GetVote`: Permite recuperar el commitment (hash) de un voto específico dado su ID de transacción, utilizado para verificar la integridad de los datos off-chain.
 
 ## 🔐 Privacidad en Blockchain
 
 Para cumplir con los requisitos de privacidad y escalabilidad:
 
 *   **No se almacenan datos personales**: El chaincode no guarda información que vincule directamente un voto con una identidad real de forma pública.
-*   **Integridad del Voto**: Se almacena el **Hash** del voto cifrado. Esto permite verificar matemáticamente que el voto contado es exactamente el mismo que se emitió, sin revelar su contenido en el ledger público.
+*   **Integridad del Voto**: Se almacena el **Hash (Commitment)** del voto cifrado. Esto permite verificar matemáticamente que el voto contado (almacenado off-chain) es exactamente el mismo que se emitió, sin revelar su contenido en el ledger público.
 *   **Prevención de Doble Voto**: El chaincode mantiene un registro de los IDs de usuario que ya han participado en una elección específica.
