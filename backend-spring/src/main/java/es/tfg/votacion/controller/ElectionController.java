@@ -437,7 +437,7 @@ public class ElectionController {
             String commitment = Base64.getEncoder().encodeToString(hash);
             
             // Registrar en blockchain
-            String transactionId = fabricService.emitVote(commitment, electionId);
+            String transactionId = fabricService.emitVote(commitment, electionId, user.id());
             logger.info("Vote registered in blockchain: txId={}", transactionId);
             
             // Registrar voto en el servicio de elecciones
@@ -481,7 +481,8 @@ public class ElectionController {
                 logger.warn("User {} already voted in election {} on blockchain. Syncing local state.", user.username(), electionId);
                 
                 // Sync local state
-                electionService.registerVote(electionId, user.id(), voteRequest.optionId());
+                String optionId = voteRequest.optionId() != null ? voteRequest.optionId() : "ENCRYPTED";
+                electionService.registerVote(electionId, user.id(), optionId, null, null);
                 
                 return ResponseEntity
                     .status(HttpStatus.CONFLICT)

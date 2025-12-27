@@ -80,10 +80,11 @@ public class VotingContract implements ContractInterface {
      * @param ctx        the transaction context
      * @param electionId the ID of the election
      * @param commitment the encrypted vote hash
+     * @param userId     the ID of the user voting (provided by backend)
      * @return the transaction ID
      */
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public String emitVote(final Context ctx, final String electionId, final String commitment) {
+    public String emitVote(final Context ctx, final String electionId, final String commitment, final String userId) {
         ChaincodeStub stub = ctx.getStub();
         String electionState = stub.getStringState(electionId);
 
@@ -102,8 +103,8 @@ public class VotingContract implements ContractInterface {
         }
 
         // Check if user has already voted
-        ClientIdentity clientIdentity = ctx.getClientIdentity();
-        String userId = clientIdentity.getId();
+        // In a real scenario with CA, we would use ctx.getClientIdentity().getId()
+        // But for this PoC with a single backend identity, we trust the backend to provide the userId
         String voteRecordKey = "vote_record_" + electionId + "_" + userId;
         
         String voteRecord = stub.getStringState(voteRecordKey);

@@ -8,7 +8,17 @@ NC='\033[0m' # No Color
 
 echo -e "${BLUE}=== Starting Voting Blockchain System ===${NC}"
 
-# 0. Clean up local data (Hard Reset)
+# 0. Kill existing processes (Backend/Frontend)
+echo -e "${BLUE}Stopping existing processes...${NC}"
+if command -v fuser &> /dev/null; then
+    fuser -k 8080/tcp 2>/dev/null || true
+    fuser -k 4200/tcp 2>/dev/null || true
+else
+    pkill -f "java.*votacion" || true
+    pkill -f "ng serve" || true
+fi
+
+# 0.1 Clean up local data (Hard Reset)
 echo -e "${BLUE}Cleaning up local backend data...${NC}"
 rm -rf backend-spring/data/elections-db.json
 rm -rf backend-spring/data/storage/*

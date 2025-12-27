@@ -192,11 +192,12 @@ public class FabricService {
      * 
      * @param commitment Hash del voto cifrado
      * @param electionId ID de la elección
+     * @param userId ID del usuario votante
      * @return ID de transacción en el ledger
      * @throws RuntimeException si la operación falla
      */
-    public String emitVote(String commitment, String electionId) {
-        logger.info("Emitting vote commitment to blockchain - Election: {}, Commitment: {}", electionId, commitment);
+    public String emitVote(String commitment, String electionId, String userId) {
+        logger.info("Emitting vote commitment to blockchain - Election: {}, Commitment: {}, User: {}", electionId, commitment, userId);
         
         if (!isConnected()) {
             logger.warn("No blockchain connection available, returning mock transaction ID");
@@ -205,7 +206,7 @@ public class FabricService {
 
         return executeWithRetry(() -> {
             try {
-                byte[] result = contract.submitTransaction("emitVote", electionId, commitment);
+                byte[] result = contract.submitTransaction("emitVote", electionId, commitment, userId);
                 // The chaincode returns the txId, but submitTransaction returns the result payload
                 // Our chaincode returns txId as string
                 String transactionId = new String(result, StandardCharsets.UTF_8);

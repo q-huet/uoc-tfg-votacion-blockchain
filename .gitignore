@@ -1,5 +1,7 @@
 # Documentation
 docs/Design
+backend-spring/data/
+backend-spring/logs/
 
 
 # Hyperledger Fabric Infrastructure

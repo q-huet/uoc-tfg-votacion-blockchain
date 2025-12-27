@@ -36,6 +36,10 @@ fi
 
 # Deploy chaincode
 echo "Deploying chaincode 'electioncc'..."
+# Increase client timeout to avoid "context deadline exceeded" during commit
+export CORE_PEER_CLIENT_REQUESTTIMEOUT=300s
+export FABRIC_CLIENT_TIMEOUT=300s
+
 # We use the java chaincode located in chaincode/java
 # Note: The chaincode project must have 'rootProject.name = "electioncc"' in settings.gradle
 ./network.sh deployCC -ccn electioncc -ccp ../../chaincode/java -ccl java -c electionchannel
