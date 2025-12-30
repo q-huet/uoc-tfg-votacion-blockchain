@@ -162,9 +162,10 @@ public class FabricService {
      * Crea una nueva elección en la blockchain
      * 
      * @param electionId ID de la elección
+     * @param publicKey Clave pública de la elección
      * @return ID de transacción
      */
-    public String createElection(String electionId) {
+    public String createElection(String electionId, String publicKey) {
         logger.info("Creating election on blockchain: {}", electionId);
         
         if (!isConnected()) {
@@ -174,7 +175,7 @@ public class FabricService {
 
         return executeWithRetry(() -> {
             try {
-                byte[] result = contract.submitTransaction("createElection", electionId);
+                byte[] result = contract.submitTransaction("createElection", electionId, publicKey);
                 // The chaincode returns the Election object as JSON, but we just need to know it succeeded
                 // We can return the transaction ID if we want, but for now just success
                 logger.info("Election created successfully on blockchain: {}", electionId);

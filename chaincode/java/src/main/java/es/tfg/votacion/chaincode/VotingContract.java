@@ -54,10 +54,11 @@ public class VotingContract implements ContractInterface {
      *
      * @param ctx        the transaction context
      * @param electionId the ID of the new election
+     * @param publicKey  the public key for the election
      * @return the created election
      */
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public Election createElection(final Context ctx, final String electionId) {
+    public Election createElection(final Context ctx, final String electionId, final String publicKey) {
         ChaincodeStub stub = ctx.getStub();
         String electionState = stub.getStringState(electionId);
 
@@ -67,7 +68,7 @@ public class VotingContract implements ContractInterface {
             throw new ChaincodeException(errorMessage, VotingErrors.ELECTION_ALREADY_EXISTS.toString());
         }
 
-        Election election = new Election(electionId, "ACTIVE", 0);
+        Election election = new Election(electionId, "ACTIVE", 0, publicKey);
         electionState = genson.serialize(election);
         stub.putStringState(electionId, electionState);
 
@@ -132,7 +133,7 @@ public class VotingContract implements ContractInterface {
         stub.putStringState(voteRecordKey, txId);
 
         // Update election total votes
-        Election updatedElection = new Election(election.getElectionId(), election.getStatus(), election.getTotalVotes() + 1);
+        Election updatedElection = new Election(election.getElectionId(), election.getStatus(), election.getTotalVotes() + 1, election.getPublicKey());
         String updatedElectionState = genson.serialize(updatedElection);
         stub.putStringState(electionId, updatedElectionState);
 
@@ -158,7 +159,7 @@ public class VotingContract implements ContractInterface {
         }
 
         Election election = genson.deserialize(electionState, Election.class);
-        Election closedElection = new Election(election.getElectionId(), "CLOSED", election.getTotalVotes());
+        Election closedElection = new Election(election.getElectionId(), "CLOSED", election.getTotalVotes(), election.getPublicKey());
         
         String closedElectionState = genson.serialize(closedElection);
         stub.putStringState(electionId, closedElectionState);

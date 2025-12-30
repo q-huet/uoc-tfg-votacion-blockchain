@@ -35,7 +35,8 @@
                     <div class="flex gap-2">
                         <button *ngIf="election.status === 'active'"
                                 pButton
-                                icon="pi pi-ban"
+                                label="Cerrar"
+                                icon="pi pi-lock"
                                 class="p-button-danger p-button-sm"
                                 pTooltip="Cerrar Elección"
                                 tooltipPosition="top"
@@ -43,6 +44,7 @@
                         </button>
                         <button *ngIf="election.status === 'closed'"
                                 pButton
+                                label="Resultados"
                                 icon="pi pi-chart-bar"
                                 class="p-button-info p-button-sm"
                                 pTooltip="Ver Resultados"

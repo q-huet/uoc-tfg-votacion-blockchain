@@ -297,7 +297,7 @@ class ElectionControllerTest {
             .thenReturn(false);
         when(storageService.storeEncrypted(eq("election-001"), any(byte[].class)))
             .thenReturn("blob-12345");
-        when(fabricService.emitVote(anyString(), eq("election-001")))
+        when(fabricService.emitVote(anyString(), eq("election-001"), anyString()))
             .thenReturn("1234567890abcdef");
 
         // When & Then
@@ -314,7 +314,7 @@ class ElectionControllerTest {
                 .andExpect(jsonPath("$.verified").value(true));
 
         // Verify vote was registered
-        verify(electionService).registerVote("election-001", "voter-001", "ENCRYPTED");
+        verify(electionService).registerVote(eq("election-001"), eq("voter-001"), eq("ENCRYPTED"), anyString(), anyString());
     }
 
     @Test
@@ -385,7 +385,7 @@ class ElectionControllerTest {
                 .andExpect(jsonPath("$.message").value("User has already voted in this election"));
 
         // Verify vote was NOT registered
-        verify(electionService, never()).registerVote(anyString(), anyString(), anyString());
+        verify(electionService, never()).registerVote(anyString(), anyString(), anyString(), anyString(), anyString());
     }
 
     @Test
@@ -677,7 +677,7 @@ class ElectionControllerTest {
 
         when(storageService.storeEncrypted(eq("election-001"), any(byte[].class)))
             .thenReturn("blob-12345");
-        when(fabricService.emitVote(anyString(), eq("election-001")))
+        when(fabricService.emitVote(anyString(), eq("election-001"), anyString()))
             .thenReturn("1234567890abcdef");
 
         mockMvc.perform(post("/elections/election-001/vote")

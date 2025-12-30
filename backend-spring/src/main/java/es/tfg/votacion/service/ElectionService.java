@@ -304,7 +304,7 @@ public class ElectionService {
         // Create on Blockchain
         try {
             if (fabricService != null) {
-                fabricService.createElection(electionWithKey.id());
+                fabricService.createElection(electionWithKey.id(), electionWithKey.publicKey());
                 logger.info("Election created on blockchain: {}", electionWithKey.id());
             }
         } catch (Exception e) {

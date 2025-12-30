@@ -18,12 +18,15 @@ La PoC está orientada a un Trabajo Final de Grado, priorizando una arquitectura
 El sistema se compone de los siguientes módulos principales:
 
 ### • Backend (Spring Boot + Java 21)
-- **Cliente Fabric Gateway**: Firma y envía transacciones a la red usando identidades X.509.
-- **Gestión de Elecciones**: Orquesta la creación y cierre de elecciones.
-- **Persistencia Híbrida**:
-  - **On-Chain (Blockchain)**: Hashes de votos y estado global de la elección (inmutable).
-  - **Off-Chain (Local)**: Base de datos ligera (`elections-db.json`) y almacenamiento de votos cifrados (`storage/`) para privacidad.
-- **Seguridad**: Autenticación JWT y cifrado AES-GCM para los votos antes de su almacenamiento.
+- **Cliente Fabric Gateway**: Firma y envía transacciones a la red usando identidades X.509 (Patrón Gateway).
+- **Gestión de Elecciones**: Orquesta la creación, votación y cierre de elecciones.
+- **Persistencia Híbrida (Modelo Notario Digital)**:
+  - **On-Chain (Blockchain)**: Commitments (SHA-256) de los votos y metadatos de auditoría. **No almacena datos cifrados**.
+  - **Off-Chain (Local)**: Base de datos ligera (`elections-db.json`) y almacenamiento de BLOBs cifrados (`storage/`) para privacidad.
+- **Seguridad**: 
+  - Autenticación JWT para usuarios.
+  - Cifrado AES-GCM para almacenamiento en disco.
+  - **Verificación de Integridad**: Comprobación automática de `Hash(BLOB) == Commitment` durante el recuento.
 
 ### • Frontend (Angular 17)
 - Interfaz de usuario moderna y responsiva (Angular Material).
@@ -41,7 +44,8 @@ El sistema se compone de los siguientes módulos principales:
   - `CloseElection`: Cierre oficial.
 
 ### • Red Blockchain (Hyperledger Fabric 2.5)
-- Basada en la **Test Network** oficial.
+- Basada en la **Test Network** oficial (`fabric-samples`).
+- **Nota de Implementación**: Se usa `test-network` para agilidad en la PoC. Un entorno de producción requeriría un despliegue personalizado de Fabric (Kubernetes/Cloud) con gestión de infraestructura separada por organización.
 - **Topología**: 2 Organizaciones (Org1, Org2) + 1 Orderer (Raft).
 - **Simulación de Roles**:
   - **Orderer Org**: Representa a la **Empresa** (Proveedor de Infraestructura).
@@ -98,10 +102,12 @@ La PoC tiene como objetivo demostrar:
 
 ## Estado del Proyecto
 
-- [x] **Red Fabric**: Operativa con Chaincode Java desplegado.
-- [x] **Backend**: API REST completa, seguridad JWT, conexión Gateway.
+- [x] **Red Fabric**: Operativa con Chaincode Java desplegado y políticas de aval configuradas.
+- [x] **Backend**: API REST completa, seguridad JWT, conexión Gateway estable.
 - [x] **Frontend**: Interfaz de votación y resultados implementada.
-- [x] **Persistencia**: Sistema de parada y reanudación (Soft Stop/Resume).
+- [x] **Seguridad**: Implementada verificación de integridad criptográfica (Hash Check) en el recuento.
+- [x] **Persistencia**: Sistema de parada y reanudación (Soft Stop/Resume) y limpieza de procesos zombie.
+- [x] **Documentación**: Diseño de arquitectura, seguridad y backend actualizados.
 - [x] **Limpieza**: Scripts de mantenimiento y estructura de proyecto optimizada.
 
 ---

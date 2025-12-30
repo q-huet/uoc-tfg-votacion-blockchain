@@ -66,8 +66,9 @@ class FabricServiceTest {
     void emitVoteShouldReturnMockTransactionId() {
         String electionId = "test-election-001";
         String commitment = "abc123def456";
+        String userId = "user123";
 
-        String transactionId = fabricService.emitVote(commitment, electionId);
+        String transactionId = fabricService.emitVote(commitment, electionId, userId);
 
         assertNotNull(transactionId);
         assertTrue(transactionId.startsWith("MOCK-TX-"));
@@ -75,6 +76,18 @@ class FabricServiceTest {
         
         // Verificar que el formato es correcto: MOCK-TX-{electionId}-{timestamp}
         assertTrue(transactionId.matches("MOCK-TX-.*-\\d+"));
+    }
+
+    @Test
+    void createElectionShouldReturnMockTransactionId() {
+        String electionId = "test-election-004";
+        String publicKey = "mock-public-key";
+
+        String transactionId = fabricService.createElection(electionId, publicKey);
+
+        assertNotNull(transactionId);
+        assertTrue(transactionId.startsWith("MOCK-TX-CREATE-"));
+        assertTrue(transactionId.contains(electionId));
     }
 
     @Test
@@ -135,9 +148,10 @@ class FabricServiceTest {
     void integrationTestEmitAndVerifyVote() {
         String electionId = "integration-test-election";
         String commitment = "integration-test-commitment";
+        String userId = "integration-user";
 
         // Emitir voto
-        String transactionId = fabricService.emitVote(commitment, electionId);
+        String transactionId = fabricService.emitVote(commitment, electionId, userId);
         assertNotNull(transactionId);
         assertTrue(transactionId.startsWith("MOCK-TX-"));
 

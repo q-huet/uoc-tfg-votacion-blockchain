@@ -18,12 +18,17 @@ public class Election {
     @Property()
     private final int totalVotes;
 
+    @Property()
+    private final String publicKey;
+
     public Election(@JsonProperty("electionId") final String electionId,
                     @JsonProperty("status") final String status,
-                    @JsonProperty("totalVotes") final int totalVotes) {
+                    @JsonProperty("totalVotes") final int totalVotes,
+                    @JsonProperty("publicKey") final String publicKey) {
         this.electionId = electionId;
         this.status = status;
         this.totalVotes = totalVotes;
+        this.publicKey = publicKey;
     }
 
     public String getElectionId() {
@@ -38,6 +43,10 @@ public class Election {
         return totalVotes;
     }
 
+    public String getPublicKey() {
+        return publicKey;
+    }
+
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -49,16 +58,17 @@ public class Election {
         Election other = (Election) obj;
         return Objects.equals(getElectionId(), other.getElectionId()) &&
                 Objects.equals(getStatus(), other.getStatus()) &&
-                Objects.equals(getTotalVotes(), other.getTotalVotes());
+                Objects.equals(getTotalVotes(), other.getTotalVotes()) &&
+                Objects.equals(getPublicKey(), other.getPublicKey());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getElectionId(), getStatus(), getTotalVotes());
+        return Objects.hash(getElectionId(), getStatus(), getTotalVotes(), getPublicKey());
     }
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()) + " [electionId=" + electionId + ", status=" + status + ", totalVotes=" + totalVotes + "]";
+        return this.getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()) + " [electionId=" + electionId + ", status=" + status + ", totalVotes=" + totalVotes + ", publicKey=" + publicKey + "]";
     }
 }
