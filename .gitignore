@@ -1,5 +1,5 @@
 # Documentation
-docs/Design
+# docs/Design
 backend-spring/data/
 backend-spring/logs/
 
@@ -27,3 +27,4 @@ target/
 *.jar
 *.war
 *.ear
+scripts/logs/

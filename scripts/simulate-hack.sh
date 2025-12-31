@@ -53,7 +53,7 @@ peer chaincode invoke \
     -n electioncc \
     --peerAddresses localhost:7051 \
     --tlsRootCertFiles "$PEER0_ORG1_CA" \
-    -c "{\"function\":\"EmitVote\",\"Args\":[\"$FAKE_ELECTION_ID\",\"$FAKE_VOTE_HASH\"]}" > scripts/logs/hack_attempt.log 2>&1
+    -c "{\"function\":\"createElection\",\"Args\":[\"election-hack-002\",\"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlMdjFdodmpBN0RI5cfcBDtjpJcY50X89o9Otw2fIeb6mrvQi39vPWuZmiyi1/KvEbk+Kdd7JShqctZWhZAWvoE9GmrN2IhzxTS73EeJXvP75mSrTdiFAuuAgodu4gJo0yiGYe3A+GMtqSlN7uKPeE+TgOnPPePHmq+6y6rWQGLLpby0cM72w2Gcpha4UdkuPCMfqg4VOj1O9HtuXLILYJgm+ITvqrbDSbVonNaedTPmy5sUaxQ6jjjdlPvfOLIGnzGmciXkvSOApVrnbUBzW4rW1OLXfaTBY/lpGOsIuOkubg81+pXo0yPt+rKQeyj/LnzHyIv3TLkLjPbzX7x55iwIDAQAB\"]}" > scripts/logs/hack_attempt.log 2>&1
 
 EXIT_CODE=$?
 
