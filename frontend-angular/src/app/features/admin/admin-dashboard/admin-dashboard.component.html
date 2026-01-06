@@ -1,0 +1,88 @@
+<div class="admin-container">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2 class="m-0">Panel de Administración</h2>
+        <button pButton label="Nueva Elección" icon="pi pi-plus" (click)="navigateToCreate()"></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+
+      <p-table [value]="elections" [loading]="loading" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Título</th>
+                <th>Estado</th>
+                <th>Votos</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-election>
+            <tr>
+                <td>{{election.title}}</td>
+                <td>
+                    <p-tag [value]="election.status" [severity]="getSeverity(election.status)"></p-tag>
+                </td>
+                <td>{{election.totalVotes}}</td>
+                <td>{{election.startTime | date:'short'}}</td>
+                <td>{{election.endTime | date:'short'}}</td>
+                                <td>
+                    <div class="flex gap-2">
+                        <button *ngIf="election.status === 'active'"
+                                pButton
+                                label="Cerrar"
+                                icon="pi pi-lock"
+                                class="p-button-danger p-button-sm"
+                                pTooltip="Cerrar Elección"
+                                tooltipPosition="top"
+                                (click)="closeElection(election)">
+                        </button>
+                        <button *ngIf="election.status === 'closed'"
+                                pButton
+                                label="Resultados"
+                                icon="pi pi-chart-bar"
+                                class="p-button-info p-button-sm"
+                                pTooltip="Ver Resultados"
+                                tooltipPosition="top"
+                                (click)="viewResults(election.electionId)">
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">No hay elecciones registradas.</td>
+            </tr>
+        </ng-template>
+      </p-table>
+
+    </ng-template>
+  </p-card>
+
+  <p-dialog header="Cerrar Elección" [(visible)]="showCloseDialog" [modal]="true" [style]="{width: '50vw'}" [draggable]="false" [resizable]="false">
+    <div class="flex flex-column gap-2">
+        <p>Para cerrar la elección <strong>{{selectedElection?.title}}</strong> y descifrar el recuento, es necesario introducir la Clave Privada que se generó al crearla.</p>
+        <div class="field">
+            <label for="privateKey" class="font-bold">Clave Privada (PEM)</label>
+            <textarea
+                id="privateKey"
+                rows="10"
+                pInputTextarea
+                [(ngModel)]="privateKeyInput"
+                class="w-full"
+                placeholder="-----BEGIN PRIVATE KEY----- ...">
+            </textarea>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton label="Cancelar" icon="pi pi-times" (click)="showCloseDialog = false" class="p-button-text"></button>
+        <button pButton label="Cerrar y Recontar" icon="pi pi-check" (click)="confirmClose()" [disabled]="!privateKeyInput"></button>
+    </ng-template>
+  </p-dialog>
+</div>

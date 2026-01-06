@@ -1,0 +1,20 @@
+<header class="app-header">
+  <div class="logo-container" (click)="goHome()">
+    <img src="/assets/Ford-Logo.png" alt="Ford Logo" class="header-logo" />
+    <span class="logo-text">Sistema de Votación Electrónica basada en Blockchain - Hyperledger Fabric</span>
+  </div>
+
+  <nav class="actions-container" *ngIf="authService.currentUser$ | async">
+    <button class="btn-header" (click)="goBack()" title="Volver atrás">
+      <span class="icon">⬅️</span> Atrás
+    </button>
+
+    <button class="btn-header" (click)="goHome()" title="Ir a inicio">
+      <span class="icon">🏠</span> Inicio
+    </button>
+
+    <button class="btn-header btn-logout" (click)="logout()" title="Cerrar sesión">
+      <span class="icon">🚪</span> Cerrar Sesión
+    </button>
+  </nav>
+</header>

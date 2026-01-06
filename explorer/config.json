@@ -1,0 +1,15 @@
+{
+  "network-configs": {
+    "test-network": {
+      "name": "test-network",
+      "profile": "/opt/explorer/app/platform/fabric/connection-profile.json"
+    }
+  },
+  "license": "Apache-2.0",
+  "network": "test-network",
+  "logs-console": false,
+  "log-level": "debug",
+  "enable-authentication": false,
+  "host": "0.0.0.0",
+  "port": 8080
+}

@@ -1,0 +1,1 @@
+[34m2026-01-06 02:35:09.066 CET 0001 INFO[0m [chaincodeCmd] [34;1mchaincodeInvokeOrQuery[0m -> Chaincode invoke successful. result: status:200 payload:"{\"electionId\":\"election-hack-002\",\"totalVotes\":0,\"status\":\"ACTIVE\"}" 

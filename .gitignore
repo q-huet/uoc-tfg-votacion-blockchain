@@ -1,0 +1,30 @@
+# Documentation
+# docs/Design
+backend-spring/data/
+backend-spring/logs/
+
+
+# Hyperledger Fabric Infrastructure
+fabric/
+fabric-samples/
+wallet/
+keystore/
+
+# Chaincode Java Build Artifacts
+chaincode/java/build/
+chaincode/java/.gradle/
+chaincode/java/bin/
+chaincode/java/lib/
+
+# IDE & System
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# Java / Maven
+target/
+*.jar
+*.war
+*.ear
+scripts/logs/
